@@ -1,3 +1,6 @@
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
 version '0.0.1'
 
 def getCurrentGitBranch() {
@@ -57,3 +60,4 @@ publishing {
         }
     }
 }
+
