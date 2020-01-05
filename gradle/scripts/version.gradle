@@ -49,7 +49,7 @@ publishing {
 
     repositories {
         maven {
-            url = uri(System.getenv("NEXUS_URL"))
+            url = uri("http://46.242.38.14:8081/repository/test/")
             credentials {
                 username = System.getenv("NEXUS_USERNAME")
                 password = System.getenv("NEXUS_PASSWORD")
