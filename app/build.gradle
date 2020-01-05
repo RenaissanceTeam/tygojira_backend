@@ -1,5 +1,11 @@
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 apply from: "$rootDir/gradle/scripts/module.gradle"
 
 dependencies {
     implementation library.kotlin
+
+    implementation library.springWeb
+    implementation library.jacksonKotlin
+
 }
