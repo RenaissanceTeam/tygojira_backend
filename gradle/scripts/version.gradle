@@ -1,0 +1,59 @@
+version '0.0.1'
+
+def getCurrentGitBranch() {
+    def result = 'git rev-parse --abbrev-ref HEAD'.execute(null, project.projectDir)
+    result.waitFor()
+
+    if (result.exitValue() == 0) {
+        return result.text.trim()
+    } else {
+        throw new Exception("Cannot get current branch")
+    }
+}
+
+def getJarVersion() {
+    def gitCommitHash = 'git rev-parse --verify --short HEAD'.execute().text.trim()
+
+    switch(getCurrentGitBranch()) {
+        case ~/(master)|(release.*)/:
+            return version
+        default:
+            return "$version-${gitCommitHash}"
+    }
+}
+
+version = getJarVersion()
+
+def getJarFullName() {
+    return "$archivesBaseName-${version}.jar"
+}
+
+// for Jenkins jar name
+tasks.register("printJarName") {
+    println(getJarFullName())
+}
+
+// for Jenkins version tag
+tasks.register("printVersion") {
+    println(version)
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = group
+            artifactId = rootProject.name
+            artifact("build/libs/${getJarFullName()}")
+        }
+    }
+
+    repositories {
+        maven {
+            url = uri(System.getenv("NEXUS_URL"))
+            credentials {
+                username = System.getenv("NEXUS_USERNAME")
+                password = System.getenv("NEXUS_PASSWORD")
+            }
+        }
+    }
+}
