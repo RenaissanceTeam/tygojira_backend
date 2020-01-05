@@ -17,3 +17,11 @@ buildscript {
 
 apply plugin: 'kotlin'
 apply from: "$rootDir/gradle/scripts/version.gradle"
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
+}
