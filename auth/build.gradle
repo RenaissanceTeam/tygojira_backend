@@ -1,5 +1,6 @@
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "kotlin-jpa"
 apply from: "$rootDir/gradle/scripts/module.gradle"
 
 bootJar {
@@ -11,6 +12,7 @@ dependencies {
 
     implementation library.springSecurity
     implementation library.springWeb
+    implementation library.spring
     implementation library.springData
     implementation library.jjwt
 

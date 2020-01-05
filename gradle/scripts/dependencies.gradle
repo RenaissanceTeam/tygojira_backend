@@ -9,22 +9,23 @@ ext {
             springData    : ("org.springframework.boot:spring-boot-starter-data-jpa"),
             jacksonKotlin : ("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"),
             jjwt          : ("io.jsonwebtoken:jjwt:0.9.1"),
-            mockitoCore                  : ("org.mockito:mockito-core:$mockito_version"),
-            mockitoInline                : ("org.mockito:mockito-inline:$mockito_version"),
-            mockitoKotlin                : ("com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlin_version"),
-            junit                        : ("junit:junit:$junit_version"),
-            jupiter                       : ('org.junit.jupiter:junit-jupiter-engine:5.6.0-M1'),
-            kotlinTest                   : ("org.jetbrains.kotlin:kotlin-test:$kotlin_version"),
-            googleTruth                  : ("com.google.truth:truth:$googleTruth_version"),
-            
-            
+            mockitoCore   : ("org.mockito:mockito-core:$mockito_version"),
+            mockitoInline : ("org.mockito:mockito-inline:$mockito_version"),
+            mockitoKotlin : ("com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlin_version"),
+            junit         : ("junit:junit:$junit_version"),
+            jupiter       : ('org.junit.jupiter:junit-jupiter-engine:5.6.0-M1'),
+            kotlinTest    : ("org.jetbrains.kotlin:kotlin-test:$kotlin_version"),
+            googleTruth   : ("com.google.truth:truth:$googleTruth_version"),
+            postgres      : ("org.postgresql:postgresql"),
+
+
 
             _auth         : project(":auth"),
             _auth_api     : project(":auth_api"),
 
     ]
     groups = [
-            forTest    : [
+            forTest: [
                     library.junit,
                     library.jupiter,
                     library.mockitoCore,

@@ -25,19 +25,18 @@ open class WebSecurityConfig(
         private val unauthorizedHandler: JwtAuthenticationEntryPoint
 ) : WebSecurityConfigurerAdapter() {
 
-    @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http
                 .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(tokenAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
-                .authorizeRequests()
-                .antMatchers("/login", "/signup").permitAll()
-                .antMatchers("/api/lr/").hasRole(Roles.LINEAR_LEAD.name)
-                .antMatchers("/api/**").authenticated()
+                    .addFilterBefore(tokenAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
+                    .authorizeRequests()
+                    .antMatchers("/login", "/signup").permitAll()
+                    .antMatchers("/api/lr/").hasRole(Roles.LINEAR_LEAD.name)
+                    .antMatchers("/api/**").authenticated()
     }
 
     override fun configure(auth: AuthenticationManagerBuilder?) {
