@@ -1,3 +1,7 @@
 ext {
+    mockito_version = '3.0.0'
+    mockitoKotlin_version = '2.1.0'
+    junit_version = "4.12"
+    googleTruth_version = "1.0"
 
 }

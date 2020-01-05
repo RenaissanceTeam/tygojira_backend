@@ -9,3 +9,7 @@ dependencies {
     implementation library.jacksonKotlin
 
 }
+
+springBoot {
+    mainClassName = 'ru.fors.App'
+}
