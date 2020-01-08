@@ -41,6 +41,11 @@ tasks.register("printVersion") {
     println(version)
 }
 
+// for Jenkins container name
+tasks.register("printBaseName") {
+    println(archivesBaseName)
+}
+
 publishing {
     publications {
         maven(MavenPublication) {
