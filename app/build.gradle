@@ -1,6 +1,7 @@
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply from: "$rootDir/gradle/scripts/module.gradle"
+apply from: "$rootDir/gradle/scripts/version.gradle"
 
 dependencies {
     implementation library.kotlin
