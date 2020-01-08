@@ -38,12 +38,8 @@ open class JwtTokenProvider {
 
     fun validateToken(authToken: String?): Boolean = runCatching {
         Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken)
-    }.fold(
-        onSuccess = { true },
-        onFailure = {
-            log.error(it.message, it.stackTrace)
-            false
-        }
-    )
+    }.onFailure {
+        log.error(it.message, it.stackTrace)
+    }.isSuccess
 
 }
