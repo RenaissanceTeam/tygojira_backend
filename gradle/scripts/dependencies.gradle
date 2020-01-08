@@ -2,17 +2,38 @@ apply from: "$rootDir/gradle/scripts/dependencies-versions.gradle"
 
 ext {
     library = [
-            kotlin: ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"),
+            kotlin        : ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"),
+            spring        : ("org.springframework.boot:spring-boot-starter"),
+            springWeb     : ("org.springframework.boot:spring-boot-starter-web"),
+            springSecurity: ("org.springframework.boot:spring-boot-starter-security"),
+            springData    : ("org.springframework.boot:spring-boot-starter-data-jpa"),
+            jacksonKotlin : ("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"),
+            jjwt          : ("io.jsonwebtoken:jjwt:0.9.1"),
+            mockitoCore   : ("org.mockito:mockito-core:$mockito_version"),
+            mockitoInline : ("org.mockito:mockito-inline:$mockito_version"),
+            mockitoKotlin : ("com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlin_version"),
+            junit         : ("junit:junit:$junit_version"),
+            jupiter       : ('org.junit.jupiter:junit-jupiter-engine:5.6.0-M1'),
+            kotlinTest    : ("org.jetbrains.kotlin:kotlin-test:$kotlin_version"),
+            googleTruth   : ("com.google.truth:truth:$googleTruth_version"),
+            postgres      : ("org.postgresql:postgresql"),
 
-            spring                       : ("org.springframework.boot:spring-boot-starter"),
-            springWeb                    : ("org.springframework.boot:spring-boot-starter-web"),
-            springSecurity               : ("org.springframework.boot:spring-boot-starter-security"),
-            springData                   : ("org.springframework.boot:spring-boot-starter-data-jpa"),
 
-            jacksonKotlin                : ("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"),
+
+            _auth         : project(":auth"),
+            _auth_api     : project(":auth_api"),
 
     ]
     groups = [
-            
+            forTest: [
+                    library.junit,
+                    library.jupiter,
+                    library.mockitoCore,
+                    library.mockitoInline,
+                    library.mockitoKotlin,
+                    library.googleTruth,
+                    library.kotlinTest
+            ],
+
     ]
 }

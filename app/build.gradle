@@ -6,6 +6,16 @@ dependencies {
     implementation library.kotlin
 
     implementation library.springWeb
+    implementation library.spring
+    implementation library.springData
+    implementation library.springSecurity
     implementation library.jacksonKotlin
+    runtime library.postgres
 
+    implementation library._auth
+    implementation library._auth_api
+}
+
+springBoot {
+    mainClassName = 'ru.fors.App'
 }
