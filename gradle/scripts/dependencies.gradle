@@ -1,0 +1,18 @@
+apply from: "$rootDir/gradle/scripts/dependencies-versions.gradle"
+
+ext {
+    library = [
+            kotlin: ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"),
+
+            spring                       : ("org.springframework.boot:spring-boot-starter"),
+            springWeb                    : ("org.springframework.boot:spring-boot-starter-web"),
+            springSecurity               : ("org.springframework.boot:spring-boot-starter-security"),
+            springData                   : ("org.springframework.boot:spring-boot-starter-data-jpa"),
+
+            jacksonKotlin                : ("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"),
+
+    ]
+    groups = [
+            
+    ]
+}
