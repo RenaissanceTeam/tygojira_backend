@@ -41,6 +41,11 @@ tasks.register("printVersion") {
     println(version)
 }
 
+// for Jenkins container name
+tasks.register("printBaseName") {
+    println(archivesBaseName)
+}
+
 publishing {
     publications {
         maven(MavenPublication) {
@@ -52,7 +57,7 @@ publishing {
 
     repositories {
         maven {
-            url = uri("http://46.242.38.14:8081/repository/test/")
+            url = uri("http://46.242.38.14:8081/repository/tygojira/")
             credentials {
                 username = System.getenv("NEXUS_USERNAME")
                 password = System.getenv("NEXUS_PASSWORD")

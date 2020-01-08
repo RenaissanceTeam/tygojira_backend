@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse
 
 @Component
 open class JwtAuthenticationEntryPoint : AuthenticationEntryPoint {
-    
+
     override fun commence(httpServletRequest: HttpServletRequest?,
                           httpServletResponse: HttpServletResponse,
                           e: AuthenticationException) {

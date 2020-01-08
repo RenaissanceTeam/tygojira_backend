@@ -15,13 +15,13 @@ open class JwtAuthenticationFilter(
         private val tokenProvider: JwtTokenProvider,
         private val customUserDetailsService: CustomUserDetailsService
 ) : OncePerRequestFilter() {
-    
+
     override fun doFilterInternal(request: HttpServletRequest,
                                   response: HttpServletResponse,
                                   filterChain: FilterChain) {
         try {
             val token = getTokenFromRequest(request)
-            
+
             if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
                 val username = tokenProvider.getUsernameFromToken(token)
                 val userDetails = customUserDetailsService.loadUserByUsername(username)
@@ -33,12 +33,13 @@ open class JwtAuthenticationFilter(
         }
         filterChain.doFilter(request, response)
     }
-    
+
     private fun getTokenFromRequest(request: HttpServletRequest): String {
         val bearerToken = request.getHeader("Authorization")
-        
-        return if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            bearerToken.substring(7, bearerToken.length)
+        val bearerTokenPrefix = "Bearer "
+
+        return if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(bearerTokenPrefix)) {
+            bearerToken.substring(bearerTokenPrefix.length, bearerToken.length)
         } else throw RuntimeException("No auth token provided")
     }
 }

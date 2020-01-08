@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-open class RaspberryApplication
+open class App
 
 fun main(args: Array<String>) {
     ObjectMapper().registerModule(KotlinModule())
-    runApplication<RaspberryApplication>(*args)
+    runApplication<App>(*args)
 }
