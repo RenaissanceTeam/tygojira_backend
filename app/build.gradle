@@ -18,5 +18,5 @@ dependencies {
 }
 
 springBoot {
-    mainClassName = 'ru.fors.App'
+    mainClassName = 'ru.fors.AppKt'
 }
