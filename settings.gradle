@@ -3,4 +3,5 @@ rootProject.name = 'tygojira'
 include 'app'
 include 'auth'
 include 'auth_api'
+include 'auth_entity'
 

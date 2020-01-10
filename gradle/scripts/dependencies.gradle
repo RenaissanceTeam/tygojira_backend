@@ -19,9 +19,9 @@ ext {
             postgres      : ("org.postgresql:postgresql"),
 
 
-
-            _auth         : project(":auth"),
-            _auth_api     : project(":auth_api"),
+            auth          : project(":auth"),
+            auth_api      : project(":auth_api"),
+            auth_entity   : project(":auth_entity"),
 
     ]
     groups = [

@@ -1,4 +1,4 @@
-package ru.fors.auth.domain.entity
+package ru.fors.auth.entity
 
 import javax.persistence.Entity
 import javax.persistence.Id
