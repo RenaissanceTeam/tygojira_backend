@@ -14,7 +14,9 @@ class GetFullEmployeesInfoUseCaseImpl(
             FullEmployeeInfoDto(
                     id = it.id,
                     name = it.name,
-                    position = it.position
+                    position = it.position,
+                    skills = it.skills,
+                    workRoles = it.workRoles
             )
         }
     }
