@@ -4,4 +4,7 @@ include 'app'
 include 'auth'
 include 'auth_api'
 include 'auth_entity'
+include 'employee'
+include 'employee_api'
+include 'employee_entity'
 
