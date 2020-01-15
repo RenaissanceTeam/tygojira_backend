@@ -12,6 +12,10 @@ dependencies {
     implementation library.auth
     implementation library.auth_api
     implementation library.auth_entity
+
+    implementation library.employee
+    implementation library.employee_api
+    implementation library.employee_entity
 }
 
 springBoot {

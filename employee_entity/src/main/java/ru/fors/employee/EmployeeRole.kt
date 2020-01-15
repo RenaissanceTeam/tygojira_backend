@@ -1,9 +1,6 @@
 package ru.fors.employee
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.OneToOne
+import javax.persistence.*
 
 @Entity
 data class EmployeeRole(
@@ -11,5 +8,7 @@ data class EmployeeRole(
         val id: Long = 0,
         @OneToOne
         val employee: Employee,
-        val role: String
+        @ElementCollection(targetClass = Role::class, fetch = FetchType.EAGER)
+        @Enumerated(EnumType.STRING)
+        val roles: Set<Role>
 )

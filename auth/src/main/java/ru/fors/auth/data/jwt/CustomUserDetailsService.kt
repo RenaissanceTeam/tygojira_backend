@@ -6,19 +6,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.fors.auth.data.UserRepo
-import ru.fors.auth.data.EmployeeRoleRepo
+import ru.fors.employee.api.usecase.GetEmployeeRoleUseCase
 
 
 @Service
 open class CustomUserDetailsService(
         private val userRepo: UserRepo,
-        private val employeeRoleRepo: EmployeeRoleRepo
+        private val getEmployeeRoleUseCase: GetEmployeeRoleUseCase
 ) : UserDetailsService {
 
     @Transactional
     override fun loadUserByUsername(username: String): UserDetails {
         val user = userRepo.findByUsername(username) ?: throw UsernameNotFoundException("Not found $username")
-        val roles = employeeRoleRepo.findByUserUsername(username) ?: throw UsernameNotFoundException("Empty role for $username")
+        val roles = getEmployeeRoleUseCase.execute(username)?.roles ?: setOf()
 
         return UserPrincipal(user, roles)
     }

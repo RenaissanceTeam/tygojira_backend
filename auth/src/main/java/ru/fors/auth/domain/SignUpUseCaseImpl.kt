@@ -9,7 +9,6 @@ import ru.fors.auth.api.domain.entity.NoRoleInfoException
 import ru.fors.auth.api.domain.entity.NoUserInfoException
 import ru.fors.auth.api.domain.entity.NotAllowedException
 import ru.fors.auth.api.domain.entity.UserExistsException
-import ru.fors.auth.data.EmployeeRoleRepo
 import ru.fors.auth.data.SystemRoleRepo
 import ru.fors.auth.data.UserRepo
 import ru.fors.auth.entity.*
@@ -19,8 +18,7 @@ open class SignUpUseCaseImpl(
         private val userRepo: UserRepo,
         private val systemRoleRepo: SystemRoleRepo,
         private val getCallingUserUseCase: GetCallingUserUseCase,
-        private val getSystemRoleByUsername: GetSystemRoleByUsername,
-        private val employeeRoleRepo: EmployeeRoleRepo
+        private val getSystemRoleByUsername: GetSystemRoleByUsername
 ) : SignUpUseCase {
 
     override fun execute(credentials: Credentials, role: SystemUserRoles) {
@@ -29,7 +27,6 @@ open class SignUpUseCaseImpl(
 
         userRepo.save(User(credentials.login, credentials.password)).also {
             systemRoleRepo.save(SystemRole(user = it, role = role))
-            employeeRoleRepo.save(EmployeeRole(user = it, roles = setOf(Roles.USER.name)))
         }
     }
 

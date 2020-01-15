@@ -1,6 +1,6 @@
-package ru.fors.auth.entity
+package ru.fors.employee
 
-enum class Roles {
+enum class Role {
     USER, PROJECT_LEAD, LINEAR_LEAD, PROJECT_OFFICE;
 
     val role

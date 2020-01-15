@@ -1,7 +1,7 @@
 package ru.fors.employee.usecase
 
-import ru.fors.employee.Employee
 import org.springframework.stereotype.Component
+import ru.fors.employee.Employee
 import ru.fors.employee.EmployeeRole
 import ru.fors.employee.api.usecase.AddEmployeeUseCase
 import ru.fors.employee.api.usecase.dto.EmployeeWithRoleDto
@@ -21,7 +21,7 @@ class AddEmployeeUseCaseImpl(
 
         roleRepo.save(EmployeeRole(
                 employee = savedEmployee,
-                role = employee.role
+                roles = employee.roles.toSet()
         ))
     }
 }

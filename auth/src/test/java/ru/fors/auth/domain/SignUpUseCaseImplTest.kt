@@ -12,7 +12,6 @@ import ru.fors.auth.api.domain.SignUpUseCase
 import ru.fors.auth.api.domain.dto.Credentials
 import ru.fors.auth.api.domain.entity.NotAllowedException
 import ru.fors.auth.api.domain.entity.UserExistsException
-import ru.fors.auth.data.EmployeeRoleRepo
 import ru.fors.auth.data.SystemRoleRepo
 import ru.fors.auth.data.UserRepo
 import ru.fors.auth.entity.SystemRole

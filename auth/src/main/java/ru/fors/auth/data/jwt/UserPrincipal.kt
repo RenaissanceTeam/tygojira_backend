@@ -4,11 +4,17 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import ru.fors.auth.entity.User
-import ru.fors.auth.entity.EmployeeRole
+import ru.fors.employee.Role
 
-class UserPrincipal(private val user: User, private val employeeRole: EmployeeRole) : UserDetails {
+class UserPrincipal(private val user: User,
+                    private val roles: Set<Role>
+) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
-        employeeRole.roles.map { SimpleGrantedAuthority("ROLE_$it") }.toMutableList()
+            roles
+                    .map { SimpleGrantedAuthority("ROLE_$it") }
+                    .ifEmpty { listOf(SimpleGrantedAuthority("ROLE_UNKNOWN")) }
+                    .toMutableList()
+
 
     override fun isEnabled() = true
 
