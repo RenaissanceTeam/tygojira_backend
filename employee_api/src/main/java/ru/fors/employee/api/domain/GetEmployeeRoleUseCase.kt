@@ -1,4 +1,4 @@
-package ru.fors.employee.api.usecase
+package ru.fors.employee.api.domain
 
 import ru.fors.employee.EmployeeRole
 

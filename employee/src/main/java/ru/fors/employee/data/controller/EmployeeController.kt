@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import ru.fors.employee.Employee
 import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
-import ru.fors.employee.api.usecase.AddEmployeeUseCase
+import ru.fors.employee.api.domain.AddEmployeeUseCase
 
 @RestController
 class EmployeeController(
