@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.fors.auth.data.UserRepo
-import ru.fors.employee.api.usecase.GetEmployeeRoleUseCase
+import ru.fors.employee.api.domain.GetEmployeeRoleUseCase
 
 
 @Service
