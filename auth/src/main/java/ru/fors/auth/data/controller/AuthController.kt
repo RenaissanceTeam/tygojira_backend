@@ -36,14 +36,4 @@ open class AuthController(
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, it.message)
         }
     }
-
-    @GetMapping("/api")
-    fun testAuthenticatedRequest(): String {
-        return "authenticated request"
-    }
-
-    @GetMapping("/api/lr")
-    fun testAuthenticatedLRRequest(): String {
-        return "authenticated LR request"
-    }
 }
