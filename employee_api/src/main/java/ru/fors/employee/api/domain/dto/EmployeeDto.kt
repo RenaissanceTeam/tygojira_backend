@@ -1,4 +1,4 @@
-package ru.fors.employee.api.usecase.dto
+package ru.fors.employee.api.domain.dto
 
 data class EmployeeDto(
         val name: String,
