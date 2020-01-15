@@ -10,9 +10,9 @@ import ru.fors.employee.Employee
 import ru.fors.employee.EmployeeRole
 import ru.fors.employee.EmployeeUser
 import ru.fors.employee.Role
+import ru.fors.employee.api.domain.dto.EmployeeDto
+import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
 import ru.fors.employee.api.usecase.AddEmployeeUseCase
-import ru.fors.employee.api.usecase.dto.EmployeeDto
-import ru.fors.employee.api.usecase.dto.EmployeeWithRoleDto
 import ru.fors.employee.data.repo.EmployeeRepo
 import ru.fors.employee.data.repo.EmployeeRoleRepo
 import ru.fors.employee.data.repo.EmployeeUserRepo
