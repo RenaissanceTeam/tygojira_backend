@@ -28,9 +28,10 @@ class AddEmployeeUseCaseImpl(
     override fun execute(dto: EmployeeWithRoleDto): Employee {
         checkCallerHasSystemRole.execute(SystemUserRole.ADMIN)
 
+        val savedUser = signUpUser(dto.employee.name, dto.employee.name)
+
         return saveEmployee(dto.employee).apply {
             saveEmployeeRole(this, dto.roles)
-            val savedUser = signUpUser(this)
             saveUserToEmployeeConnection(this, savedUser)
         }
     }
@@ -42,10 +43,10 @@ class AddEmployeeUseCaseImpl(
         ))
     }
 
-    private fun signUpUser(savedEmployee: Employee): User {
+    private fun signUpUser(name: String, password: String): User {
         val newEmployeeCredentials = Credentials(
-                savedEmployee.name,
-                savedEmployee.name
+                name,
+                password
         )
 
         return signUpUseCase.execute(newEmployeeCredentials, SystemUserRole.USER)
