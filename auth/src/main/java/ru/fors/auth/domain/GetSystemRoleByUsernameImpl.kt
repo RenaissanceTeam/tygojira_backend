@@ -3,7 +3,7 @@ package ru.fors.auth.domain
 import org.springframework.stereotype.Component
 import ru.fors.auth.api.domain.GetSystemRoleByUsername
 import ru.fors.auth.data.SystemRoleRepo
-import ru.fors.auth.entity.SystemRole
+import ru.fors.entity.auth.SystemRole
 
 @Component
 open class GetSystemRoleByUsernameImpl(

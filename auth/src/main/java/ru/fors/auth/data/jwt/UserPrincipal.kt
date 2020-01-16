@@ -3,8 +3,8 @@ package ru.fors.auth.data.jwt
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import ru.fors.auth.entity.User
-import ru.fors.employee.Role
+import ru.fors.entity.auth.User
+import ru.fors.entity.employee.Role
 
 class UserPrincipal(private val user: User,
                     private val roles: Set<Role>

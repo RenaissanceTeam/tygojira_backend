@@ -1,18 +1,16 @@
 package ru.fors.auth.domain
 
 import org.springframework.stereotype.Component
+import ru.fors.entity.auth.SystemRole
+import ru.fors.entity.auth.SystemUserRole
+import ru.fors.entity.auth.User
 import ru.fors.auth.api.domain.CheckCallerHasSystemRoleUseCase
-import ru.fors.auth.api.domain.GetCallingUserUseCase
-import ru.fors.auth.api.domain.GetSystemRoleByUsername
 import ru.fors.auth.api.domain.SignUpUseCase
 import ru.fors.auth.api.domain.dto.Credentials
-import ru.fors.auth.api.domain.entity.NoRoleInfoException
-import ru.fors.auth.api.domain.entity.NoUserInfoException
 import ru.fors.auth.api.domain.entity.NotAllowedException
 import ru.fors.auth.api.domain.entity.UserExistsException
 import ru.fors.auth.data.SystemRoleRepo
 import ru.fors.auth.data.UserRepo
-import ru.fors.auth.entity.*
 
 @Component
 open class SignUpUseCaseImpl(

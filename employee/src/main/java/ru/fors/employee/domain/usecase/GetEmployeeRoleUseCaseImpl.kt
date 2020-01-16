@@ -1,7 +1,7 @@
 package ru.fors.employee.domain.usecase
 
 import org.springframework.stereotype.Component
-import ru.fors.employee.EmployeeRole
+import ru.fors.entity.employee.EmployeeRole
 import ru.fors.employee.api.domain.GetEmployeeRoleUseCase
 import ru.fors.employee.data.repo.EmployeeRoleRepo
 

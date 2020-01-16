@@ -1,6 +1,6 @@
 package ru.fors.employee.api.domain
 
-import ru.fors.employee.Employee
+import ru.fors.entity.employee.Employee
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto
 
 interface UpdateEmployeeUseCase {

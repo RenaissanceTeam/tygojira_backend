@@ -6,7 +6,7 @@ import ru.fors.auth.api.domain.GetCallingUserUseCase
 import ru.fors.auth.api.domain.GetSystemRoleByUsername
 import ru.fors.auth.api.domain.entity.NoRoleInfoException
 import ru.fors.auth.api.domain.entity.NoUserInfoException
-import ru.fors.auth.entity.SystemUserRole
+import ru.fors.entity.auth.SystemUserRole
 
 @Component
 class CheckCallerHasSystemRoleUseCaseImpl(
