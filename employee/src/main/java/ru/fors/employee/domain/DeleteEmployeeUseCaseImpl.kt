@@ -16,9 +16,9 @@ class DeleteEmployeeUseCaseImpl(
 ) : DeleteEmployeeUseCase {
     override fun execute(id: Long) {
         val employee = employeeRepo.findByIdOrNull(id) ?: throw EmployeeNotFoundException(id)
-        employeeRepo.delete(employee)
-
         val user = employeeUserRepo.findByEmployee(employee)?.user ?: throw Throwable("no associated user for employee $id")
+
+        employeeRepo.delete(employee)
         deleteUserUseCase.execute(user)
     }
 }
