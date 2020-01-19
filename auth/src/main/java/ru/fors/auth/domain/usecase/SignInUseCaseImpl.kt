@@ -1,7 +1,7 @@
-package ru.fors.auth.domain
+package ru.fors.auth.domain.usecase
 
 import org.springframework.stereotype.Component
-import ru.fors.auth.api.domain.SignInUseCase
+import ru.fors.auth.api.domain.usecase.SignInUseCase
 import ru.fors.auth.api.domain.dto.Credentials
 import ru.fors.auth.api.domain.dto.TokenResponse
 import ru.fors.auth.data.AuthenticatorAdapter

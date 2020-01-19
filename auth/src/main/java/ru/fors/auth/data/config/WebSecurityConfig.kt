@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.password.NoOpPasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import ru.fors.auth.data.jwt.CustomUserDetailsService
+import ru.fors.auth.data.CustomUserDetailsService
 import ru.fors.auth.data.jwt.JwtAuthenticationEntryPoint
 import ru.fors.auth.data.jwt.JwtAuthenticationFilter
 

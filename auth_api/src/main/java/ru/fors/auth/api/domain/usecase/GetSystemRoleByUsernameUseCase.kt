@@ -1,7 +1,7 @@
-package ru.fors.auth.api.domain
+package ru.fors.auth.api.domain.usecase
 
 import ru.fors.entity.auth.SystemRole
 
-interface GetSystemRoleByUsername {
+interface GetSystemRoleByUsernameUseCase {
     fun execute(username: String): SystemRole?
 }

@@ -1,7 +1,7 @@
-package ru.fors.auth.domain
+package ru.fors.auth.domain.usecase
 
 import org.springframework.stereotype.Component
-import ru.fors.auth.api.domain.GetCallingUserUseCase
+import ru.fors.auth.api.domain.usecase.GetCallingUserUseCase
 import ru.fors.auth.data.UserRepo
 import ru.fors.auth.data.security.SecurityRepository
 import ru.fors.entity.auth.User

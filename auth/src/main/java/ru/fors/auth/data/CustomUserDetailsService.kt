@@ -1,12 +1,11 @@
-package ru.fors.auth.data.jwt
+package ru.fors.auth.data
 
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import ru.fors.auth.data.UserRepo
-import ru.fors.employee.api.domain.GetEmployeeRoleUseCase
+import ru.fors.employee.api.domain.usecase.GetEmployeeRoleUseCase
 
 
 @Service

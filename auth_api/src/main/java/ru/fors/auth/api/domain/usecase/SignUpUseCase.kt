@@ -1,4 +1,4 @@
-package ru.fors.auth.api.domain
+package ru.fors.auth.api.domain.usecase
 
 import ru.fors.auth.api.domain.dto.Credentials
 import ru.fors.entity.auth.SystemUserRole

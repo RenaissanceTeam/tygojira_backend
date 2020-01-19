@@ -8,8 +8,13 @@ import ru.fors.employee.api.domain.*
 import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
 import ru.fors.employee.api.domain.dto.FullEmployeeInfoDto
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto
+import ru.fors.employee.api.domain.usecase.AddEmployeeUseCase
+import ru.fors.employee.api.domain.usecase.DeleteEmployeeUseCase
+import ru.fors.employee.api.domain.usecase.GetFullEmployeesInfoUseCase
+import ru.fors.employee.api.domain.usecase.UpdateEmployeeUseCase
 
 @RestController
+@RequestMapping("/employees")
 class EmployeeController(
         private val addEmployeeUseCase: AddEmployeeUseCase,
         private val getFullEmployeesInfoUseCase: GetFullEmployeesInfoUseCase,
@@ -17,17 +22,17 @@ class EmployeeController(
         private val deleteEmployeeUseCase: DeleteEmployeeUseCase
 ) {
 
-    @PostMapping("employees/add")
+    @PostMapping("/add")
     fun add(@RequestBody employeeWithRoleDto: EmployeeWithRoleDto): Employee {
         return addEmployeeUseCase.execute(employeeWithRoleDto)
     }
 
-    @GetMapping("employees")
+    @GetMapping("")
     fun getAll(): List<FullEmployeeInfoDto> {
         return getFullEmployeesInfoUseCase.execute()
     }
 
-    @PostMapping("employees/{id}/update")
+    @PostMapping("/{id}/update")
     fun updateEmployee(@PathVariable id: Long, @RequestBody updateDto: UpdateEmployeeInfoDto): Employee {
         return updateEmployeeUseCase.runCatching { execute(id, updateDto) }.onFailure(this::mapThrowable).getOrThrow()
     }
@@ -38,7 +43,7 @@ class EmployeeController(
         }
     }
 
-    @PostMapping("employees/{id}/delete")
+    @PostMapping("/{id}/delete")
     fun delete(@PathVariable id: Long) {
         deleteEmployeeUseCase.runCatching { execute(id) }.onFailure(this::mapThrowable).getOrThrow()
     }

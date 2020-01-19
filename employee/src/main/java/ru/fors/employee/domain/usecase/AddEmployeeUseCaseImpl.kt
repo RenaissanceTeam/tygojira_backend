@@ -1,8 +1,8 @@
 package ru.fors.employee.domain.usecase
 
 import org.springframework.stereotype.Component
-import ru.fors.auth.api.domain.CheckCallerHasSystemRoleUseCase
-import ru.fors.auth.api.domain.SignUpUseCase
+import ru.fors.auth.api.domain.usecase.CheckCallerHasSystemRoleUseCase
+import ru.fors.auth.api.domain.usecase.SignUpUseCase
 import ru.fors.auth.api.domain.dto.Credentials
 import ru.fors.entity.auth.SystemUserRole
 import ru.fors.entity.auth.User
@@ -10,7 +10,7 @@ import ru.fors.entity.employee.Employee
 import ru.fors.entity.employee.EmployeeRole
 import ru.fors.entity.employee.EmployeeUser
 import ru.fors.entity.employee.Role
-import ru.fors.employee.api.domain.AddEmployeeUseCase
+import ru.fors.employee.api.domain.usecase.AddEmployeeUseCase
 import ru.fors.employee.api.domain.dto.EmployeeDto
 import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
 import ru.fors.employee.data.repo.EmployeeRepo
