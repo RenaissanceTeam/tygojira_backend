@@ -1,14 +1,15 @@
-package ru.fors.auth.domain
+package ru.fors.auth.domain.usecase
 
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Before
 import org.junit.Test
-import ru.fors.auth.api.domain.SignInUseCase
+import ru.fors.auth.api.domain.usecase.SignInUseCase
 import ru.fors.auth.api.domain.dto.Credentials
 import ru.fors.auth.data.AuthenticatorAdapter
 import ru.fors.auth.data.jwt.JwtTokenProvider
+import ru.fors.auth.domain.usecase.SignInUseCaseImpl
 import kotlin.test.assertFails
 
 class SignInUseCaseImplTest {

@@ -8,6 +8,10 @@ import ru.fors.employee.api.domain.*
 import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
 import ru.fors.employee.api.domain.dto.FullEmployeeInfoDto
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto
+import ru.fors.employee.api.domain.usecase.AddEmployeeUseCase
+import ru.fors.employee.api.domain.usecase.DeleteEmployeeUseCase
+import ru.fors.employee.api.domain.usecase.GetFullEmployeesInfoUseCase
+import ru.fors.employee.api.domain.usecase.UpdateEmployeeUseCase
 
 @RestController
 @RequestMapping("/employees")

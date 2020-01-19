@@ -1,11 +1,11 @@
-package ru.fors.auth.domain
+package ru.fors.auth.domain.usecase
 
 import org.springframework.stereotype.Component
 import ru.fors.entity.auth.SystemRole
 import ru.fors.entity.auth.SystemUserRole
 import ru.fors.entity.auth.User
-import ru.fors.auth.api.domain.CheckCallerHasSystemRoleUseCase
-import ru.fors.auth.api.domain.SignUpUseCase
+import ru.fors.auth.api.domain.usecase.CheckCallerHasSystemRoleUseCase
+import ru.fors.auth.api.domain.usecase.SignUpUseCase
 import ru.fors.auth.api.domain.dto.Credentials
 import ru.fors.auth.api.domain.entity.NotAllowedException
 import ru.fors.auth.api.domain.entity.UserExistsException

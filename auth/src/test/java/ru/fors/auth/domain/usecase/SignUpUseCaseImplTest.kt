@@ -1,15 +1,17 @@
-package ru.fors.auth.domain
+package ru.fors.auth.domain.usecase
 
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.jupiter.api.assertDoesNotThrow
-import ru.fors.auth.api.domain.SignUpUseCase
+import ru.fors.auth.api.domain.usecase.SignUpUseCase
 import ru.fors.auth.api.domain.dto.Credentials
 import ru.fors.auth.api.domain.entity.NotAllowedException
 import ru.fors.auth.api.domain.entity.UserExistsException
 import ru.fors.auth.data.SystemRoleRepo
 import ru.fors.auth.data.UserRepo
+import ru.fors.auth.domain.usecase.CheckCallerHasSystemRoleUseCaseImpl
+import ru.fors.auth.domain.usecase.SignUpUseCaseImpl
 import ru.fors.entity.auth.SystemUserRole
 import ru.fors.entity.auth.User
 import kotlin.test.assertFailsWith
