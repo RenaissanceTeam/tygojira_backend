@@ -4,17 +4,14 @@ import com.nhaarman.mockitokotlin2.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.jupiter.api.assertDoesNotThrow
-import ru.fors.auth.api.domain.GetCallingUserUseCase
-import ru.fors.auth.api.domain.GetSystemRoleByUsername
 import ru.fors.auth.api.domain.SignUpUseCase
 import ru.fors.auth.api.domain.dto.Credentials
 import ru.fors.auth.api.domain.entity.NotAllowedException
 import ru.fors.auth.api.domain.entity.UserExistsException
 import ru.fors.auth.data.SystemRoleRepo
 import ru.fors.auth.data.UserRepo
-import ru.fors.auth.entity.SystemRole
-import ru.fors.auth.entity.SystemUserRole
-import ru.fors.auth.entity.User
+import ru.fors.entity.auth.SystemUserRole
+import ru.fors.entity.auth.User
 import kotlin.test.assertFailsWith
 
 class SignUpUseCaseImplTest {

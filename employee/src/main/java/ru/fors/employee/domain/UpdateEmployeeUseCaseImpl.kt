@@ -2,7 +2,7 @@ package ru.fors.employee.domain
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
-import ru.fors.employee.Employee
+import ru.fors.entity.employee.Employee
 import ru.fors.employee.api.domain.EmployeeNotFoundException
 import ru.fors.employee.api.domain.UpdateEmployeeUseCase
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto

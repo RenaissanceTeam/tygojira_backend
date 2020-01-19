@@ -4,12 +4,12 @@ import org.springframework.stereotype.Component
 import ru.fors.auth.api.domain.CheckCallerHasSystemRoleUseCase
 import ru.fors.auth.api.domain.SignUpUseCase
 import ru.fors.auth.api.domain.dto.Credentials
-import ru.fors.auth.entity.SystemUserRole
-import ru.fors.auth.entity.User
-import ru.fors.employee.Employee
-import ru.fors.employee.EmployeeRole
-import ru.fors.employee.EmployeeUser
-import ru.fors.employee.Role
+import ru.fors.entity.auth.SystemUserRole
+import ru.fors.entity.auth.User
+import ru.fors.entity.employee.Employee
+import ru.fors.entity.employee.EmployeeRole
+import ru.fors.entity.employee.EmployeeUser
+import ru.fors.entity.employee.Role
 import ru.fors.employee.api.domain.AddEmployeeUseCase
 import ru.fors.employee.api.domain.dto.EmployeeDto
 import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
@@ -28,9 +28,10 @@ class AddEmployeeUseCaseImpl(
     override fun execute(dto: EmployeeWithRoleDto): Employee {
         checkCallerHasSystemRole.execute(SystemUserRole.ADMIN)
 
+        val savedUser = signUpUser(dto.employee.name, dto.employee.name)
+
         return saveEmployee(dto.employee).apply {
             saveEmployeeRole(this, dto.roles)
-            val savedUser = signUpUser(this)
             saveUserToEmployeeConnection(this, savedUser)
         }
     }
@@ -42,10 +43,10 @@ class AddEmployeeUseCaseImpl(
         ))
     }
 
-    private fun signUpUser(savedEmployee: Employee): User {
+    private fun signUpUser(name: String, password: String): User {
         val newEmployeeCredentials = Credentials(
-                savedEmployee.name,
-                savedEmployee.name
+                name,
+                password
         )
 
         return signUpUseCase.execute(newEmployeeCredentials, SystemUserRole.USER)

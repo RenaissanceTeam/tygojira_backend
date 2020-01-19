@@ -9,7 +9,7 @@ import ru.fors.auth.api.domain.SignInUseCase
 import ru.fors.auth.api.domain.SignUpUseCase
 import ru.fors.auth.api.domain.dto.Credentials
 import ru.fors.auth.api.domain.dto.TokenResponse
-import ru.fors.auth.entity.SystemUserRole
+import ru.fors.entity.auth.SystemUserRole
 
 @RestController
 open class AuthController(
