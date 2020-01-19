@@ -3,5 +3,5 @@ ext {
     mockitoKotlin_version = '2.1.0'
     junit_version = "4.12"
     googleTruth_version = "1.0"
-
+    spring_version = "2.2.3.RELEASE"
 }
