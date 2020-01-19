@@ -1,5 +1,0 @@
-apply from: "$rootDir/gradle/scripts/spring-module.gradle"
-
-dependencies {
-
-}

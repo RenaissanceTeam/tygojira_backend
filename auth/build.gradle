@@ -5,7 +5,7 @@ dependencies {
     implementation library.jjwt
 
     implementation library.auth_api
-    implementation library.auth_entity
+    implementation library.employee_api
 
     testImplementation groups.forTest
 }

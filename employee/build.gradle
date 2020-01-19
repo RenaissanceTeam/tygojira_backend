@@ -1,0 +1,8 @@
+apply from: "$rootDir/gradle/scripts/spring-module.gradle"
+
+dependencies {
+    implementation library.auth_api
+    implementation library.employee_api
+
+    testImplementation groups.forTest
+}
