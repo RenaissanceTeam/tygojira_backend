@@ -1,0 +1,15 @@
+apply from: "$rootDir/gradle/scripts/module.gradle"
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: "kotlin-jpa"
+
+bootJar {
+    enabled = false
+}
+
+dependencies {
+    implementation library.spring
+    implementation library.springWeb
+    implementation library.springData
+}
+

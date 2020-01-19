@@ -1,20 +1,17 @@
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply from: "$rootDir/gradle/scripts/module.gradle"
-apply from: "$rootDir/gradle/scripts/version.gradle"
+apply from: "$rootDir/gradle/scripts/spring-module.gradle"
+
+bootJar {
+    enabled = true
+}
 
 dependencies {
-    implementation library.kotlin
-
-    implementation library.springWeb
-    implementation library.spring
-    implementation library.springData
     implementation library.springSecurity
     implementation library.jacksonKotlin
     runtime library.postgres
 
-    implementation library._auth
-    implementation library._auth_api
+    implementation library.auth
+    implementation library.auth_api
+    implementation library.auth_entity
 }
 
 springBoot {
