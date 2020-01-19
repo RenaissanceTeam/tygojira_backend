@@ -1,4 +1,4 @@
-package ru.fors.auth.data.jwt
+package ru.fors.auth.data
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority

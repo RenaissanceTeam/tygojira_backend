@@ -6,6 +6,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 import org.springframework.web.filter.OncePerRequestFilter
+import ru.fors.auth.data.CustomUserDetailsService
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
