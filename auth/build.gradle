@@ -6,6 +6,7 @@ dependencies {
 
     implementation library.auth_api
     implementation library.employee_api
+    implementation library.util
 
     testImplementation groups.forTest
 }
