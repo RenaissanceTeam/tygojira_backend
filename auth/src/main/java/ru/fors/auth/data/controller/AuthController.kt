@@ -8,11 +8,8 @@ import org.springframework.web.server.ResponseStatusException
 import ru.fors.auth.api.domain.RoleChecker
 import ru.fors.auth.api.domain.dto.Credentials
 import ru.fors.auth.api.domain.dto.TokenResponse
-import ru.fors.auth.api.domain.usecase.CheckCallerHasSystemRoleUseCase
 import ru.fors.auth.api.domain.usecase.SignInUseCase
 import ru.fors.auth.api.domain.usecase.SignUpUseCase
-import ru.fors.auth.data.extensions.throwWhenNotAllowed
-import ru.fors.employee.api.domain.usecase.CheckUserHasBusinessRoleUseCase
 import ru.fors.entity.auth.SystemUserRole
 import ru.fors.entity.employee.Role
 import ru.fors.util.runOnFailureThrowSpringNotAllowed
