@@ -15,12 +15,12 @@ import ru.fors.auth.data.UserRepo
 @Component
 open class SignUpUseCaseImpl(
         private val userRepo: UserRepo,
-        private val systemRoleRepo: SystemRoleRepo,
-        private val checkCallerRole: CheckCallerHasSystemRoleUseCase
+        private val systemRoleRepo: SystemRoleRepo
 ) : SignUpUseCase {
 
     override fun execute(credentials: Credentials, role: SystemUserRole): User {
-        checkThatHasProperSystemRolePermission(role)
+        if (role == SystemUserRole.SUPERUSER) throw NotAllowedException("can't create SUPERUSER")
+
         checkThatUsernameIsNotTaken(credentials.login)
 
         return userRepo.save(User(credentials.login, credentials.password)).also {
@@ -30,20 +30,5 @@ open class SignUpUseCaseImpl(
 
     private fun checkThatUsernameIsNotTaken(login: String) {
         if (userRepo.findByUsername(login) != null) throw UserExistsException(login)
-    }
-
-    private fun checkThatHasProperSystemRolePermission(role: SystemUserRole) {
-        if (role == SystemUserRole.SUPERUSER) throw NotAllowedException("can't create SUPERUSER")
-
-        when (role) {
-            SystemUserRole.ADMIN -> require(SystemUserRole.SUPERUSER)
-            SystemUserRole.USER -> require(SystemUserRole.ADMIN)
-            else -> {
-            }
-        }
-    }
-
-    private fun require(requiredRole: SystemUserRole) {
-        if (!checkCallerRole.execute(requiredRole)) throw NotAllowedException("need ${requiredRole.name} rights")
     }
 }
