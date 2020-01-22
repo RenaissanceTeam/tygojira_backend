@@ -12,8 +12,8 @@ import ru.fors.auth.api.domain.usecase.SignInUseCase
 import ru.fors.auth.api.domain.usecase.SignUpUseCase
 import ru.fors.entity.auth.SystemUserRole
 import ru.fors.entity.employee.Role
-import ru.fors.util.requireAllOrThrowSpringNotAllowed
 import ru.fors.util.requireAnyOrThrowSpringNotAllowed
+import ru.fors.util.requireOneOrThrowSpringNotAllowed
 
 @RestController
 open class AuthController(
@@ -29,7 +29,7 @@ open class AuthController(
 
     @PostMapping("/signup/admin")
     fun registerAdmin(@RequestBody credentials: Credentials) {
-        roleChecker.startCheck().require(SystemUserRole.SUPERUSER).requireAllOrThrowSpringNotAllowed()
+        roleChecker.requireOneOrThrowSpringNotAllowed(SystemUserRole.SUPERUSER)
 
         signUpUseCase.runCatching { execute(credentials, SystemUserRole.ADMIN) }
                 .onFailure { throw ResponseStatusException(HttpStatus.BAD_REQUEST, it.message) }
