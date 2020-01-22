@@ -15,7 +15,8 @@ import ru.fors.employee.api.domain.usecase.UpdateEmployeeUseCase
 import ru.fors.entity.auth.SystemUserRole
 import ru.fors.entity.employee.Employee
 import ru.fors.entity.employee.Role
-import ru.fors.util.runOnFailureThrowSpringNotAllowed
+import ru.fors.util.requireAllOrThrowSpringNotAllowed
+import ru.fors.util.requireAnyOrThrowSpringNotAllowed
 
 @RestController
 @RequestMapping("/employees")
@@ -30,10 +31,9 @@ class EmployeeController(
     @PostMapping("/add")
     fun add(@RequestBody employeeWithRoleDto: EmployeeWithRoleDto): Employee {
         roleChecker.startCheck()
-                .requireAnySpecified()
                 .require(SystemUserRole.ADMIN)
                 .require(Role.LINEAR_LEAD)
-                .runOnFailureThrowSpringNotAllowed()
+                .requireAnyOrThrowSpringNotAllowed()
 
         return addEmployeeUseCase.execute(employeeWithRoleDto)
     }
@@ -45,7 +45,7 @@ class EmployeeController(
 
     @PostMapping("/{id}/update")
     fun updateEmployee(@PathVariable id: Long, @RequestBody updateDto: UpdateEmployeeInfoDto): Employee {
-        roleChecker.startCheck().require(Role.LINEAR_LEAD).runOnFailureThrowSpringNotAllowed()
+        roleChecker.startCheck().require(Role.LINEAR_LEAD).requireAllOrThrowSpringNotAllowed()
 
         return updateEmployeeUseCase.runCatching { execute(id, updateDto) }.onFailure(this::mapThrowable).getOrThrow()
     }
@@ -58,7 +58,7 @@ class EmployeeController(
 
     @PostMapping("/{id}/delete")
     fun delete(@PathVariable id: Long) {
-        roleChecker.startCheck().require(Role.LINEAR_LEAD).runOnFailureThrowSpringNotAllowed()
+        roleChecker.startCheck().require(Role.LINEAR_LEAD).requireAllOrThrowSpringNotAllowed()
 
         deleteEmployeeUseCase.runCatching { execute(id) }.onFailure(this::mapThrowable).getOrThrow()
     }

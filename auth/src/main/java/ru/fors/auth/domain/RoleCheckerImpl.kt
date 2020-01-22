@@ -20,7 +20,6 @@ open class RoleCheckerImpl(
     inner class SetupImpl : RoleChecker.Setup {
         private val systemRoles = mutableListOf<SystemUserRole>()
         private val businessRoles = mutableListOf<Role>()
-        private var requireAllSpecifiedRoles = true
 
         override fun require(role: Role) = apply {
             businessRoles.add(role)
@@ -30,27 +29,20 @@ open class RoleCheckerImpl(
             systemRoles.add(role)
         }
 
-        override fun requireAnySpecified() = apply {
-            requireAllSpecifiedRoles = false
+        override fun requireAnySpecified() {
+            if (gatherRoleChecks().any { it.value }.not()) throwNotAllowed("any")
         }
 
-        override fun requireAllSpecified() = apply {
-            requireAllSpecifiedRoles = true
+        override fun requireAllSpecified() {
+            if (gatherRoleChecks().all { it.value }.not()) throwNotAllowed("all")
         }
 
-        override fun runOnFailureThrow() {
-            val checks = systemRoles.map { lazy { checkCallerHasSystemRoleUseCase.execute(it) } } +
+        private fun gatherRoleChecks(): List<Lazy<Boolean>> {
+            return systemRoles.map { lazy { checkCallerHasSystemRoleUseCase.execute(it) } } +
                     businessRoles.map { lazy { checkUserHasBusinessRoleUseCase.execute(it) } }
-
-            when (requireAllSpecifiedRoles) {
-                true -> if (checks.all { it.value }.not()) throwNotAllowed()
-                false -> if (checks.any { it.value }.not()) throwNotAllowed()
-            }
         }
 
-        private fun throwNotAllowed() {
-            val infix = if (requireAllSpecifiedRoles) "all" else "any"
-
+        private fun throwNotAllowed(infix: String) {
             throw NotAllowedException("required $infix roles: ${systemRoles + businessRoles}")
         }
     }
