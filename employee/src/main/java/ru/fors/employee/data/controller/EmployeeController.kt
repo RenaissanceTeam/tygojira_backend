@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import ru.fors.auth.api.domain.RoleChecker
-import ru.fors.employee.api.domain.EmployeeNotFoundException
+import ru.fors.employee.api.domain.entity.EmployeeNotFoundException
 import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
 import ru.fors.employee.api.domain.dto.FullEmployeeInfoDto
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto

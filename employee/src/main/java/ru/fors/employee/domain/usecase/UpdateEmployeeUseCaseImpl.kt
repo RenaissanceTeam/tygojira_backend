@@ -3,7 +3,7 @@ package ru.fors.employee.domain.usecase
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import ru.fors.entity.employee.Employee
-import ru.fors.employee.api.domain.EmployeeNotFoundException
+import ru.fors.employee.api.domain.entity.EmployeeNotFoundException
 import ru.fors.employee.api.domain.usecase.UpdateEmployeeUseCase
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto
 import ru.fors.employee.data.repo.EmployeeRepo

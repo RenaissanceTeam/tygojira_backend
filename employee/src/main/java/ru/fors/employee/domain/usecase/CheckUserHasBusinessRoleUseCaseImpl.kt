@@ -14,8 +14,8 @@ class CheckUserHasBusinessRoleUseCaseImpl(
         private val getEmployeeRoleUseCase: GetEmployeeRoleUseCase
 ) : CheckUserHasBusinessRoleUseCase {
     override fun execute(role: Role): Boolean {
-        val caller = getCallingUserUseCase.execute() ?: throw NoUserInfoException()
-        val callerRole = getEmployeeRoleUseCase.execute(caller.username) ?: throw NoBusinessRoleException()
+        val caller = getCallingUserUseCase.execute() ?: throw NoUserInfoException
+        val callerRole = getEmployeeRoleUseCase.execute(caller.username) ?: throw NoBusinessRoleException
 
         return callerRole.roles.contains(role)
     }

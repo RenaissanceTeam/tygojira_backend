@@ -15,8 +15,8 @@ class CheckCallerHasSystemRoleUseCaseImpl(
 ) : CheckCallerHasSystemRoleUseCase {
 
     override fun execute(role: SystemUserRole): Boolean {
-        val callingUser = getCallingUserUseCase.execute() ?: throw NoUserInfoException()
-        val callingRole = getSystemRoleByUsername.execute(callingUser.username) ?: throw NoSystemRoleInfoException()
+        val callingUser = getCallingUserUseCase.execute() ?: throw NoUserInfoException
+        val callingRole = getSystemRoleByUsername.execute(callingUser.username) ?: throw NoSystemRoleInfoException
 
         return callingRole.role == role
     }
