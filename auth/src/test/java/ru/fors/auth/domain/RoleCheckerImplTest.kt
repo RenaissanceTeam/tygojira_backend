@@ -78,7 +78,7 @@ class RoleCheckerImplTest {
             checker.startCheck()
                     .require(Role.LINEAR_LEAD)
                     .require(SystemUserRole.ADMIN)
-                    .requireAny()
+                    .requireAnySpecified()
                     .runOnFailureThrow()
         }
     }
@@ -91,7 +91,7 @@ class RoleCheckerImplTest {
             checker.startCheck()
                     .require(Role.LINEAR_LEAD)
                     .require(SystemUserRole.ADMIN)
-                    .requireAny()
+                    .requireAnySpecified()
                     .runOnFailureThrow()
         }
     }
@@ -104,7 +104,7 @@ class RoleCheckerImplTest {
             checker.startCheck()
                     .require(Role.LINEAR_LEAD)
                     .require(SystemUserRole.ADMIN)
-                    .requireAny()
+                    .requireAnySpecified()
                     .runOnFailureThrow()
         }
     }

@@ -30,22 +30,20 @@ open class AuthController(
     fun registerAdmin(@RequestBody credentials: Credentials) {
         roleChecker.startCheck().require(SystemUserRole.SUPERUSER).runOnFailureThrowSpringNotAllowed()
 
-        signUpUseCase.runCatching { execute(credentials, SystemUserRole.ADMIN) }.onFailure {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, it.message)
-        }
+        signUpUseCase.runCatching { execute(credentials, SystemUserRole.ADMIN) }
+                .onFailure { throw ResponseStatusException(HttpStatus.BAD_REQUEST, it.message) }
     }
 
     @PostMapping("/signup")
     fun registerUser(@RequestBody credentials: Credentials) {
         roleChecker.startCheck()
-                .requireAny()
+                .requireAnySpecified()
                 .require(SystemUserRole.ADMIN)
                 .require(Role.LINEAR_LEAD)
                 .runOnFailureThrowSpringNotAllowed()
 
 
-        signUpUseCase.runCatching { execute(credentials, SystemUserRole.USER) }.onFailure {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, it.message)
-        }
+        signUpUseCase.runCatching { execute(credentials, SystemUserRole.USER) }
+                .onFailure { throw ResponseStatusException(HttpStatus.BAD_REQUEST, it.message) }
     }
 }

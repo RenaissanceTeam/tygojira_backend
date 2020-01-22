@@ -8,8 +8,8 @@ interface RoleChecker {
     interface Setup {
         fun require(role: Role): Setup
         fun require(role: SystemUserRole): Setup
-        fun requireAny(): Setup
-        fun requireAll(): Setup
+        fun requireAnySpecified(): Setup
+        fun requireAllSpecified(): Setup
         fun runOnFailureThrow()
     }
 

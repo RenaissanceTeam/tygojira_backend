@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import ru.fors.auth.api.domain.RoleChecker
-import ru.fors.auth.api.domain.entity.NotAllowedException
 import ru.fors.employee.api.domain.EmployeeNotFoundException
 import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
 import ru.fors.employee.api.domain.dto.FullEmployeeInfoDto
@@ -31,7 +30,7 @@ class EmployeeController(
     @PostMapping("/add")
     fun add(@RequestBody employeeWithRoleDto: EmployeeWithRoleDto): Employee {
         roleChecker.startCheck()
-                .requireAny()
+                .requireAnySpecified()
                 .require(SystemUserRole.ADMIN)
                 .require(Role.LINEAR_LEAD)
                 .runOnFailureThrowSpringNotAllowed()
