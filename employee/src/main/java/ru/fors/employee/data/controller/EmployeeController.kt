@@ -3,15 +3,20 @@ package ru.fors.employee.data.controller
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
-import ru.fors.entity.employee.Employee
-import ru.fors.employee.api.domain.*
+import ru.fors.auth.api.domain.RoleChecker
 import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
 import ru.fors.employee.api.domain.dto.FullEmployeeInfoDto
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto
+import ru.fors.employee.api.domain.entity.EmployeeNotFoundException
 import ru.fors.employee.api.domain.usecase.AddEmployeeUseCase
 import ru.fors.employee.api.domain.usecase.DeleteEmployeeUseCase
 import ru.fors.employee.api.domain.usecase.GetFullEmployeesInfoUseCase
 import ru.fors.employee.api.domain.usecase.UpdateEmployeeUseCase
+import ru.fors.entity.auth.SystemUserRole
+import ru.fors.entity.employee.Employee
+import ru.fors.entity.employee.Role
+import ru.fors.util.requireAnyOrThrowSpringNotAllowed
+import ru.fors.util.requireOneOrThrowSpringNotAllowed
 
 @RestController
 @RequestMapping("/employees")
@@ -19,11 +24,17 @@ class EmployeeController(
         private val addEmployeeUseCase: AddEmployeeUseCase,
         private val getFullEmployeesInfoUseCase: GetFullEmployeesInfoUseCase,
         private val updateEmployeeUseCase: UpdateEmployeeUseCase,
-        private val deleteEmployeeUseCase: DeleteEmployeeUseCase
+        private val deleteEmployeeUseCase: DeleteEmployeeUseCase,
+        private val roleChecker: RoleChecker
 ) {
 
     @PostMapping("/add")
     fun add(@RequestBody employeeWithRoleDto: EmployeeWithRoleDto): Employee {
+        roleChecker.startCheck()
+                .require(SystemUserRole.ADMIN)
+                .require(Role.LINEAR_LEAD)
+                .requireAnyOrThrowSpringNotAllowed()
+
         return addEmployeeUseCase.execute(employeeWithRoleDto)
     }
 
@@ -34,6 +45,8 @@ class EmployeeController(
 
     @PostMapping("/{id}/update")
     fun updateEmployee(@PathVariable id: Long, @RequestBody updateDto: UpdateEmployeeInfoDto): Employee {
+        roleChecker.requireOneOrThrowSpringNotAllowed(Role.LINEAR_LEAD)
+
         return updateEmployeeUseCase.runCatching { execute(id, updateDto) }.onFailure(this::mapThrowable).getOrThrow()
     }
 
@@ -45,6 +58,8 @@ class EmployeeController(
 
     @PostMapping("/{id}/delete")
     fun delete(@PathVariable id: Long) {
+        roleChecker.requireOneOrThrowSpringNotAllowed(Role.LINEAR_LEAD)
+
         deleteEmployeeUseCase.runCatching { execute(id) }.onFailure(this::mapThrowable).getOrThrow()
     }
 }

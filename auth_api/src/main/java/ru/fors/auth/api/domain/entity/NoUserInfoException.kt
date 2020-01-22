@@ -1,3 +1,3 @@
 package ru.fors.auth.api.domain.entity
 
-class NoUserInfoException: Throwable("No user info")
+object NoUserInfoException: Throwable("No user info")

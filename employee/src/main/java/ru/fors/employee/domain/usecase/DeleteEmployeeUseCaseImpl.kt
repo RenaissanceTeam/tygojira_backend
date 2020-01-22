@@ -4,7 +4,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import ru.fors.auth.api.domain.usecase.DeleteUserUseCase
 import ru.fors.employee.api.domain.usecase.DeleteEmployeeUseCase
-import ru.fors.employee.api.domain.EmployeeNotFoundException
+import ru.fors.employee.api.domain.entity.EmployeeNotFoundException
 import ru.fors.employee.data.repo.EmployeeRepo
 import ru.fors.employee.data.repo.EmployeeUserRepo
 

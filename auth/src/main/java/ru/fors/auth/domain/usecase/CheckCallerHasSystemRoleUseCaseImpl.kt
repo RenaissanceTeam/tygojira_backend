@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component
 import ru.fors.auth.api.domain.usecase.CheckCallerHasSystemRoleUseCase
 import ru.fors.auth.api.domain.usecase.GetCallingUserUseCase
 import ru.fors.auth.api.domain.usecase.GetSystemRoleByUsernameUseCase
-import ru.fors.auth.api.domain.entity.NoRoleInfoException
+import ru.fors.auth.api.domain.entity.NoSystemRoleInfoException
 import ru.fors.auth.api.domain.entity.NoUserInfoException
 import ru.fors.entity.auth.SystemUserRole
 
@@ -15,8 +15,8 @@ class CheckCallerHasSystemRoleUseCaseImpl(
 ) : CheckCallerHasSystemRoleUseCase {
 
     override fun execute(role: SystemUserRole): Boolean {
-        val callingUser = getCallingUserUseCase.execute() ?: throw NoUserInfoException()
-        val callingRole = getSystemRoleByUsername.execute(callingUser.username) ?: throw NoRoleInfoException()
+        val callingUser = getCallingUserUseCase.execute() ?: throw NoUserInfoException
+        val callingRole = getSystemRoleByUsername.execute(callingUser.username) ?: throw NoSystemRoleInfoException
 
         return callingRole.role == role
     }

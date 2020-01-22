@@ -6,4 +6,5 @@ include 'auth_api'
 include 'employee'
 include 'employee_api'
 include 'entity'
+include 'util'
 

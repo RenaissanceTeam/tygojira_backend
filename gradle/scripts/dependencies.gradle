@@ -21,9 +21,10 @@ ext {
 
             auth          : project(":auth"),
             auth_api      : project(":auth_api"),
-            employee          : project(":employee"),
-            employee_api      : project(":employee_api"),
-            entity   : project(":entity"),
+            employee      : project(":employee"),
+            employee_api  : project(":employee_api"),
+            entity        : project(":entity"),
+            util          : project(":util")
 
 
     ]
