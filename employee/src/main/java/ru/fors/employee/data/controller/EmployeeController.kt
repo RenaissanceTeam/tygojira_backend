@@ -18,6 +18,7 @@ import ru.fors.entity.employee.Role
 import ru.fors.util.requireAnyOrThrowSpringNotAllowed
 import ru.fors.util.requireOneOrThrowSpringNotAllowed
 
+@CrossOrigin
 @RestController
 @RequestMapping("/employees")
 class EmployeeController(
