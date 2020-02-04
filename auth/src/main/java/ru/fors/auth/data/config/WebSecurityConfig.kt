@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.password.NoOpPasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import ru.fors.auth.data.CustomUserDetailsService
 import ru.fors.auth.data.jwt.JwtAuthenticationEntryPoint
 import ru.fors.auth.data.jwt.JwtAuthenticationFilter
@@ -33,6 +36,8 @@ open class WebSecurityConfig(
                 .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                    .cors()
+                .and()
                     .addFilterBefore(tokenAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
                     .authorizeRequests()
                     .antMatchers("/login", "/signup").permitAll()
@@ -49,5 +54,10 @@ open class WebSecurityConfig(
     @Bean(name = [BeanIds.AUTHENTICATION_MANAGER])
     override fun authenticationManagerBean(): AuthenticationManager? {
         return super.authenticationManagerBean()
+    }
+
+    @Bean
+    open fun corsConfigurationSource(): CorsConfigurationSource? = UrlBasedCorsConfigurationSource().apply {
+        registerCorsConfiguration("/**", CorsConfiguration().applyPermitDefaultValues())
     }
 }

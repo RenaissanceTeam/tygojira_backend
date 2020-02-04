@@ -1,7 +1,6 @@
 package ru.fors.auth.data.controller
 
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -16,7 +15,6 @@ import ru.fors.entity.employee.Role
 import ru.fors.util.requireAnyOrThrowSpringNotAllowed
 import ru.fors.util.requireOneOrThrowSpringNotAllowed
 
-@CrossOrigin
 @RestController
 open class AuthController(
         private val signInUseCase: SignInUseCase,
