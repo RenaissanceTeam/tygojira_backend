@@ -7,11 +7,9 @@ import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
 import ru.fors.employee.api.domain.dto.FullEmployeeInfoDto
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto
 import ru.fors.employee.api.domain.entity.EmployeeNotFoundException
-import ru.fors.employee.api.domain.usecase.AddEmployeeUseCase
-import ru.fors.employee.api.domain.usecase.DeleteEmployeeUseCase
-import ru.fors.employee.api.domain.usecase.GetFullEmployeesInfoUseCase
-import ru.fors.employee.api.domain.usecase.UpdateEmployeeUseCase
+import ru.fors.employee.api.domain.usecase.*
 import ru.fors.entity.employee.Employee
+import ru.fors.entity.employee.EmployeeRole
 import ru.fors.pagination.api.domain.dto.PageRequestDto
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.toPageRequest
@@ -23,7 +21,8 @@ class EmployeeController(
         private val addEmployeeUseCase: AddEmployeeUseCase,
         private val getFullEmployeesInfoUseCase: GetFullEmployeesInfoUseCase,
         private val updateEmployeeUseCase: UpdateEmployeeUseCase,
-        private val deleteEmployeeUseCase: DeleteEmployeeUseCase
+        private val deleteEmployeeUseCase: DeleteEmployeeUseCase,
+        private val getEmployeeRoleByUsernameUseCase: GetEmployeeRoleByUsernameUseCase
 ) {
 
     @PostMapping("/add")
@@ -48,6 +47,13 @@ class EmployeeController(
     @PostMapping("/{id}/delete")
     fun delete(@PathVariable id: Long) {
         deleteEmployeeUseCase.runCatching { execute(id) }
+                .onFailure(::mapThrowable)
+                .getOrThrow()
+    }
+
+    @GetMapping("/users/{username}")
+    fun getEmployeeRoleByUsername(@PathVariable username: String): EmployeeRole {
+        return getEmployeeRoleByUsernameUseCase.runCatching { execute(username) }
                 .onFailure(::mapThrowable)
                 .getOrThrow()
     }

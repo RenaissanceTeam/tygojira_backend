@@ -24,7 +24,7 @@ open class SignUpUseCaseImpl(
     override fun execute(credentials: Credentials, role: SystemUserRole): User {
         when (role) {
             SystemUserRole.SUPERUSER -> throw NotAllowedException("can't create $role")
-            SystemUserRole.ADMIN -> roleChecker.requireOne(SystemUserRole.ADMIN)
+            SystemUserRole.ADMIN -> roleChecker.requireOne(SystemUserRole.SUPERUSER)
             SystemUserRole.USER -> roleChecker.startCheck()
                     .require(SystemUserRole.ADMIN)
                     .require(Role.LINEAR_LEAD)
