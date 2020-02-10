@@ -12,10 +12,9 @@ import ru.fors.employee.api.domain.usecase.DeleteEmployeeUseCase
 import ru.fors.employee.api.domain.usecase.GetFullEmployeesInfoUseCase
 import ru.fors.employee.api.domain.usecase.UpdateEmployeeUseCase
 import ru.fors.entity.employee.Employee
-import ru.fors.pagination.api.domain.entity.Direction
+import ru.fors.pagination.api.domain.dto.PageRequestDto
 import ru.fors.pagination.api.domain.entity.Page
-import ru.fors.pagination.api.domain.entity.PageRequest
-import ru.fors.pagination.api.domain.entity.Sort
+import ru.fors.pagination.api.domain.toPageRequest
 import ru.fors.util.whenNotAllowedMapToResponseStatusException
 
 @RestController
@@ -34,18 +33,9 @@ class EmployeeController(
                 .getOrThrow()
     }
 
-    @GetMapping("")
-    fun getFullEmployeeInfoPost(
-            @RequestParam page: Int,
-            @RequestParam size: Int,
-            @RequestParam direction: Direction,
-            @RequestParam fields: List<String>
-    ): Page<FullEmployeeInfoDto> {
-        return getFullEmployeesInfoUseCase.execute(PageRequest(
-                page,
-                size,
-                Sort(direction, fields)
-        ))
+    @PostMapping("")
+    fun getFullEmployeeInfo(@RequestBody pageRequestDto: PageRequestDto): Page<FullEmployeeInfoDto> {
+        return getFullEmployeesInfoUseCase.execute(pageRequestDto.toPageRequest())
     }
 
     @PostMapping("/{id}/update")
