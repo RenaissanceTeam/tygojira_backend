@@ -4,12 +4,13 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Before
 import org.junit.Test
+import ru.fors.auth.api.domain.RoleChecker
 import ru.fors.auth.api.domain.dto.Credentials
 import ru.fors.auth.api.domain.entity.NotAllowedException
 import ru.fors.auth.api.domain.entity.UserExistsException
 import ru.fors.auth.api.domain.usecase.SignUpUseCase
-import ru.fors.auth.data.SystemRoleRepo
-import ru.fors.auth.data.UserRepo
+import ru.fors.auth.data.repo.SystemRoleRepo
+import ru.fors.auth.data.repo.UserRepo
 import ru.fors.entity.auth.SystemUserRole
 import ru.fors.entity.auth.User
 import kotlin.test.assertFailsWith
@@ -19,15 +20,18 @@ class SignUpUseCaseImplTest {
     private lateinit var useCase: SignUpUseCase
     private lateinit var userRepo: UserRepo
     private lateinit var systemRoleRepo: SystemRoleRepo
+    private lateinit var roleChecker: RoleChecker
 
     @Before
     fun setUp() {
         userRepo = mock {}
         systemRoleRepo = mock {}
+        roleChecker = mock {}
 
         useCase = SignUpUseCaseImpl(
                 userRepo,
-                systemRoleRepo
+                systemRoleRepo,
+                roleChecker
         )
     }
 

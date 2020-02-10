@@ -10,6 +10,7 @@ data class Employee(
         val id: Long = 0,
         val name: String,
         val position: String,
+        val subdivision: String,
         @ElementCollection(targetClass = String::class, fetch = FetchType.LAZY)
         @Cascade(CascadeType.DELETE)
         val skills: List<String> = listOf(),

@@ -2,7 +2,7 @@ package ru.fors.auth.domain.usecase
 
 import org.springframework.stereotype.Component
 import ru.fors.auth.api.domain.usecase.GetSystemRoleByUsernameUseCase
-import ru.fors.auth.data.SystemRoleRepo
+import ru.fors.auth.data.repo.SystemRoleRepo
 import ru.fors.entity.auth.SystemRole
 
 @Component

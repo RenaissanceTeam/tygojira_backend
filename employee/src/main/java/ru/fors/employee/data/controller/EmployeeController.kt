@@ -3,7 +3,6 @@ package ru.fors.employee.data.controller
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
-import ru.fors.auth.api.domain.RoleChecker
 import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
 import ru.fors.employee.api.domain.dto.FullEmployeeInfoDto
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto
@@ -12,11 +11,12 @@ import ru.fors.employee.api.domain.usecase.AddEmployeeUseCase
 import ru.fors.employee.api.domain.usecase.DeleteEmployeeUseCase
 import ru.fors.employee.api.domain.usecase.GetFullEmployeesInfoUseCase
 import ru.fors.employee.api.domain.usecase.UpdateEmployeeUseCase
-import ru.fors.entity.auth.SystemUserRole
 import ru.fors.entity.employee.Employee
-import ru.fors.entity.employee.Role
-import ru.fors.util.requireAnyOrThrowSpringNotAllowed
-import ru.fors.util.requireOneOrThrowSpringNotAllowed
+import ru.fors.pagination.api.domain.entity.Direction
+import ru.fors.pagination.api.domain.entity.Page
+import ru.fors.pagination.api.domain.entity.PageRequest
+import ru.fors.pagination.api.domain.entity.Sort
+import ru.fors.util.whenNotAllowedMapToResponseStatusException
 
 @RestController
 @RequestMapping("/employees")
@@ -24,42 +24,48 @@ class EmployeeController(
         private val addEmployeeUseCase: AddEmployeeUseCase,
         private val getFullEmployeesInfoUseCase: GetFullEmployeesInfoUseCase,
         private val updateEmployeeUseCase: UpdateEmployeeUseCase,
-        private val deleteEmployeeUseCase: DeleteEmployeeUseCase,
-        private val roleChecker: RoleChecker
+        private val deleteEmployeeUseCase: DeleteEmployeeUseCase
 ) {
 
     @PostMapping("/add")
     fun add(@RequestBody employeeWithRoleDto: EmployeeWithRoleDto): Employee {
-        roleChecker.startCheck()
-                .require(SystemUserRole.ADMIN)
-                .require(Role.LINEAR_LEAD)
-                .requireAnyOrThrowSpringNotAllowed()
-
-        return addEmployeeUseCase.execute(employeeWithRoleDto)
+        return addEmployeeUseCase.runCatching { execute(employeeWithRoleDto) }
+                .onFailure(::mapThrowable)
+                .getOrThrow()
     }
 
     @GetMapping("")
-    fun getAll(): List<FullEmployeeInfoDto> {
-        return getFullEmployeesInfoUseCase.execute()
+    fun getFullEmployeeInfoPost(
+            @RequestParam page: Int,
+            @RequestParam size: Int,
+            @RequestParam direction: Direction,
+            @RequestParam fields: List<String>
+    ): Page<FullEmployeeInfoDto> {
+        return getFullEmployeesInfoUseCase.execute(PageRequest(
+                page,
+                size,
+                Sort(direction, fields)
+        ))
     }
 
     @PostMapping("/{id}/update")
     fun updateEmployee(@PathVariable id: Long, @RequestBody updateDto: UpdateEmployeeInfoDto): Employee {
-        roleChecker.requireOneOrThrowSpringNotAllowed(Role.LINEAR_LEAD)
-
-        return updateEmployeeUseCase.runCatching { execute(id, updateDto) }.onFailure(this::mapThrowable).getOrThrow()
-    }
-
-    private fun mapThrowable(it: Throwable) {
-        when (it) {
-            is EmployeeNotFoundException -> throw ResponseStatusException(HttpStatus.NOT_FOUND, it.message)
-        }
+        return updateEmployeeUseCase.runCatching { execute(id, updateDto) }
+                .onFailure(this::mapThrowable)
+                .getOrThrow()
     }
 
     @PostMapping("/{id}/delete")
     fun delete(@PathVariable id: Long) {
-        roleChecker.requireOneOrThrowSpringNotAllowed(Role.LINEAR_LEAD)
+        deleteEmployeeUseCase.runCatching { execute(id) }
+                .onFailure(::mapThrowable)
+                .getOrThrow()
+    }
 
-        deleteEmployeeUseCase.runCatching { execute(id) }.onFailure(this::mapThrowable).getOrThrow()
+    private fun mapThrowable(throwable: Throwable) {
+        when (val it = throwable.whenNotAllowedMapToResponseStatusException()) {
+            is EmployeeNotFoundException -> throw ResponseStatusException(HttpStatus.NOT_FOUND, it.message)
+            else -> throw it
+        }
     }
 }

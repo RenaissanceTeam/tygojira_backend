@@ -1,4 +1,4 @@
-package ru.fors.auth.data
+package ru.fors.auth.data.repo
 
 import org.springframework.data.jpa.repository.JpaRepository
 import ru.fors.entity.auth.User
