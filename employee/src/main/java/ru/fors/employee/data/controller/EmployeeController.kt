@@ -10,9 +10,8 @@ import ru.fors.employee.api.domain.entity.EmployeeNotFoundException
 import ru.fors.employee.api.domain.usecase.*
 import ru.fors.entity.employee.Employee
 import ru.fors.entity.employee.EmployeeRole
-import ru.fors.pagination.api.domain.dto.PageRequestDto
 import ru.fors.pagination.api.domain.entity.Page
-import ru.fors.pagination.api.domain.toPageRequest
+import ru.fors.pagination.api.domain.entity.PageRequest
 import ru.fors.util.whenNotAllowedMapToResponseStatusException
 
 @RestController
@@ -33,8 +32,8 @@ class EmployeeController(
     }
 
     @PostMapping("")
-    fun getFullEmployeeInfo(@RequestBody pageRequestDto: PageRequestDto): Page<FullEmployeeInfoDto> {
-        return getFullEmployeesInfoUseCase.execute(pageRequestDto.toPageRequest())
+    fun getFullEmployeeInfo(@RequestBody pageRequest: PageRequest): Page<FullEmployeeInfoDto> {
+        return getFullEmployeesInfoUseCase.execute(pageRequest)
     }
 
     @PostMapping("/{id}/update")
