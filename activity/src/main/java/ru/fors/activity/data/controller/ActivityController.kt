@@ -6,13 +6,17 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.fors.activity.api.domain.dto.ActivityDto
 import ru.fors.activity.api.domain.usecase.AddActivityUseCase
+import ru.fors.activity.api.domain.usecase.GetActivitiesUseCase
 import ru.fors.entity.activity.Activity
+import ru.fors.pagination.api.domain.entity.Page
+import ru.fors.pagination.api.domain.entity.PageRequest
 import ru.fors.util.whenNotAllowedMapToResponseStatusException
 
 @RestController
 @RequestMapping("/activities")
 class ActivityController(
-        private val addActivityUseCase: AddActivityUseCase
+        private val addActivityUseCase: AddActivityUseCase,
+        private val getActivitiesUseCase: GetActivitiesUseCase
 ) {
 
 
@@ -21,6 +25,11 @@ class ActivityController(
         return addActivityUseCase.runCatching { execute(activityDto) }
                 .onFailure(::mapThrowable)
                 .getOrThrow()
+    }
+
+    @PostMapping("")
+    fun getAll(@RequestBody pageRequest: PageRequest): Page<Activity> {
+        return getActivitiesUseCase.execute(pageRequest)
     }
 
     private fun mapThrowable(throwable: Throwable) {
