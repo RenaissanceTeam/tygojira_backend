@@ -9,7 +9,6 @@ import ru.fors.auth.api.domain.usecase.SignInUseCase
 import ru.fors.auth.api.domain.dto.Credentials
 import ru.fors.auth.data.AuthenticatorAdapter
 import ru.fors.auth.data.jwt.JwtTokenProvider
-import ru.fors.auth.domain.usecase.SignInUseCaseImpl
 import kotlin.test.assertFails
 
 class SignInUseCaseImplTest {

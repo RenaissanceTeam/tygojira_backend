@@ -18,7 +18,9 @@ class GetFullEmployeesInfoUseCaseImpl(
         return employeeRepo.findAll(pageRequest.toSpringPageRequest()).toPage().map {
             FullEmployeeInfoDto(
                     id = it.id,
-                    name = it.name,
+                    firstName = it.firstName,
+                    middleName = it.middleName,
+                    lastName = it.lastName,
                     position = it.position,
                     subdivision = it.subdivision,
                     skills = it.skills,

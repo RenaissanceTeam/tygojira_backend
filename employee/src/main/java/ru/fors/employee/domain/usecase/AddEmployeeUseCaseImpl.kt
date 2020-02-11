@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component
 import ru.fors.auth.api.domain.RoleChecker
 import ru.fors.auth.api.domain.usecase.SignUpUseCase
 import ru.fors.auth.api.domain.dto.Credentials
+import ru.fors.auth.api.domain.usecase.GetUserByUsernameUseCase
 import ru.fors.entity.auth.SystemUserRole
 import ru.fors.entity.auth.User
 import ru.fors.entity.employee.Employee
@@ -23,7 +24,8 @@ class AddEmployeeUseCaseImpl(
         private val roleRepo: EmployeeRoleRepo,
         private val roleChecker: RoleChecker,
         private val signUpUseCase: SignUpUseCase,
-        private val employeeUserRepo: EmployeeUserRepo
+        private val employeeUserRepo: EmployeeUserRepo,
+        private val getUserByUsernameUseCase: GetUserByUsernameUseCase
 ) : AddEmployeeUseCase {
     override fun execute(dto: EmployeeWithRoleDto): Employee {
         roleChecker.startCheck()
@@ -31,11 +33,13 @@ class AddEmployeeUseCaseImpl(
                 .require(Role.LINEAR_LEAD)
                 .requireAnySpecified()
 
-        val savedUser = signUpUser(dto.employee.name, dto.employee.name)
+        val user = getUserByUsernameUseCase.runCatching { execute(dto.employee.username) }
+                // fixme: password as username is not a good idea
+                .getOrElse { signUpUser(dto.employee.username, dto.employee.username) }
 
-        return saveEmployee(dto.employee).apply {
-            saveEmployeeRole(this, dto.roles)
-            saveUserToEmployeeConnection(this, savedUser)
+        return saveEmployee(dto.employee).also {
+            saveEmployeeRole(it, dto.roles)
+            saveUserToEmployeeConnection(it, user)
         }
     }
 
@@ -64,7 +68,9 @@ class AddEmployeeUseCaseImpl(
 
     private fun saveEmployee(employee: EmployeeDto): Employee {
         return employeeRepo.save(Employee(
-                name = employee.name,
+                firstName = employee.firstName,
+                middleName = employee.middleName,
+                lastName = employee.lastName,
                 position = employee.position,
                 subdivision = employee.subdivision
         ))
