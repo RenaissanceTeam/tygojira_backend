@@ -4,4 +4,6 @@ dependencies {
     implementation library.entity
     implementation library.auth_api
     implementation library.pagination_api
+
+    testImplementation groups.forTest
 }

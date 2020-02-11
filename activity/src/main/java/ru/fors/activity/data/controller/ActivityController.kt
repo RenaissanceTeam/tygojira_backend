@@ -1,29 +1,41 @@
 package ru.fors.activity.data.controller
 
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.*
 import ru.fors.activity.api.domain.dto.ActivityDto
+import ru.fors.activity.api.domain.entity.ActivityNotFoundException
 import ru.fors.activity.api.domain.usecase.AddActivityUseCase
 import ru.fors.activity.api.domain.usecase.GetActivitiesUseCase
+import ru.fors.activity.api.domain.usecase.GetActivityByIdUseCase
+import ru.fors.activity.api.domain.usecase.UpdateActivityUseCase
 import ru.fors.entity.activity.Activity
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
-import ru.fors.util.whenNotAllowedMapToResponseStatusException
+import ru.fors.util.ExceptionMapper
+import ru.fors.util.mapNotAllowed
+import ru.fors.util.withExceptionMapper
 
 @RestController
 @RequestMapping("/activities")
 class ActivityController(
         private val addActivityUseCase: AddActivityUseCase,
-        private val getActivitiesUseCase: GetActivitiesUseCase
+        private val getActivitiesUseCase: GetActivitiesUseCase,
+        private val updateActivityUseCase: UpdateActivityUseCase,
+        private val getActivityByIdUseCase: GetActivityByIdUseCase
 ) {
 
 
     @PostMapping("/add")
     fun add(@RequestBody activityDto: ActivityDto): Activity {
         return addActivityUseCase.runCatching { execute(activityDto) }
-                .onFailure(::mapThrowable)
+                .withExceptionMapper(::mapActivityControllerExceptions)
+                .getOrThrow()
+    }
+
+    @GetMapping("/{id}")
+    fun getOne(@PathVariable id: Long): Activity {
+        return getActivityByIdUseCase.runCatching { execute(id) }
+                .withExceptionMapper(::mapActivityControllerExceptions)
                 .getOrThrow()
     }
 
@@ -32,9 +44,15 @@ class ActivityController(
         return getActivitiesUseCase.execute(pageRequest)
     }
 
-    private fun mapThrowable(throwable: Throwable) {
-        when (val it = throwable.whenNotAllowedMapToResponseStatusException()) {
-            else -> throw it
-        }
+    @PostMapping("/{id}/update")
+    fun update(@PathVariable id: Long, @RequestBody activity: ActivityDto): Activity {
+        return updateActivityUseCase.runCatching { execute(id, activity) }
+                .withExceptionMapper(::mapActivityControllerExceptions)
+                .getOrThrow()
+    }
+
+    private fun mapActivityControllerExceptions(mapper: ExceptionMapper) {
+        mapper.notAllowed()
+        mapper.responseStatus({ it is ActivityNotFoundException }, HttpStatus.NOT_FOUND)
     }
 }
