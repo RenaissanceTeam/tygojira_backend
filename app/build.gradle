@@ -16,6 +16,9 @@ dependencies {
     implementation library.employee
     implementation library.employee_api
 
+    implementation library.activity
+    implementation library.activity_api
+
     implementation library.entity
 
 }

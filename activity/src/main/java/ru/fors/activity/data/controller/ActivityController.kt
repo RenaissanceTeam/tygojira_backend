@@ -11,7 +11,7 @@ import ru.fors.util.whenNotAllowedMapToResponseStatusException
 
 @RestController
 @RequestMapping("/activities")
-open class ActivityController(
+class ActivityController(
         private val addActivityUseCase: AddActivityUseCase
 ) {
 
