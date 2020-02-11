@@ -2,7 +2,7 @@ package ru.fors.auth.domain.usecase
 
 import org.springframework.stereotype.Component
 import ru.fors.auth.api.domain.usecase.DeleteUserUseCase
-import ru.fors.auth.data.UserRepo
+import ru.fors.auth.data.repo.UserRepo
 import ru.fors.entity.auth.User
 
 @Component

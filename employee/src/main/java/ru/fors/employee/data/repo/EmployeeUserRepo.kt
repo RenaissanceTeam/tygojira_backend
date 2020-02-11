@@ -6,4 +6,5 @@ import ru.fors.entity.employee.EmployeeUser
 
 interface EmployeeUserRepo : JpaRepository<EmployeeUser, Long> {
     fun findByEmployee(employee: Employee): EmployeeUser?
+    fun findByUserUsername(username: String): EmployeeUser?
 }

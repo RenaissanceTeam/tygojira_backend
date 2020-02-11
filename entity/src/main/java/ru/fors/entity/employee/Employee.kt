@@ -8,8 +8,11 @@ import javax.persistence.*
 data class Employee(
         @Id @GeneratedValue
         val id: Long = 0,
-        val name: String,
+        val firstName: String,
+        val middleName: String,
+        val lastName: String,
         val position: String,
+        val subdivision: String,
         @ElementCollection(targetClass = String::class, fetch = FetchType.LAZY)
         @Cascade(CascadeType.DELETE)
         val skills: List<String> = listOf(),

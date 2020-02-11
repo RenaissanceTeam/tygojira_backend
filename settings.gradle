@@ -6,5 +6,6 @@ include 'auth_api'
 include 'employee'
 include 'employee_api'
 include 'entity'
+include 'pagination_api'
 include 'util'
 
