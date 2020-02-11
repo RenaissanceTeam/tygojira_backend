@@ -9,5 +9,6 @@ include 'activity'
 include 'activity_api'
 include 'entity'
 include 'pagination_api'
+include 'swagger'
 include 'util'
 

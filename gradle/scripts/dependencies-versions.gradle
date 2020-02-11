@@ -4,4 +4,5 @@ ext {
     junit_version = "4.12"
     googleTruth_version = "1.0"
     spring_version = "2.2.3.RELEASE"
+    swagger_version = "2.9.2"
 }

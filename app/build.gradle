@@ -21,6 +21,7 @@ dependencies {
 
     implementation library.entity
 
+    implementation library.swagger
 }
 
 springBoot {
