@@ -4,10 +4,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import ru.fors.activity.api.domain.dto.ActivityDto
 import ru.fors.activity.api.domain.entity.ActivityNotFoundException
-import ru.fors.activity.api.domain.usecase.AddActivityUseCase
-import ru.fors.activity.api.domain.usecase.GetActivitiesUseCase
-import ru.fors.activity.api.domain.usecase.GetActivityByIdUseCase
-import ru.fors.activity.api.domain.usecase.UpdateActivityUseCase
+import ru.fors.activity.api.domain.usecase.*
 import ru.fors.entity.activity.Activity
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
@@ -21,7 +18,8 @@ class ActivityController(
         private val addActivityUseCase: AddActivityUseCase,
         private val getActivitiesUseCase: GetActivitiesUseCase,
         private val updateActivityUseCase: UpdateActivityUseCase,
-        private val getActivityByIdUseCase: GetActivityByIdUseCase
+        private val getActivityByIdUseCase: GetActivityByIdUseCase,
+        private val deleteActivityUseCase: DeleteActivityUseCase
 ) {
 
 
@@ -49,6 +47,12 @@ class ActivityController(
         return updateActivityUseCase.runCatching { execute(id, activity) }
                 .withExceptionMapper(::mapActivityControllerExceptions)
                 .getOrThrow()
+    }
+
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: Long) {
+        deleteActivityUseCase.runCatching { execute(id) }
+                .withExceptionMapper(::mapActivityControllerExceptions)
     }
 
     private fun mapActivityControllerExceptions(mapper: ExceptionMapper) {
