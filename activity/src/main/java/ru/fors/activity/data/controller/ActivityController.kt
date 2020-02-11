@@ -6,6 +6,7 @@ import ru.fors.activity.api.domain.dto.ActivityDto
 import ru.fors.activity.api.domain.entity.ActivityNotFoundException
 import ru.fors.activity.api.domain.usecase.AddActivityUseCase
 import ru.fors.activity.api.domain.usecase.GetActivitiesUseCase
+import ru.fors.activity.api.domain.usecase.GetActivityByIdUseCase
 import ru.fors.activity.api.domain.usecase.UpdateActivityUseCase
 import ru.fors.entity.activity.Activity
 import ru.fors.pagination.api.domain.entity.Page
@@ -19,13 +20,21 @@ import ru.fors.util.withExceptionMapper
 class ActivityController(
         private val addActivityUseCase: AddActivityUseCase,
         private val getActivitiesUseCase: GetActivitiesUseCase,
-        private val updateActivityUseCase: UpdateActivityUseCase
+        private val updateActivityUseCase: UpdateActivityUseCase,
+        private val getActivityByIdUseCase: GetActivityByIdUseCase
 ) {
 
 
     @PostMapping("/add")
     fun add(@RequestBody activityDto: ActivityDto): Activity {
         return addActivityUseCase.runCatching { execute(activityDto) }
+                .withExceptionMapper(::mapActivityControllerExceptions)
+                .getOrThrow()
+    }
+
+    @GetMapping("/{id}")
+    fun getOne(@PathVariable id: Long): Activity {
+        return getActivityByIdUseCase.runCatching { execute(id) }
                 .withExceptionMapper(::mapActivityControllerExceptions)
                 .getOrThrow()
     }
