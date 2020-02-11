@@ -40,8 +40,8 @@ open class WebSecurityConfig(
                 .and()
                     .addFilterBefore(tokenAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
                     .authorizeRequests()
-                    .antMatchers("/login", "/signup").permitAll()
-                    .anyRequest().authenticated()
+                    .antMatchers("/api/login", "/api/signup").permitAll()
+                    .antMatchers("/api/**").authenticated()
     }
 
     override fun configure(auth: AuthenticationManagerBuilder?) {
