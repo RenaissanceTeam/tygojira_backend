@@ -49,7 +49,7 @@ class ActivityController(
                 .getOrThrow()
     }
 
-    @PostMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long) {
         deleteActivityUseCase.runCatching { execute(id) }
                 .withExceptionMapper(::mapActivityControllerExceptions)
