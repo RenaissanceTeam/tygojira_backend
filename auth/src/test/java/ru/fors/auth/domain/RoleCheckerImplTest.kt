@@ -49,11 +49,11 @@ class RoleCheckerImplTest {
     @Test
     fun `require two roles that pass check should not throw`() {
         whenever(checkBusiness.execute(Role.LINEAR_LEAD)).then { true }
-        whenever(checkBusiness.execute(Role.USER)).then { true }
+        whenever(checkBusiness.execute(Role.EMPLOYEE)).then { true }
         assertDoesNotThrow {
             checker.startCheck()
                     .require(Role.LINEAR_LEAD)
-                    .require(Role.USER)
+                    .require(Role.EMPLOYEE)
                     .requireAllSpecified()
         }
     }
@@ -61,10 +61,10 @@ class RoleCheckerImplTest {
     @Test
     fun `require two roles and one doesn't pass check should throw`() {
         whenever(checkBusiness.execute(Role.LINEAR_LEAD)).then { false }
-        whenever(checkBusiness.execute(Role.USER)).then { true }
+        whenever(checkBusiness.execute(Role.EMPLOYEE)).then { true }
         assertFails {
             checker.startCheck()
-                    .require(Role.USER)
+                    .require(Role.EMPLOYEE)
                     .require(Role.LINEAR_LEAD)
                     .requireAllSpecified()
         }

@@ -1,0 +1,6 @@
+apply from: "$rootDir/gradle/scripts/spring-module.gradle"
+
+dependencies {
+    implementation library.swagger2
+    implementation library.swaggerUi
+}

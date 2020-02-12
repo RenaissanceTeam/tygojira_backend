@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import ru.fors.auth.api.domain.dto.Credentials
-import ru.fors.auth.api.domain.dto.SystemUserRoleResponse
+import ru.fors.auth.api.domain.dto.UserInfo
 import ru.fors.auth.api.domain.dto.TokenResponse
 import ru.fors.auth.api.domain.usecase.GetCallingUserSystemRoleUseCase
 import ru.fors.auth.api.domain.usecase.SignInUseCase
@@ -37,9 +37,10 @@ open class AuthController(
                 .onFailure(::mapThrowable)
     }
 
-    @GetMapping("/auth/role")
-    fun getSystemUserRole(): SystemUserRoleResponse {
-        return getCallingUserSystemRoleUseCase.runCatching { SystemUserRoleResponse(execute().role) }
+    @GetMapping("/auth/info")
+    fun getSystemUserRole(): UserInfo {
+        return getCallingUserSystemRoleUseCase.runCatching { execute() }
+                .map { UserInfo(it.user.username, it.role) }
                 .onFailure(::mapThrowable)
                 .getOrThrow()
     }

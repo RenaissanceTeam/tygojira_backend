@@ -7,6 +7,7 @@ import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
 import ru.fors.employee.api.domain.dto.FullEmployeeInfoDto
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto
 import ru.fors.employee.api.domain.entity.EmployeeNotFoundException
+import ru.fors.employee.api.domain.entity.NoBusinessRoleException
 import ru.fors.employee.api.domain.usecase.*
 import ru.fors.entity.employee.Employee
 import ru.fors.entity.employee.EmployeeRole
@@ -43,7 +44,7 @@ class EmployeeController(
                 .getOrThrow()
     }
 
-    @PostMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long) {
         deleteEmployeeUseCase.runCatching { execute(id) }
                 .onFailure(::mapThrowable)
@@ -60,6 +61,7 @@ class EmployeeController(
     private fun mapThrowable(throwable: Throwable) {
         when (val it = throwable.whenNotAllowedMapToResponseStatusException()) {
             is EmployeeNotFoundException -> throw ResponseStatusException(HttpStatus.NOT_FOUND, it.message)
+            is NoBusinessRoleException -> throw ResponseStatusException(HttpStatus.NOT_FOUND, it.message)
             else -> throw it
         }
     }

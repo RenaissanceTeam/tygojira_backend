@@ -7,6 +7,8 @@ ext {
             springWeb      : ("org.springframework.boot:spring-boot-starter-web:$spring_version"),
             springSecurity : ("org.springframework.boot:spring-boot-starter-security:$spring_version"),
             springData     : ("org.springframework.boot:spring-boot-starter-data-jpa:$spring_version"),
+            swagger2       : ("io.springfox:springfox-swagger2:$swagger_version"),
+            swaggerUi      : ("io.springfox:springfox-swagger-ui:$swagger_version"),
             jacksonKotlin  : ("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"),
             jjwt           : ("io.jsonwebtoken:jjwt:0.9.1"),
             mockitoCore    : ("org.mockito:mockito-core:$mockito_version"),
@@ -27,6 +29,7 @@ ext {
             activity_api   : project(":activity_api"),
             entity         : project(":entity"),
             pagination_api : project(":pagination_api"),
+            swagger        : project(":swagger"),
             util           : project(":util")
 
 
