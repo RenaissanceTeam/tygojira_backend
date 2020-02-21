@@ -19,6 +19,9 @@ dependencies {
     implementation library.activity
     implementation library.activity_api
 
+    implementation library.workload
+    implementation library.workload_api
+
     implementation library.entity
     implementation library.util
 

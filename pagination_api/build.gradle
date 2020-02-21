@@ -1,5 +1,1 @@
 apply from: "$rootDir/gradle/scripts/module.gradle"
-
-dependencies {
-    api library.entity
-}

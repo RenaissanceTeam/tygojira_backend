@@ -11,4 +11,6 @@ include 'entity'
 include 'pagination_api'
 include 'swagger'
 include 'util'
+include 'workload'
+include 'workload_api'
 
