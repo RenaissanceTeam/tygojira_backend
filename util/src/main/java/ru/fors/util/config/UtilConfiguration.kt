@@ -2,7 +2,7 @@ package ru.fors.util.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import ru.fors.util.StringDateMapper
+import ru.fors.util.mapper.StringDateMapper
 
 @Configuration
 open class UtilConfiguration {

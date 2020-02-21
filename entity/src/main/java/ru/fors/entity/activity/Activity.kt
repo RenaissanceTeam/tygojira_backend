@@ -1,5 +1,6 @@
 package ru.fors.entity.activity
 
+import java.util.*
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
@@ -9,6 +10,6 @@ data class Activity(
         @Id @GeneratedValue
         val id: Long = 0,
         val name: String,
-        val startDate: Long,
-        val endDate: Long
+        val startDate: Date,
+        val endDate: Date
 )

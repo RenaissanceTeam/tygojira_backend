@@ -1,4 +1,4 @@
-package ru.fors.util
+package ru.fors.util.extensions
 
 import ru.fors.pagination.api.domain.entity.Order
 import ru.fors.pagination.api.domain.entity.Page
@@ -16,7 +16,7 @@ fun PageRequest.toSpringPageRequest(): SpringPageRequest = SpringPageRequest.of(
 
 fun Order.toSpringDirection(): SpringDirection = when (this) {
     Order.ASCENDING -> SpringDirection.ASC
-    else            -> SpringDirection.DESC
+    else -> SpringDirection.DESC
 }
 
 fun <T> SpringPage<T>.toPage(): Page<T> = Page(
@@ -25,3 +25,12 @@ fun <T> SpringPage<T>.toPage(): Page<T> = Page(
         totalPages,
         number
 )
+
+fun <IN, OUT> Page<IN>.mapItems(mapper: (IN) -> OUT): Page<OUT> {
+    return Page(
+            items = items.map(mapper),
+            currentPage = currentPage,
+            totalItems = totalItems,
+            totalPages = totalPages
+    )
+}

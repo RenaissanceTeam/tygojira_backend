@@ -14,7 +14,7 @@ class SaveWorkloadRequestUseCaseImpl(
 ) : SaveWorkloadRequestUseCase {
 
     override fun execute(requestDto: WorkloadRequestDto): WorkloadRequest {
-        val request = workloadMapper.map(requestDto)
+        val request = workloadMapper.mapDto(requestDto)
         return repo.save(request)
     }
 }

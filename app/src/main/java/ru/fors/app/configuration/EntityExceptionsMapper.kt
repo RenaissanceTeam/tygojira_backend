@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus
 import ru.fors.activity.api.domain.entity.ActivityNotFoundException
 import ru.fors.employee.api.domain.entity.EmployeeNotFoundException
 import ru.fors.employee.api.domain.entity.NoBusinessRoleException
-import ru.fors.util.EntityExceptionMapper
+import ru.fors.util.mapper.EntityExceptionMapper
 
 @Configuration
 open class EntityExceptionsMapper {

@@ -1,4 +1,7 @@
-package ru.fors.util
+package ru.fors.util.extensions
+
+import ru.fors.util.mapper.EntityExceptionMapper
+import ru.fors.util.mapper.ExceptionMapper
 
 fun <T> Result<T>.withExceptionMapper(block: ExceptionMapper.() -> Unit): Result<T> {
 

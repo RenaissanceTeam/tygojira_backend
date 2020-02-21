@@ -4,6 +4,7 @@ import org.junit.Test
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ResponseStatusException
 import ru.fors.auth.api.domain.entity.NotAllowedException
+import ru.fors.util.extensions.withExceptionMapper
 import kotlin.test.assertFails
 import kotlin.test.assertTrue
 

@@ -6,8 +6,8 @@ import ru.fors.activity.data.repo.ActivityRepo
 import ru.fors.entity.activity.Activity
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
-import ru.fors.util.toPage
-import ru.fors.util.toSpringPageRequest
+import ru.fors.util.extensions.toPage
+import ru.fors.util.extensions.toSpringPageRequest
 
 @Component
 class GetActivitiesUseCaseImpl (

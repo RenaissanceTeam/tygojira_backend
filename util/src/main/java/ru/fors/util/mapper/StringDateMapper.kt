@@ -1,6 +1,7 @@
-package ru.fors.util
+package ru.fors.util.mapper
 
 import org.springframework.http.HttpStatus
+import ru.fors.util.extensions.withExceptionMapper
 import java.text.SimpleDateFormat
 import java.util.*
 
