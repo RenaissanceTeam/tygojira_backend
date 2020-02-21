@@ -3,6 +3,7 @@ package ru.fors.workload.request.domain.mapper
 import org.springframework.stereotype.Component
 import ru.fors.activity.api.domain.usecase.GetActivityByIdUseCase
 import ru.fors.employee.api.domain.usecase.GetEmployeeByIdUseCase
+import ru.fors.entity.NOT_DEFINED_ID
 import ru.fors.entity.workload.request.WorkloadRequest
 import ru.fors.util.mapper.DtoEntityMapper
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
@@ -28,7 +29,7 @@ class WorkloadRequestDtoToEntityMapper(
 
     override fun mapDto(dto: WorkloadRequestDto): WorkloadRequest {
         return WorkloadRequest(
-                id = dto.id ?: 0,
+                id = dto.id ?: NOT_DEFINED_ID,
                 activity = getActivityByIdUseCase.execute(dto.activityId),
                 positions = dto.positions.map(workloadRequestPositionMapper::mapDto),
                 status = dto.status,

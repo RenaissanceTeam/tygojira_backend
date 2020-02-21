@@ -2,6 +2,7 @@ package ru.fors.activity.domain.mapper
 
 import org.springframework.stereotype.Component
 import ru.fors.activity.api.domain.dto.ActivityDto
+import ru.fors.entity.NOT_DEFINED_ID
 import ru.fors.entity.activity.Activity
 import ru.fors.util.mapper.DtoEntityMapper
 import ru.fors.util.mapper.StringDateMapper
@@ -19,7 +20,7 @@ class ActivityDtoEntityMapper(
     )
 
     override fun mapDto(dto: ActivityDto) = Activity(
-            id = dto.id ?: 0,
+            id = dto.id ?: NOT_DEFINED_ID,
             name = dto.name,
             startDate = stringDateMapper.map(dto.startDate),
             endDate = stringDateMapper.map(dto.endDate)

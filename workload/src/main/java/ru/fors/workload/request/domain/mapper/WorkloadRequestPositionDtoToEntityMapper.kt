@@ -1,6 +1,7 @@
 package ru.fors.workload.request.domain.mapper
 
 import org.springframework.stereotype.Component
+import ru.fors.entity.NOT_DEFINED_ID
 import ru.fors.entity.workload.request.WorkloadRequestPosition
 import ru.fors.util.mapper.DtoEntityMapper
 import ru.fors.util.mapper.StringDateMapper
@@ -23,7 +24,7 @@ class WorkloadRequestPositionDtoToEntityMapper(
 
     override fun mapDto(dto: WorkloadRequestPositionDto): WorkloadRequestPosition {
         return WorkloadRequestPosition(
-                id = dto.id ?: 0,
+                id = dto.id ?: NOT_DEFINED_ID,
                 skills = dto.skills,
                 position = dto.position,
                 startDate = stringDateMapper.map(dto.startDate),
