@@ -5,12 +5,13 @@ import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
 import ru.fors.employee.api.domain.dto.FullEmployeeInfoDto
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto
 import ru.fors.employee.api.domain.usecase.*
+import ru.fors.employee.data.dto.SeparateActivityAvailabilityDto
+import ru.fors.employee.data.mapper.AvailabilityToDtoMapper
 import ru.fors.entity.employee.Employee
 import ru.fors.entity.employee.EmployeeRole
-import ru.fors.entity.employee.SeparateActivityAvailability
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
-import ru.fors.util.StringToDateMapper
+import ru.fors.util.StringDateMapper
 import ru.fors.util.withEntityExceptionsMapper
 
 @RestController
@@ -22,7 +23,9 @@ class EmployeeController(
         private val deleteEmployeeUseCase: DeleteEmployeeUseCase,
         private val getEmployeeRoleByUsernameUseCase: GetEmployeeRoleByUsernameUseCase,
         private val setAvailableForSeparateActivitiesUseCase: SetAvailableForSeparateActivitiesUseCase,
-        private val stringToDateMapper: StringToDateMapper
+        private val getAvailabilityForSeparateActivitiesUseCase: GetAvailabilityForSeparateActivitiesUseCase,
+        private val availabilityToDtoMapper: AvailabilityToDtoMapper,
+        private val stringDateMapper: StringDateMapper
 ) {
 
     @PostMapping("/add")
@@ -60,10 +63,20 @@ class EmployeeController(
 
     @PostMapping("/{id}/availability-for-separate")
     fun setSeparateActivityAvailability(@PathVariable id: Long,
-                                        @RequestBody available: List<String>): SeparateActivityAvailability {
+                                        @RequestBody available: List<String>): SeparateActivityAvailabilityDto {
         return setAvailableForSeparateActivitiesUseCase
-                .runCatching { execute(id, available.map(stringToDateMapper::map)) }
+                .runCatching { execute(id, available.map(stringDateMapper::map)) }
                 .withEntityExceptionsMapper()
                 .getOrThrow()
+                .let(availabilityToDtoMapper::map)
+    }
+
+    @GetMapping("/{id}/availability-for-separate")
+    fun getSeparateActivityAvailability(@PathVariable id: Long): SeparateActivityAvailabilityDto {
+        return getAvailabilityForSeparateActivitiesUseCase
+                .runCatching { execute(id) }
+                .withEntityExceptionsMapper()
+                .getOrThrow()
+                .let(availabilityToDtoMapper::map)
     }
 }

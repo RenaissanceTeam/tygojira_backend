@@ -13,5 +13,5 @@ data class SeparateActivityAvailability(
         @OnDelete(action = OnDeleteAction.CASCADE)
         val employee: Employee,
         @ElementCollection(targetClass = Date::class, fetch = FetchType.EAGER)
-        val dates: List<Date>
+        val dates: List<Date> = listOf()
 )
