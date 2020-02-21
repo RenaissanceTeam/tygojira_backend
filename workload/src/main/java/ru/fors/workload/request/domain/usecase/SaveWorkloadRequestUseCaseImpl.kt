@@ -2,7 +2,6 @@ package ru.fors.workload.request.domain.usecase
 
 import org.springframework.stereotype.Component
 import ru.fors.auth.api.domain.RoleChecker
-import ru.fors.auth.api.domain.requireOne
 import ru.fors.employee.api.domain.usecase.GetCallingEmployeeUseCase
 import ru.fors.entity.NOT_DEFINED_ID
 import ru.fors.entity.employee.Role
@@ -21,7 +20,10 @@ class SaveWorkloadRequestUseCaseImpl(
 ) : SaveWorkloadRequestUseCase {
 
     override fun execute(requestDto: WorkloadRequestDto): WorkloadRequest {
-        roleChecker.requireOne(Role.PROJECT_LEAD)
+        roleChecker.startCheck()
+                .require(Role.PROJECT_LEAD)
+                .require(Role.LINEAR_LEAD)
+                .requireAnySpecified()
 
         val request = workloadMapper.mapDto(requestDto)
                 .setInitiatorIdForNewRequest()
