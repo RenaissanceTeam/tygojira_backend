@@ -12,7 +12,6 @@ import ru.fors.entity.employee.EmployeeRole
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
 import ru.fors.util.mapper.StringDateMapper
-import ru.fors.util.extensions.withEntityExceptionsMapper
 
 @RestController
 @RequestMapping("/employees")
@@ -30,9 +29,8 @@ class EmployeeController(
 
     @PostMapping("/add")
     fun add(@RequestBody employeeWithRoleDto: EmployeeWithRoleDto): Employee {
-        return addEmployeeUseCase.runCatching { execute(employeeWithRoleDto) }
-                .withEntityExceptionsMapper()
-                .getOrThrow()
+        return addEmployeeUseCase.execute(employeeWithRoleDto)
+
     }
 
     @PostMapping("")
@@ -42,41 +40,32 @@ class EmployeeController(
 
     @PostMapping("/{id}/update")
     fun updateEmployee(@PathVariable id: Long, @RequestBody updateDto: UpdateEmployeeInfoDto): Employee {
-        return updateEmployeeUseCase.runCatching { execute(id, updateDto) }
-                .withEntityExceptionsMapper()
-                .getOrThrow()
+        return updateEmployeeUseCase.execute(id, updateDto)
     }
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long) {
         deleteEmployeeUseCase.runCatching { execute(id) }
-                .withEntityExceptionsMapper()
-                .getOrThrow()
+
     }
 
     @GetMapping("/users/{username}")
     fun getEmployeeRoleByUsername(@PathVariable username: String): EmployeeRole {
-        return getEmployeeRoleByUsernameUseCase.runCatching { execute(username) }
-                .withEntityExceptionsMapper()
-                .getOrThrow()
+        return getEmployeeRoleByUsernameUseCase.execute(username)
+
     }
 
     @PostMapping("/{id}/availability-for-separate")
     fun setSeparateActivityAvailability(@PathVariable id: Long,
                                         @RequestBody available: List<String>): SeparateActivityAvailabilityDto {
         return setAvailableForSeparateActivitiesUseCase
-                .runCatching { execute(id, available.map(stringDateMapper::map)) }
-                .withEntityExceptionsMapper()
-                .getOrThrow()
+                .execute(id, available.map(stringDateMapper::map))
                 .let(availabilityToDtoMapper::map)
     }
 
     @GetMapping("/{id}/availability-for-separate")
     fun getSeparateActivityAvailability(@PathVariable id: Long): SeparateActivityAvailabilityDto {
-        return getAvailabilityForSeparateActivitiesUseCase
-                .runCatching { execute(id) }
-                .withEntityExceptionsMapper()
-                .getOrThrow()
+        return getAvailabilityForSeparateActivitiesUseCase.execute(id)
                 .let(availabilityToDtoMapper::map)
     }
 }

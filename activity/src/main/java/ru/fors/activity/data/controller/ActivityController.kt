@@ -8,7 +8,6 @@ import ru.fors.entity.activity.Activity
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
 import ru.fors.util.extensions.mapItems
-import ru.fors.util.extensions.withEntityExceptionsMapper
 
 @RestController
 @RequestMapping("/activities")
@@ -24,38 +23,29 @@ class ActivityController(
 
     @PostMapping("/add")
     fun add(@RequestBody activityDto: ActivityDto): Activity {
-        return addActivityUseCase.runCatching { execute(activityDto) }
-                .withEntityExceptionsMapper()
-                .getOrThrow()
+        return addActivityUseCase.execute(activityDto)
     }
 
     @GetMapping("/{id}")
     fun getOne(@PathVariable id: Long): ActivityDto {
-        return getActivityByIdUseCase.runCatching { execute(id) }
-                .withEntityExceptionsMapper()
-                .getOrThrow()
+        return getActivityByIdUseCase.execute(id)
                 .let(activityDtoEntityMapper::mapEntity)
     }
 
     @PostMapping("")
     fun getAll(@RequestBody pageRequest: PageRequest): Page<ActivityDto> {
-        return getActivitiesUseCase.runCatching { execute(pageRequest) }
-                .withEntityExceptionsMapper()
-                .getOrThrow()
+        return getActivitiesUseCase.execute(pageRequest)
                 .mapItems(activityDtoEntityMapper::mapEntity)
     }
 
     @PostMapping("/{id}/update")
     fun update(@PathVariable id: Long, @RequestBody activity: ActivityDto): ActivityDto {
-        return updateActivityUseCase.runCatching { execute(id, activity) }
-                .withEntityExceptionsMapper()
-                .getOrThrow()
+        return updateActivityUseCase.execute(id, activity)
                 .let(activityDtoEntityMapper::mapEntity)
     }
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long) {
-        deleteActivityUseCase.runCatching { execute(id) }
-                .withEntityExceptionsMapper()
+        deleteActivityUseCase.execute(id)
     }
 }
