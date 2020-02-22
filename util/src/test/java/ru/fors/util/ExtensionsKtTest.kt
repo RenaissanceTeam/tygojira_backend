@@ -7,8 +7,8 @@ import ru.fors.auth.api.domain.entity.NotAllowedException
 import kotlin.test.assertFails
 import kotlin.test.assertTrue
 
-class A: Throwable()
-class B: Throwable()
+class A : Throwable()
+class B : Throwable()
 
 class ExtensionsKtTest {
 
@@ -16,8 +16,10 @@ class ExtensionsKtTest {
     fun `when throwable is not allowed then should throw response status not allowed`() {
         val notAllowed = { throw NotAllowedException("") }
         try {
-            runCatching(notAllowed).mapNotAllowed()
-            assertFails {  }
+            runCatching(notAllowed).withExceptionMapper {
+                mapNotAllowed()
+            }
+            assertFails { }
         } catch (thr: Throwable) {
             assertTrue { thr is ResponseStatusException && thr.status == HttpStatus.METHOD_NOT_ALLOWED }
         }
@@ -31,7 +33,7 @@ class ExtensionsKtTest {
             runCatching(cause).withExceptionMapper {
                 mapper { if (it is IllegalArgumentException) throw A() }
             }
-            assertFails {  }
+            assertFails { }
         } catch (thr: Throwable) {
             assertTrue { thr is IllegalStateException }
         }
@@ -45,7 +47,7 @@ class ExtensionsKtTest {
             runCatching(cause).withExceptionMapper {
                 mapper { if (it is IllegalStateException) throw A() }
             }
-            assertFails {  }
+            assertFails { }
         } catch (thr: Throwable) {
             assertTrue { thr is A }
         }
@@ -56,9 +58,9 @@ class ExtensionsKtTest {
         val cause = { throw NotAllowedException("") }
         try {
             runCatching(cause).withExceptionMapper {
-                notAllowed()
+                mapNotAllowed()
             }
-            assertFails {  }
+            assertFails { }
         } catch (thr: Throwable) {
             assertTrue { thr is ResponseStatusException && thr.status == HttpStatus.METHOD_NOT_ALLOWED }
         }
@@ -69,10 +71,10 @@ class ExtensionsKtTest {
         val cause = { throw A() }
         try {
             runCatching(cause).withExceptionMapper {
-                notAllowed()
+                mapNotAllowed()
                 responseStatus({ it is A }, HttpStatus.NOT_FOUND)
             }
-            assertFails {  }
+            assertFails { }
         } catch (thr: Throwable) {
             assertTrue { thr is ResponseStatusException && thr.status == HttpStatus.NOT_FOUND }
         }
