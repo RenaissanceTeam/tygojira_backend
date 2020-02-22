@@ -1,16 +1,12 @@
 package ru.fors.util.mapper
 
-import org.springframework.http.HttpStatus
-import ru.fors.util.extensions.withExceptionMapper
 import java.text.SimpleDateFormat
 import java.util.*
 
 class StringDateMapper {
     fun map(string: String): Date {
         return dateFormatter.runCatching { parse(string) }
-                .withExceptionMapper {
-                    responseStatus({ true }, HttpStatus.BAD_REQUEST, "Date format should be: $dateFormat")
-                }
+                .onFailure { throw  BadDateFormat() }
                 .getOrThrow()
     }
 
