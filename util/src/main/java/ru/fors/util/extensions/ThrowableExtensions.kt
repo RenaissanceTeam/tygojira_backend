@@ -3,4 +3,4 @@ package ru.fors.util.extensions
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
-fun Throwable.toResponseEntityStatus(status: HttpStatus): ResponseEntity<String> = ResponseEntity(message.orEmpty(), status)
+fun Throwable.toResponseEntityStatus(status: HttpStatus, message: String? = null) = ResponseEntity(message ?: this.message.orEmpty(), status)

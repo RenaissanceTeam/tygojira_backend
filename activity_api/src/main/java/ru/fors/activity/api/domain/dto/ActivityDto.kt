@@ -1,8 +1,10 @@
 package ru.fors.activity.api.domain.dto
 
+import java.time.LocalDate
+
 data class ActivityDto(
         val id: Long? = null,
         val name: String,
-        val startDate: String,
-        val endDate: String
+        val startDate: LocalDate,
+        val endDate: LocalDate
 )

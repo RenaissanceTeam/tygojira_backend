@@ -2,8 +2,6 @@ package ru.fors.employee.data.dto
 
 import java.time.LocalDate
 
-data class SeparateActivityAvailabilityDto(
-        val id: Long,
-        val employeeId: Long,
+data class AvailableDatesDto(
         val dates: List<LocalDate>
 )

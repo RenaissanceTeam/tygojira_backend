@@ -3,11 +3,9 @@ package ru.fors.activity.data.controller
 import org.springframework.web.bind.annotation.*
 import ru.fors.activity.api.domain.dto.ActivityDto
 import ru.fors.activity.api.domain.usecase.*
-import ru.fors.activity.domain.mapper.ActivityDtoEntityMapper
 import ru.fors.entity.activity.Activity
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
-import ru.fors.util.extensions.mapItems
 
 @RestController
 @RequestMapping("/activities")
@@ -16,8 +14,7 @@ class ActivityController(
         private val getActivitiesUseCase: GetActivitiesUseCase,
         private val updateActivityUseCase: UpdateActivityUseCase,
         private val getActivityByIdUseCase: GetActivityByIdUseCase,
-        private val deleteActivityUseCase: DeleteActivityUseCase,
-        private val activityDtoEntityMapper: ActivityDtoEntityMapper
+        private val deleteActivityUseCase: DeleteActivityUseCase
 ) {
 
 
@@ -27,21 +24,18 @@ class ActivityController(
     }
 
     @GetMapping("/{id}")
-    fun getOne(@PathVariable id: Long): ActivityDto {
+    fun getOne(@PathVariable id: Long): Activity {
         return getActivityByIdUseCase.execute(id)
-                .let(activityDtoEntityMapper::mapEntity)
     }
 
     @PostMapping("")
-    fun getAll(@RequestBody pageRequest: PageRequest): Page<ActivityDto> {
+    fun getAll(@RequestBody pageRequest: PageRequest): Page<Activity> {
         return getActivitiesUseCase.execute(pageRequest)
-                .mapItems(activityDtoEntityMapper::mapEntity)
     }
 
     @PostMapping("/{id}/update")
-    fun update(@PathVariable id: Long, @RequestBody activity: ActivityDto): ActivityDto {
+    fun update(@PathVariable id: Long, @RequestBody activity: ActivityDto): Activity {
         return updateActivityUseCase.execute(id, activity)
-                .let(activityDtoEntityMapper::mapEntity)
     }
 
     @DeleteMapping("/{id}")
