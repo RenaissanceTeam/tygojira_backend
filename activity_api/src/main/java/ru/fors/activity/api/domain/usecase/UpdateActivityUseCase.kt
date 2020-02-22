@@ -1,8 +1,7 @@
 package ru.fors.activity.api.domain.usecase
 
-import ru.fors.activity.api.domain.dto.ActivityDto
 import ru.fors.entity.activity.Activity
 
 interface UpdateActivityUseCase {
-    fun execute(id: Long, dto: ActivityDto): Activity
+    fun execute(id: Long, activity: Activity): Activity
 }

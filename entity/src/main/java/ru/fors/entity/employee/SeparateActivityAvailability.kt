@@ -3,6 +3,7 @@ package ru.fors.entity.employee
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import ru.fors.entity.NOT_DEFINED_ID
+import java.time.LocalDate
 import java.util.*
 import javax.persistence.*
 
@@ -13,6 +14,6 @@ data class SeparateActivityAvailability(
         @OneToOne
         @OnDelete(action = OnDeleteAction.CASCADE)
         val employee: Employee,
-        @ElementCollection(targetClass = Date::class, fetch = FetchType.EAGER)
-        val dates: List<Date> = listOf()
+        @ElementCollection(targetClass = LocalDate::class, fetch = FetchType.EAGER)
+        val dates: List<LocalDate> = listOf()
 )

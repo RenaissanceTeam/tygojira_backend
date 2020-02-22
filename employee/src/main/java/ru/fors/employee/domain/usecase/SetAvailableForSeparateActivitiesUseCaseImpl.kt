@@ -8,7 +8,7 @@ import ru.fors.employee.api.domain.usecase.SetAvailableForSeparateActivitiesUseC
 import ru.fors.employee.data.repo.SeparateActivityAvailabilityRepo
 import ru.fors.entity.employee.Role
 import ru.fors.entity.employee.SeparateActivityAvailability
-import java.util.*
+import java.time.LocalDate
 
 @Component
 class SetAvailableForSeparateActivitiesUseCaseImpl(
@@ -17,7 +17,7 @@ class SetAvailableForSeparateActivitiesUseCaseImpl(
         private val roleChecker: RoleChecker
 ) : SetAvailableForSeparateActivitiesUseCase {
 
-    override fun execute(id: Long, available: List<Date>): SeparateActivityAvailability {
+    override fun execute(id: Long, available: List<LocalDate>): SeparateActivityAvailability {
         roleChecker.requireOne(Role.PROJECT_LEAD)
 
         val availability = repo.findByEmployeeId(id) ?: createAvailability(id)
