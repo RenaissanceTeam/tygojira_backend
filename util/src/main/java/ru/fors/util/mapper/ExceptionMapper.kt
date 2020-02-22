@@ -1,4 +1,4 @@
-package ru.fors.util
+package ru.fors.util.mapper
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ResponseStatusException

@@ -3,7 +3,7 @@ package ru.fors.employee.data.mapper
 import org.springframework.stereotype.Component
 import ru.fors.employee.data.dto.SeparateActivityAvailabilityDto
 import ru.fors.entity.employee.SeparateActivityAvailability
-import ru.fors.util.StringDateMapper
+import ru.fors.util.mapper.StringDateMapper
 
 @Component
 class AvailabilityToDtoMapper(

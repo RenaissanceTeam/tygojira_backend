@@ -11,8 +11,8 @@ import ru.fors.entity.employee.Employee
 import ru.fors.entity.employee.EmployeeRole
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
-import ru.fors.util.StringDateMapper
-import ru.fors.util.withEntityExceptionsMapper
+import ru.fors.util.mapper.StringDateMapper
+import ru.fors.util.extensions.withEntityExceptionsMapper
 
 @RestController
 @RequestMapping("/employees")

@@ -3,7 +3,7 @@ package ru.fors.auth.data.controller
 import org.springframework.web.bind.annotation.*
 import ru.fors.auth.api.domain.dto.PasswordDto
 import ru.fors.auth.api.domain.usecase.ChangePasswordUseCase
-import ru.fors.util.withEntityExceptionsMapper
+import ru.fors.util.extensions.withEntityExceptionsMapper
 
 @RestController
 @RequestMapping("/users")

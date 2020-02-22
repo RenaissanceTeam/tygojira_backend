@@ -27,6 +27,8 @@ ext {
             employee_api   : project(":employee_api"),
             activity       : project(":activity"),
             activity_api   : project(":activity_api"),
+            workload       : project(":workload"),
+            workload_api   : project(":workload_api"),
             entity         : project(":entity"),
             pagination_api : project(":pagination_api"),
             swagger        : project(":swagger"),

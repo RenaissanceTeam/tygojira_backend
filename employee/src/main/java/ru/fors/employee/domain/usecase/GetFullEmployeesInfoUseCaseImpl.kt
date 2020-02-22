@@ -7,8 +7,8 @@ import ru.fors.employee.data.repo.EmployeeRepo
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
 import ru.fors.pagination.api.domain.map
-import ru.fors.util.toPage
-import ru.fors.util.toSpringPageRequest
+import ru.fors.util.extensions.toPage
+import ru.fors.util.extensions.toSpringPageRequest
 
 @Component
 class GetFullEmployeesInfoUseCaseImpl(

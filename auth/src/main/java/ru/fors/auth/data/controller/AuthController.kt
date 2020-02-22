@@ -11,7 +11,7 @@ import ru.fors.auth.api.domain.usecase.GetCallingUserSystemRoleUseCase
 import ru.fors.auth.api.domain.usecase.SignInUseCase
 import ru.fors.auth.api.domain.usecase.SignUpUseCase
 import ru.fors.entity.auth.SystemUserRole
-import ru.fors.util.withEntityExceptionsMapper
+import ru.fors.util.extensions.withEntityExceptionsMapper
 
 @RestController
 open class AuthController(
