@@ -1,4 +1,5 @@
-# Командный проект:
+# Командный проект
+
 ### Доска с задачами
 https://dev.azure.com/noskudnyakov/Plan/_workitems/
 
@@ -9,9 +10,26 @@ https://dev.azure.com/noskudnyakov/Plan/_workitems/
 4. https://docs.google.com/document/d/17jtzjloJYIXmWirJfEv-ZI7CArcolbsqaTTiKNd-ngk/edit#heading=h.gjdgxs
 5. https://docs.google.com/document/d/1FxR9MnMLCnSr7ih3CvFnSTsf6CQGQzrfSEwMymKnhVg/edit
 
+### Другие проекты:
+* https://github.com/RenaissanceTeam/tygojira_devops
+* https://github.com/RenaissanceTeam/tygojira_web
+* https://github.com/RenaissanceTeam/tygojira_android
+* https://github.com/RenaissanceTeam/tygojira_ios
+
 ### Class Diagram
 https://drive.google.com/file/d/1A964BgZrez_xcUEkdmC99qdbpcu62NMp/view
 
 ### Требования
 https://vk.com/doc23912373_522899490?hash=c9fe85345ec8de19fa&dl=82681865eb10095d77
 
+### Backend
+http://46.242.38.14:7777/api/
+
+### Swagger
+http://46.242.38.14:7777/swagger-ui.html
+
+### Frontend
+http://46.242.38.14:3333
+
+### Jenkins
+http://46.242.38.14:8080/job/tygojira/
