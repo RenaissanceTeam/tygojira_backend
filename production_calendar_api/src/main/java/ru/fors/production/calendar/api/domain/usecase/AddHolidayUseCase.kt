@@ -1,6 +1,6 @@
 package ru.fors.production.calendar.api.domain.usecase
 
-import ru.fors.production.calendar.api.domain.entity.Holiday
+import ru.fors.entity.holiday.Holiday
 
 interface AddHolidayUseCase {
     fun execute(holiday: Holiday)
