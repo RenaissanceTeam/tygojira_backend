@@ -7,6 +7,5 @@ data class FullEmployeeInfoDto(
         val lastName: String,
         val position: String,
         val subdivision: String,
-        val skills: List<String>,
-        val workRoles: List<String>
+        val skills: List<String>
 )

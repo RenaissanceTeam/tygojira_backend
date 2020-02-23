@@ -23,8 +23,7 @@ class GetFullEmployeesInfoUseCaseImpl(
                     lastName = it.lastName,
                     position = it.position,
                     subdivision = it.subdivision,
-                    skills = it.skills,
-                    workRoles = it.workRoles
+                    skills = it.skills
             )
         }
     }

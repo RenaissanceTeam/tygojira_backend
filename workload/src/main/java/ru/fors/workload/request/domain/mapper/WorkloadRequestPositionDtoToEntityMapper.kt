@@ -15,7 +15,8 @@ class WorkloadRequestPositionDtoToEntityMapper : DtoEntityMapper<WorkloadRequest
                 startDate = entity.startDate,
                 position = entity.position,
                 skills = entity.skills,
-                endDate = entity.endDate
+                endDate = entity.endDate,
+                employeeId = entity.employeeId
         )
     }
 
@@ -25,7 +26,8 @@ class WorkloadRequestPositionDtoToEntityMapper : DtoEntityMapper<WorkloadRequest
                 skills = dto.skills,
                 position = dto.position,
                 startDate = dto.startDate,
-                endDate = dto.endDate
+                endDate = dto.endDate,
+                employeeId = dto.employeeId
         )
     }
 }

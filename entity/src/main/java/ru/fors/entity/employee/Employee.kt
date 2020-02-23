@@ -16,8 +16,5 @@ data class Employee(
         val subdivision: String,
         @ElementCollection(targetClass = String::class, fetch = FetchType.LAZY)
         @Cascade(CascadeType.DELETE)
-        val skills: List<String> = listOf(),
-        @ElementCollection(targetClass = String::class, fetch = FetchType.LAZY)
-        @Cascade(CascadeType.DELETE)
-        val workRoles: List<String> = listOf()
+        val skills: List<String> = listOf()
 )

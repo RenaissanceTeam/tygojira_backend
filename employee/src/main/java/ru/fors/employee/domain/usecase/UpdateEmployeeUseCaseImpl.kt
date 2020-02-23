@@ -24,7 +24,7 @@ class UpdateEmployeeUseCaseImpl(
         return employeeRepo.save(
                 employee.copy(
                         skills = updateInfo.skills ?: employee.skills,
-                        workRoles = updateInfo.workRoles ?: employee.workRoles
+                        position = updateInfo.position ?: employee.position
                 )
         )
     }

@@ -7,5 +7,6 @@ data class WorkloadRequestPositionDto(
         val position: String,
         val skills: List<String>,
         val startDate: LocalDate,
-        val endDate: LocalDate
+        val endDate: LocalDate,
+        val employeeId: Long? = null
 )
