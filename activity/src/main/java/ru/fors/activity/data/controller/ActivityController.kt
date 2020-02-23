@@ -34,7 +34,7 @@ class ActivityController(
     }
 
     @PostMapping("/{id}/update")
-    fun update(@PathVariable id: Long, @RequestBody activity: Activity): Activity {
+    fun update(@PathVariable id: Long, @RequestBody activity: ActivityDto): Activity {
         return updateActivityUseCase.execute(id, activity)
     }
 
