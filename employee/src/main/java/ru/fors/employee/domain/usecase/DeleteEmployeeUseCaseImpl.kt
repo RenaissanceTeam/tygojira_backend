@@ -3,7 +3,7 @@ package ru.fors.employee.domain.usecase
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import ru.fors.auth.api.domain.RoleChecker
-import ru.fors.auth.api.domain.requireOne
+import ru.fors.util.extensions.requireOne
 import ru.fors.auth.api.domain.usecase.DeleteUserUseCase
 import ru.fors.employee.api.domain.entity.EmployeeNotFoundException
 import ru.fors.employee.api.domain.usecase.DeleteEmployeeUseCase

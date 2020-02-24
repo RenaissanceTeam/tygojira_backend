@@ -1,5 +1,6 @@
-package ru.fors.auth.api.domain
+package ru.fors.util.extensions
 
+import ru.fors.auth.api.domain.RoleChecker
 import ru.fors.entity.auth.SystemUserRole
 import ru.fors.entity.employee.Role
 
