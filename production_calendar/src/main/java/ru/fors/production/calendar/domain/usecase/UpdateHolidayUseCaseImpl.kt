@@ -15,11 +15,11 @@ class UpdateHolidayUseCaseImpl(
         private val holidaysRepository: HolidaysRepository
 ) : UpdateHolidayUseCase {
 
-    override fun execute(holiday: Holiday) {
+    override fun execute(holiday: Holiday): Holiday {
         roleChecker.requireOne(Role.PROJECT_OFFICE)
 
         if (holidaysRepository.findById(holiday.date).isEmpty) throw HolidayNotFoundException(holiday.date)
 
-        holidaysRepository.save(holiday)
+        return holidaysRepository.save(holiday)
     }
 }

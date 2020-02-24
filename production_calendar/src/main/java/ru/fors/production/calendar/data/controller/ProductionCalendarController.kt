@@ -32,7 +32,7 @@ class ProductionCalendarController(
     }
 
     @PatchMapping
-    fun update(@RequestBody holiday: Holiday) {
-        updateHolidayUseCase.execute(holiday)
+    fun update(@RequestBody holiday: Holiday): Holiday {
+        return updateHolidayUseCase.execute(holiday)
     }
 }
