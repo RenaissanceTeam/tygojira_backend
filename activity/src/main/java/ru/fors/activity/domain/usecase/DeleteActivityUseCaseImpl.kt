@@ -6,7 +6,7 @@ import ru.fors.activity.api.domain.entity.ActivityNotFoundException
 import ru.fors.activity.api.domain.usecase.DeleteActivityUseCase
 import ru.fors.activity.data.repo.ActivityRepo
 import ru.fors.auth.api.domain.RoleChecker
-import ru.fors.auth.api.domain.requireOne
+import ru.fors.util.extensions.requireOne
 import ru.fors.entity.employee.Role
 
 @Component

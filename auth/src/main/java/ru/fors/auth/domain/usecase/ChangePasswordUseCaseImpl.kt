@@ -2,7 +2,7 @@ package ru.fors.auth.domain.usecase
 
 import org.springframework.stereotype.Component
 import ru.fors.auth.api.domain.RoleChecker
-import ru.fors.auth.api.domain.requireOne
+import ru.fors.util.extensions.requireOne
 import ru.fors.auth.api.domain.usecase.ChangePasswordUseCase
 import ru.fors.auth.api.domain.usecase.GetCallingUserUseCase
 import ru.fors.auth.api.domain.usecase.GetUserByUsernameUseCase

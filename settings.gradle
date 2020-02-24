@@ -13,4 +13,6 @@ include 'swagger'
 include 'util'
 include 'workload'
 include 'workload_api'
+include 'production_calendar'
+include 'production_calendar_api'
 
