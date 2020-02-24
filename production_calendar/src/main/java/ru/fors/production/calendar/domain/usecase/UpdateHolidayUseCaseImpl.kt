@@ -18,7 +18,7 @@ class UpdateHolidayUseCaseImpl(
     override fun execute(holiday: Holiday): Holiday {
         roleChecker.requireOne(Role.PROJECT_OFFICE)
 
-        if (holidaysRepository.findById(holiday.date).isEmpty) throw HolidayNotFoundException(holiday.date)
+        if (!holidaysRepository.findById(holiday.date).isPresent) throw HolidayNotFoundException(holiday.date)
 
         return holidaysRepository.save(holiday)
     }
