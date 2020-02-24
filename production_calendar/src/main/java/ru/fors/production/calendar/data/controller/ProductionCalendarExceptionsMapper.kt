@@ -10,5 +10,5 @@ import ru.fors.util.extensions.toResponseEntityStatus
 class ProductionCalendarExceptionsMapper {
 
     @ExceptionHandler
-    fun noEmployee(e: HolidayNotFoundException) = e.toResponseEntityStatus(HttpStatus.NOT_FOUND)
+    fun noHoliday(e: HolidayNotFoundException) = e.toResponseEntityStatus(HttpStatus.NOT_FOUND)
 }
