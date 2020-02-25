@@ -7,6 +7,7 @@ import ru.fors.employee.api.domain.usecase.GetCallingEmployeeBusinessRolesUseCas
 import ru.fors.employee.api.domain.usecase.GetCallingEmployeeUseCase
 import ru.fors.entity.employee.Role
 import ru.fors.entity.workload.request.WorkloadRequest
+import ru.fors.entity.workload.request.WorkloadRequestStatus
 import ru.fors.util.extensions.requireAny
 import ru.fors.workload.api.request.domain.dto.AddWorkloadNotAllowedException
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
@@ -33,7 +34,8 @@ class AddWorkloadRequestUseCaseImpl(
         val request = workloadMapper.mapDto(requestDto)
                 .copy(
                         initiator = getCallingEmployeeUseCase.execute(),
-                        targetRole = getTargetRole()
+                        targetRole = getTargetRole(),
+                        status = WorkloadRequestStatus.SENT
                 )
 
         throwIfContainsEmployeeFromOtherSubdivision(request)
