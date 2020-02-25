@@ -1,7 +1,8 @@
 package ru.fors.entity.workload.request
 
 import ru.fors.entity.NOT_DEFINED_ID
-import java.time.LocalDate
+import ru.fors.entity.employee.Employee
+import ru.fors.entity.workload.WorkUnit
 import javax.persistence.*
 
 @Entity
@@ -11,7 +12,8 @@ data class WorkloadRequestPosition(
         val position: String,
         @ElementCollection(targetClass = String::class, fetch = FetchType.LAZY)
         val skills: List<String>,
-        val startDate: LocalDate,
-        val endDate: LocalDate,
-        val employeeId: Long? = null
+        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+        val workUnits: List<WorkUnit>,
+        @ManyToOne(cascade = [CascadeType.ALL])
+        val employee: Employee? = null
 )

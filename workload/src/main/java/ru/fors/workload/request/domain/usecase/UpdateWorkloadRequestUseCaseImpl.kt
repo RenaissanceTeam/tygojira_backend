@@ -67,7 +67,7 @@ class UpdateWorkloadRequestUseCaseImpl(
     private fun changedEmployeeFromOtherSubdivision(changeRequest: WorkloadRequest,
                                                     savedRequest: WorkloadRequest): Boolean {
         val changedOtherEmployee = changeRequest.positions.any { changePosition ->
-            val employeeId = changePosition.employeeId ?: return false
+            val employeeId = changePosition.employee?.id ?: return false
 
             checkIfEmployeeIsFromCallerSubdivisionUseCase.execute(employeeId).not()
                     && savedRequest.positions.find { it.id == changePosition.id } != changePosition
@@ -75,7 +75,7 @@ class UpdateWorkloadRequestUseCaseImpl(
 
         val deletedOtherEmployee = (savedRequest.positions - changeRequest.positions)
                 .filter {
-                    val employeeId = it.employeeId ?: return@filter false
+                    val employeeId = it.employee?.id ?: return@filter false
                     checkIfEmployeeIsFromCallerSubdivisionUseCase.execute(employeeId).not()
                 }
                 .isNotEmpty()

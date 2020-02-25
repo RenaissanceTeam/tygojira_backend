@@ -38,7 +38,7 @@ class AddWorkloadRequestUseCaseImpl(
 
     private fun throwIfContainsEmployeeFromOtherSubdivision(request: WorkloadRequest) {
         request.positions.filter {
-            val employeeId = it.employeeId ?: return@filter false
+            val employeeId = it.employee?.id ?: return@filter false
 
             !checkIfEmployeeIsFromCallerSubdivisionUseCase.execute(employeeId)
         }.takeIf { it.isNotEmpty() }?.let {
