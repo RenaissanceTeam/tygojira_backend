@@ -60,6 +60,10 @@ open class WebSecurityConfig(
     @Bean
     open fun corsConfigurationSource(): CorsConfigurationSource? = UrlBasedCorsConfigurationSource().apply {
         registerCorsConfiguration("/**", CorsConfiguration().apply {
+            allowedOrigins = listOf(CorsConfiguration.ALL)
+            allowedHeaders = listOf(CorsConfiguration.ALL)
+            maxAge = 1800L
+
             allowedMethods = listOf(
                     HttpMethod.DELETE.name,
                     HttpMethod.GET.name,
