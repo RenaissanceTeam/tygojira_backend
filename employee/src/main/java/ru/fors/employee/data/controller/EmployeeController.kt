@@ -68,9 +68,9 @@ class EmployeeController(
             @RequestParam page: Int,
             @RequestParam size: Int,
             @RequestParam(defaultValue = "ASCENDING") order: Order,
-            @RequestParam(defaultValue = "id") orderBy: String
+            @RequestParam(defaultValue = "id") orderBy: Array<String>
     ): Page<FullEmployeeInfoDto> {
-        return getFullEmployeesInfoUseCase.execute(PageRequest(page, size, Sort(order, listOf(orderBy))))
+        return getFullEmployeesInfoUseCase.execute(PageRequest(page, size, Sort(order, orderBy.toList())))
     }
 
     @PostMapping("")
@@ -78,9 +78,9 @@ class EmployeeController(
             @RequestParam page: Int,
             @RequestParam size: Int,
             @RequestParam(defaultValue = "ASCENDING") order: Order,
-            @RequestParam(defaultValue = "id") orderBy: String,
+            @RequestParam(defaultValue = "id") orderBy: Array<String>,
             @RequestBody filter: EmployeeFilter
     ): Page<FullEmployeeInfoDto> {
-        return getFullEmployeesInfoUseCase.execute(PageRequest(page, size, Sort(order, listOf(orderBy))), filter)
+        return getFullEmployeesInfoUseCase.execute(PageRequest(page, size, Sort(order, orderBy.toList())), filter)
     }
 }
