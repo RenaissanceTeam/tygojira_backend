@@ -5,20 +5,18 @@ import ru.fors.auth.api.domain.RoleChecker
 import ru.fors.employee.api.domain.usecase.GetCallingEmployeeUseCase
 import ru.fors.entity.employee.Role
 import ru.fors.entity.workload.request.WorkloadRequest
-import ru.fors.workload.api.request.domain.usecase.GetWorkloadRequestsForCallerUseCase
+import ru.fors.util.extensions.requireAny
+import ru.fors.workload.api.request.domain.usecase.GetWorkloadRequestsInitiatedByCallerUseCase
 import ru.fors.workload.request.data.repo.WorkloadRequestRepo
 
 @Component
-class GetWorkloadRequestsForCallerUseCaseImpl(
+class GetWorkloadRequestsInitiatedByCallerUseCaseImpl(
         private val roleChecker: RoleChecker,
         private val getCallingEmployeeUseCase: GetCallingEmployeeUseCase,
         private val repo: WorkloadRequestRepo
-) : GetWorkloadRequestsForCallerUseCase {
+) : GetWorkloadRequestsInitiatedByCallerUseCase {
     override fun execute(): List<WorkloadRequest> {
-        roleChecker.startCheck()
-                .require(Role.LINEAR_LEAD)
-                .require(Role.PROJECT_LEAD)
-                .requireAnySpecified()
+        roleChecker.requireAny(Role.PROJECT_LEAD, Role.LINEAR_LEAD)
 
         val employee = getCallingEmployeeUseCase.execute()
         return repo.findByInitiator(employee)

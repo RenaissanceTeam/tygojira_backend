@@ -6,8 +6,8 @@ import ru.fors.entity.employee.Role
 interface RoleChecker {
 
     interface Setup {
-        fun require(role: Role): Setup
-        fun require(role: SystemUserRole): Setup
+        fun require(vararg roles: Role): Setup
+        fun require(vararg roles: SystemUserRole): Setup
         fun requireAnySpecified()
         fun requireAllSpecified()
     }

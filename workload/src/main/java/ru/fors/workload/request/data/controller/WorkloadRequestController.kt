@@ -2,8 +2,9 @@ package ru.fors.workload.request.data.controller
 
 import org.springframework.web.bind.annotation.*
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
-import ru.fors.workload.api.request.domain.usecase.GetWorkloadRequestsForCallerUseCase
 import ru.fors.workload.api.request.domain.usecase.AddWorkloadRequestUseCase
+import ru.fors.workload.api.request.domain.usecase.GetWorkloadRequestsAssignedToCallerUseCase
+import ru.fors.workload.api.request.domain.usecase.GetWorkloadRequestsInitiatedByCallerUseCase
 import ru.fors.workload.api.request.domain.usecase.UpdateWorkloadRequestUseCase
 import ru.fors.workload.request.domain.mapper.WorkloadRequestDtoToEntityMapper
 
@@ -13,8 +14,9 @@ class WorkloadRequestController(
         private val addWorkloadRequestUseCase: AddWorkloadRequestUseCase,
         private val workloadRequestDtoToEntityMapper: WorkloadRequestDtoToEntityMapper,
         private val workloadDtoEntityMapper: WorkloadRequestDtoToEntityMapper,
-        private val getWorkloadRequestsForCallerUseCase: GetWorkloadRequestsForCallerUseCase,
-        private val updateWorkloadRequestUseCase: UpdateWorkloadRequestUseCase
+        private val getWorkloadRequestsInitiatedByCallerUseCase: GetWorkloadRequestsInitiatedByCallerUseCase,
+        private val updateWorkloadRequestUseCase: UpdateWorkloadRequestUseCase,
+        private val getWorkloadRequestsAssignedToCallerUseCase: GetWorkloadRequestsAssignedToCallerUseCase
 ) {
 
     @PostMapping("/add")
@@ -25,7 +27,13 @@ class WorkloadRequestController(
 
     @GetMapping("")
     fun getAll(): List<WorkloadRequestDto> {
-        return getWorkloadRequestsForCallerUseCase.execute()
+        return getWorkloadRequestsInitiatedByCallerUseCase.execute()
+                .map(workloadDtoEntityMapper::mapEntity)
+    }
+
+    @GetMapping("/assigned")
+    fun getAssigned(): List<WorkloadRequestDto> {
+        return getWorkloadRequestsAssignedToCallerUseCase.execute()
                 .map(workloadDtoEntityMapper::mapEntity)
     }
 
