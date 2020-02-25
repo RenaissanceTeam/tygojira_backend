@@ -5,7 +5,7 @@ import ru.fors.activity.api.domain.dto.ActivityDto
 import ru.fors.activity.api.domain.usecase.AddActivityUseCase
 import ru.fors.activity.data.repo.ActivityRepo
 import ru.fors.auth.api.domain.RoleChecker
-import ru.fors.auth.api.domain.requireOne
+import ru.fors.util.extensions.requireOne
 import ru.fors.entity.activity.Activity
 import ru.fors.entity.employee.Role
 

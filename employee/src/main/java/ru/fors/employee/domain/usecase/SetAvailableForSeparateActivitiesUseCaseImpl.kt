@@ -2,7 +2,7 @@ package ru.fors.employee.domain.usecase
 
 import org.springframework.stereotype.Component
 import ru.fors.auth.api.domain.RoleChecker
-import ru.fors.auth.api.domain.requireOne
+import ru.fors.util.extensions.requireOne
 import ru.fors.employee.api.domain.usecase.GetEmployeeByIdUseCase
 import ru.fors.employee.api.domain.usecase.SetAvailableForSeparateActivitiesUseCase
 import ru.fors.employee.data.repo.SeparateActivityAvailabilityRepo

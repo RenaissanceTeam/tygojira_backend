@@ -29,7 +29,6 @@ class EmployeeController(
     @PostMapping("/add")
     fun add(@RequestBody employeeWithRoleDto: EmployeeWithRoleDto): Employee {
         return addEmployeeUseCase.execute(employeeWithRoleDto)
-
     }
 
     @PostMapping("")

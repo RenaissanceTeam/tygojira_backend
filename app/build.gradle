@@ -25,6 +25,9 @@ dependencies {
     implementation library.entity
     implementation library.util
 
+    implementation library.production_calendar
+    implementation library.production_calendar_api
+
     implementation library.swagger
 }
 

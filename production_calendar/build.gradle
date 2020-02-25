@@ -1,0 +1,11 @@
+apply from: "$rootDir/gradle/scripts/spring-module.gradle"
+
+dependencies {
+    implementation library.production_calendar_api
+
+    implementation library.auth_api
+    implementation library.entity
+    implementation library.util
+
+    testImplementation groups.forTest
+}

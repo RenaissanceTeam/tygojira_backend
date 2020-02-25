@@ -9,7 +9,7 @@ import ru.fors.auth.api.domain.usecase.SignUpUseCase
 import ru.fors.auth.api.domain.dto.Credentials
 import ru.fors.auth.api.domain.entity.NotAllowedException
 import ru.fors.auth.api.domain.entity.UserExistsException
-import ru.fors.auth.api.domain.requireOne
+import ru.fors.util.extensions.requireOne
 import ru.fors.auth.data.repo.SystemRoleRepo
 import ru.fors.auth.data.repo.UserRepo
 import ru.fors.entity.employee.Role
