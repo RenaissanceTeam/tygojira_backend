@@ -3,6 +3,7 @@ package ru.fors.workload.request.domain.usecase
 import org.springframework.stereotype.Component
 import ru.fors.auth.api.domain.RoleChecker
 import ru.fors.employee.api.domain.usecase.CheckIfEmployeeIsFromCallerSubdivisionUseCase
+import ru.fors.employee.api.domain.usecase.GetCallingEmployeeBusinessRolesUseCase
 import ru.fors.employee.api.domain.usecase.GetCallingEmployeeUseCase
 import ru.fors.entity.employee.Role
 import ru.fors.entity.workload.request.WorkloadRequest
@@ -21,7 +22,8 @@ class AddWorkloadRequestUseCaseImpl(
         private val roleChecker: RoleChecker,
         private val workloadMapper: WorkloadRequestDtoToEntityMapper,
         private val validateWorkloadRequest: ValidateWorkloadRequestUseCase,
-        private val checkIfEmployeeIsFromCallerSubdivisionUseCase: CheckIfEmployeeIsFromCallerSubdivisionUseCase
+        private val checkIfEmployeeIsFromCallerSubdivisionUseCase: CheckIfEmployeeIsFromCallerSubdivisionUseCase,
+        private val getCallingEmployeeBusinessRolesUseCase: GetCallingEmployeeBusinessRolesUseCase
 
 ) : AddWorkloadRequestUseCase {
 
@@ -29,12 +31,22 @@ class AddWorkloadRequestUseCaseImpl(
         roleChecker.requireAny(Role.PROJECT_LEAD, Role.LINEAR_LEAD)
 
         val request = workloadMapper.mapDto(requestDto)
-                .copy(initiator = getCallingEmployeeUseCase.execute())
+                .copy(
+                        initiator = getCallingEmployeeUseCase.execute(),
+                        targetRole = getTargetRole()
+                )
 
         throwIfContainsEmployeeFromOtherSubdivision(request)
         validateWorkloadRequest.execute(request)
 
         return repo.save(request)
+    }
+
+    private fun getTargetRole(): String {
+        val roles = getCallingEmployeeBusinessRolesUseCase.execute()
+        if (roles.contains(Role.LINEAR_LEAD)) return Role.PROJECT_OFFICE.toString()
+
+        return Role.LINEAR_LEAD.toString()
     }
 
     private fun throwIfContainsEmployeeFromOtherSubdivision(request: WorkloadRequest) {
