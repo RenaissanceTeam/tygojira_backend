@@ -2,6 +2,7 @@ package ru.fors.auth.data.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.BeanIds
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -58,6 +59,19 @@ open class WebSecurityConfig(
 
     @Bean
     open fun corsConfigurationSource(): CorsConfigurationSource? = UrlBasedCorsConfigurationSource().apply {
-        registerCorsConfiguration("/**", CorsConfiguration().applyPermitDefaultValues())
+        registerCorsConfiguration("/**", CorsConfiguration().apply {
+            allowedOrigins = listOf(CorsConfiguration.ALL)
+            allowedHeaders = listOf(CorsConfiguration.ALL)
+            maxAge = 1800L
+
+            allowedMethods = listOf(
+                    HttpMethod.DELETE.name,
+                    HttpMethod.GET.name,
+                    HttpMethod.HEAD.name,
+                    HttpMethod.PATCH.name,
+                    HttpMethod.POST.name,
+                    HttpMethod.PUT.name
+            )
+        })
     }
 }
