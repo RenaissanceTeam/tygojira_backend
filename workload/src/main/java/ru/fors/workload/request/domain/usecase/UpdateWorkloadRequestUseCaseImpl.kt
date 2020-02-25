@@ -8,6 +8,7 @@ import ru.fors.employee.api.domain.usecase.CheckUserHasBusinessRoleUseCase
 import ru.fors.employee.api.domain.usecase.GetCallingEmployeeUseCase
 import ru.fors.entity.employee.Role
 import ru.fors.entity.workload.request.WorkloadRequest
+import ru.fors.util.extensions.requireAny
 import ru.fors.workload.api.request.domain.dto.UpdateWorkloadNotAllowedException
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
 import ru.fors.workload.api.request.domain.entity.NoWorkloadFoundException
@@ -30,10 +31,7 @@ class UpdateWorkloadRequestUseCaseImpl(
 ) : UpdateWorkloadRequestUseCase {
 
     override fun execute(id: Long, request: WorkloadRequestDto): WorkloadRequest {
-        roleChecker.startCheck()
-                .require(Role.LINEAR_LEAD)
-                .require(Role.PROJECT_LEAD)
-                .requireAnySpecified()
+        roleChecker.requireAny(Role.PROJECT_LEAD, Role.LINEAR_LEAD)
 
         val saved = repo.findByIdOrNull(id) ?: throw NoWorkloadFoundException(id)
 

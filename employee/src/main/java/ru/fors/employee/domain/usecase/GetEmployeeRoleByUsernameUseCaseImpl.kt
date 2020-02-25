@@ -16,6 +16,6 @@ class GetEmployeeRoleByUsernameUseCaseImpl(
     override fun execute(username: String): EmployeeRole {
         val employeeUser = employeeUserRepo.findByUserUsername(username)
                 ?: throw NoEmployeeLinkedWithUserException(username)
-        return roleRepo.findByEmployee(employeeUser.employee) ?: throw NoBusinessRoleException
+        return roleRepo.findByEmployee(employeeUser.employee) ?: throw NoBusinessRoleException(employeeUser.employee)
     }
 }

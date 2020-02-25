@@ -6,6 +6,7 @@ import ru.fors.employee.api.domain.usecase.CheckIfEmployeeIsFromCallerSubdivisio
 import ru.fors.employee.api.domain.usecase.GetCallingEmployeeUseCase
 import ru.fors.entity.employee.Role
 import ru.fors.entity.workload.request.WorkloadRequest
+import ru.fors.util.extensions.requireAny
 import ru.fors.workload.api.request.domain.dto.AddWorkloadNotAllowedException
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
 import ru.fors.workload.api.request.domain.usecase.AddWorkloadRequestUseCase
@@ -25,10 +26,7 @@ class AddWorkloadRequestUseCaseImpl(
 ) : AddWorkloadRequestUseCase {
 
     override fun execute(requestDto: WorkloadRequestDto): WorkloadRequest {
-        roleChecker.startCheck()
-                .require(Role.PROJECT_LEAD)
-                .require(Role.LINEAR_LEAD)
-                .requireAnySpecified()
+        roleChecker.requireAny(Role.PROJECT_LEAD, Role.LINEAR_LEAD)
 
         val request = workloadMapper.mapDto(requestDto)
                 .copy(initiator = getCallingEmployeeUseCase.execute())

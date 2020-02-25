@@ -21,12 +21,12 @@ open class RoleCheckerImpl(
         private val systemRoles = mutableListOf<SystemUserRole>()
         private val businessRoles = mutableListOf<Role>()
 
-        override fun require(role: Role) = apply {
-            businessRoles.add(role)
+        override fun require(vararg roles: Role) = apply {
+            businessRoles.addAll(roles)
         }
 
-        override fun require(role: SystemUserRole) = apply {
-            systemRoles.add(role)
+        override fun require(vararg roles: SystemUserRole) = apply {
+            systemRoles.addAll(roles)
         }
 
         override fun requireAnySpecified() {
