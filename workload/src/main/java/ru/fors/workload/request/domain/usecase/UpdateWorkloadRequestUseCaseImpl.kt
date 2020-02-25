@@ -12,6 +12,7 @@ import ru.fors.workload.api.request.domain.dto.UpdateWorkloadNotAllowedException
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
 import ru.fors.workload.api.request.domain.entity.NoWorkloadFoundException
 import ru.fors.workload.api.request.domain.usecase.UpdateWorkloadRequestUseCase
+import ru.fors.workload.api.request.domain.usecase.ValidateWorkloadRequestUseCase
 import ru.fors.workload.request.data.repo.WorkloadRequestRepo
 import ru.fors.workload.request.domain.mapper.WorkloadRequestDtoToEntityMapper
 import ru.fors.workload.request.domain.mapper.WorkloadRequestPositionDtoToEntityMapper
@@ -23,6 +24,7 @@ class UpdateWorkloadRequestUseCaseImpl(
         private val requestMapper: WorkloadRequestDtoToEntityMapper,
         private val getCallingEmployeeUseCase: GetCallingEmployeeUseCase,
         private val checkCallerHasBusinessRoleUseCase: CheckUserHasBusinessRoleUseCase,
+        private val validateWorkload: ValidateWorkloadRequestUseCase,
         private val roleChecker: RoleChecker,
         private val checkIfEmployeeIsFromCallerSubdivisionUseCase: CheckIfEmployeeIsFromCallerSubdivisionUseCase
 ) : UpdateWorkloadRequestUseCase {
@@ -33,12 +35,14 @@ class UpdateWorkloadRequestUseCaseImpl(
                 .require(Role.PROJECT_LEAD)
                 .requireAnySpecified()
 
-
         val saved = repo.findByIdOrNull(id) ?: throw NoWorkloadFoundException(id)
 
         checkIsAllowedToUpdate(requestMapper.mapDto(request), saved)
 
-        return repo.save(saved.copy(positions = request.positions.map(positionMapper::mapDto)))
+        val updated = saved.copy(positions = request.positions.map(positionMapper::mapDto))
+        validateWorkload.execute(updated)
+
+        return repo.save(updated)
     }
 
     private fun checkIsAllowedToUpdate(updateRequest: WorkloadRequest, savedRequest: WorkloadRequest) {
