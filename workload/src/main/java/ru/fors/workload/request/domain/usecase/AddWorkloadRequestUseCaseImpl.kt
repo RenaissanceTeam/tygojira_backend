@@ -9,6 +9,7 @@ import ru.fors.entity.workload.request.WorkloadRequest
 import ru.fors.workload.api.request.domain.dto.AddWorkloadNotAllowedException
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
 import ru.fors.workload.api.request.domain.usecase.AddWorkloadRequestUseCase
+import ru.fors.workload.api.request.domain.usecase.ValidateWorkloadRequestUseCase
 import ru.fors.workload.request.data.repo.WorkloadRequestRepo
 import ru.fors.workload.request.domain.mapper.WorkloadRequestDtoToEntityMapper
 
@@ -18,6 +19,7 @@ class AddWorkloadRequestUseCaseImpl(
         private val getCallingEmployeeUseCase: GetCallingEmployeeUseCase,
         private val roleChecker: RoleChecker,
         private val workloadMapper: WorkloadRequestDtoToEntityMapper,
+        private val validateWorkloadRequest: ValidateWorkloadRequestUseCase,
         private val checkIfEmployeeIsFromCallerSubdivisionUseCase: CheckIfEmployeeIsFromCallerSubdivisionUseCase
 
 ) : AddWorkloadRequestUseCase {
@@ -32,13 +34,14 @@ class AddWorkloadRequestUseCaseImpl(
                 .copy(initiator = getCallingEmployeeUseCase.execute())
 
         throwIfContainsEmployeeFromOtherSubdivision(request)
+        validateWorkloadRequest.execute(request)
 
         return repo.save(request)
     }
 
     private fun throwIfContainsEmployeeFromOtherSubdivision(request: WorkloadRequest) {
         request.positions.filter {
-            val employeeId = it.employeeId ?: return@filter false
+            val employeeId = it.employee?.id ?: return@filter false
 
             !checkIfEmployeeIsFromCallerSubdivisionUseCase.execute(employeeId)
         }.takeIf { it.isNotEmpty() }?.let {
