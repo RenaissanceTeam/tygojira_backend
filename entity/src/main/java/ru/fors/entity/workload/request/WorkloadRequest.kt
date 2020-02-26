@@ -13,7 +13,8 @@ data class WorkloadRequest(
         val activity: Activity,
         @ManyToOne
         val initiator: Employee? = null,
-        val status: String = IDLE,
+        @Enumerated(EnumType.STRING)
+        val status: WorkloadRequestStatus = WorkloadRequestStatus.NEW,
         val targetRole: String? = null,
         @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
         val positions: List<WorkloadRequestPosition>
