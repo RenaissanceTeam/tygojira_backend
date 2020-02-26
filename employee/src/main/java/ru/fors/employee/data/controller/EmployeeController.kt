@@ -63,7 +63,7 @@ class EmployeeController(
                 .let(availabilityMapper::mapEntity)
     }
 
-    @GetMapping("")
+    @GetMapping
     fun getAll(
             @RequestParam page: Int,
             @RequestParam size: Int,
