@@ -45,21 +45,25 @@ class UpdateWorkloadRequestUseCaseImpl(
         return repo.save(updated)
     }
 
-    private fun addSavedDeletedPositions(saved: WorkloadRequest, updated: WorkloadRequest): WorkloadRequest {
-        val savedDeleted = saved.positions.filterNot { it.active }
-        val updatedPositions = updated.positions.map { it.id }
-        return updated.copy(positions = updated.positions + savedDeleted.filterNot { it.id in updatedPositions })
-    }
 
     private fun copyDeletedPositionsWithActiveFalse(saved: WorkloadRequest, updated: WorkloadRequest): WorkloadRequest {
         val updatedPositions = updated.positions.filter { it.employee != null }.map { it.id }
-        val deleted = saved.positions.filterNot { it.id in updatedPositions}
+        val deleted = saved.positions.filterNot { it.id in updatedPositions }
 
-        return updated.copy(
-                positions = updated.positions + deleted.map {
-                    it.copy(active = false, workUnits = listOf())
-                }
-        )
+        val withDeletedPositions = updated.positions + deleted.map {
+            it.copy(active = false, workUnits = listOf())
+        }
+
+        return updated.copy(positions = withDeletedPositions)
+    }
+
+    private fun addSavedDeletedPositions(saved: WorkloadRequest, updated: WorkloadRequest): WorkloadRequest {
+        val updatedPositions = updated.positions.map { it.id }
+        val savedDeleted = saved.positions.filterNot { it.active }
+
+        val withOldDeletedPositions = updated.positions + savedDeleted.filterNot { it.id in updatedPositions }
+
+        return updated.copy(positions = withOldDeletedPositions)
     }
 
     private fun checkIsAllowedToUpdate(updateRequest: WorkloadRequest, savedRequest: WorkloadRequest) {
