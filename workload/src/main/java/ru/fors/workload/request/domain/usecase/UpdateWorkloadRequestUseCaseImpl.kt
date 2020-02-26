@@ -52,13 +52,12 @@ class UpdateWorkloadRequestUseCaseImpl(
     }
 
     private fun copyDeletedPositionsWithActiveFalse(saved: WorkloadRequest, updated: WorkloadRequest): WorkloadRequest {
-        val deletedIds = saved.positions.map { it.id } -
-                updated.positions.filter { it.employee != null }.map { it.id }
+        val updatedPositions = updated.positions.filter { it.employee != null }.map { it.id }
+        val deleted = saved.positions.filterNot { it.id in updatedPositions}
 
         return updated.copy(
-                positions = updated.positions + deletedIds.map { deletedId ->
-                    val deletedPosition = saved.positions.find { it.id == deletedId }!!
-                    deletedPosition.copy(active = false, workUnits = listOf())
+                positions = updated.positions + deleted.map {
+                    it.copy(active = false, workUnits = listOf())
                 }
         )
     }
