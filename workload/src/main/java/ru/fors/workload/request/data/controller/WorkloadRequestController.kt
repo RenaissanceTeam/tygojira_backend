@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*
 import ru.fors.entity.workload.request.WorkloadRequestStatus
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
 import ru.fors.workload.api.request.domain.usecase.*
+import ru.fors.workload.request.data.dto.WorkloadRequestConflictsDto
 import ru.fors.workload.request.domain.mapper.WorkloadRequestDtoToEntityMapper
 
 @RestController
@@ -15,7 +16,9 @@ class WorkloadRequestController(
         private val getWorkloadRequestsInitiatedByCallerUseCase: GetWorkloadRequestsInitiatedByCallerUseCase,
         private val updateWorkloadRequestUseCase: UpdateWorkloadRequestUseCase,
         private val getWorkloadRequestsAssignedToCallerUseCase: GetWorkloadRequestsAssignedToCallerUseCase,
-        private val changeRequestStatusUseCase: ChangeRequestStatusUseCase
+        private val changeRequestStatusUseCase: ChangeRequestStatusUseCase,
+        private val getWorkloadRequestByIdUseCase: GetWorkloadRequestByIdUseCase,
+        private val getWorkloadConflictsForRequestUseCase: GetWorkloadConflictsForRequestUseCase
 ) {
 
     @PostMapping("/add")
@@ -72,5 +75,19 @@ class WorkloadRequestController(
 
         return changeRequestStatusUseCase.execute(id, WorkloadRequestStatus.REJECTED)
                 .let(workloadRequestDtoToEntityMapper::mapEntity)
+    }
+
+    @GetMapping("{id}")
+    fun getOne(@PathVariable id: Long): WorkloadRequestDto {
+        return getWorkloadRequestByIdUseCase.execute(id)
+                .let(workloadRequestDtoToEntityMapper::mapEntity)
+    }
+
+    @GetMapping("{id}/conflicts")
+    fun getConflicts(@PathVariable id: Long): WorkloadRequestConflictsDto {
+        return getWorkloadConflictsForRequestUseCase.execute(id)
+                .let { conflicts ->
+                    WorkloadRequestConflictsDto(id, conflicts.flatMap { it.with.activities })
+                }
     }
 }
