@@ -4,14 +4,17 @@ import org.springframework.web.bind.annotation.*
 import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
 import ru.fors.employee.api.domain.dto.FullEmployeeInfoDto
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto
+import ru.fors.employee.api.domain.entity.EmployeeFilter
 import ru.fors.employee.api.domain.usecase.*
 import ru.fors.employee.data.dto.AvailableDatesDto
 import ru.fors.employee.data.dto.SeparateActivityAvailabilityDto
 import ru.fors.employee.data.mapper.AvailabilityDtoEntityMapper
 import ru.fors.entity.employee.Employee
 import ru.fors.entity.employee.EmployeeRole
+import ru.fors.pagination.api.domain.entity.Order
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
+import ru.fors.pagination.api.domain.entity.Sort
 
 @RestController
 @RequestMapping("/employees")
@@ -29,11 +32,6 @@ class EmployeeController(
     @PostMapping("/add")
     fun add(@RequestBody employeeWithRoleDto: EmployeeWithRoleDto): Employee {
         return addEmployeeUseCase.execute(employeeWithRoleDto)
-    }
-
-    @PostMapping("")
-    fun getFullEmployeeInfo(@RequestBody pageRequest: PageRequest): Page<FullEmployeeInfoDto> {
-        return getFullEmployeesInfoUseCase.execute(pageRequest)
     }
 
     @PostMapping("/{id}/update")
@@ -63,5 +61,26 @@ class EmployeeController(
     fun getSeparateActivityAvailability(@PathVariable id: Long): SeparateActivityAvailabilityDto {
         return getAvailabilityForSeparateActivitiesUseCase.execute(id)
                 .let(availabilityMapper::mapEntity)
+    }
+
+    @GetMapping
+    fun getAll(
+            @RequestParam page: Int,
+            @RequestParam size: Int,
+            @RequestParam(defaultValue = "ASCENDING") order: Order,
+            @RequestParam(defaultValue = "id") orderBy: Array<String>
+    ): Page<FullEmployeeInfoDto> {
+        return getFullEmployeesInfoUseCase.execute(PageRequest(page, size, Sort(order, orderBy.toList())))
+    }
+
+    @PostMapping
+    fun filter(
+            @RequestParam page: Int,
+            @RequestParam size: Int,
+            @RequestParam(defaultValue = "ASCENDING") order: Order,
+            @RequestParam(defaultValue = "id") orderBy: Array<String>,
+            @RequestBody filter: EmployeeFilter
+    ): Page<FullEmployeeInfoDto> {
+        return getFullEmployeesInfoUseCase.execute(PageRequest(page, size, Sort(order, orderBy.toList())), filter)
     }
 }

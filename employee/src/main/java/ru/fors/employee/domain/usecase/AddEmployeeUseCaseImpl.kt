@@ -72,7 +72,8 @@ class AddEmployeeUseCaseImpl(
                 middleName = employee.middleName,
                 lastName = employee.lastName,
                 position = employee.position,
-                subdivision = employee.subdivision
+                subdivision = employee.subdivision,
+                skills = employee.skills
         ))
     }
 }
