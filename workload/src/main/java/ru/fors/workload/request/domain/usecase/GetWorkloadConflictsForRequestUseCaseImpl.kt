@@ -30,7 +30,7 @@ class GetWorkloadConflictsForRequestUseCaseImpl(
 
                         if (requestedWorkUnit.hours + workHoursForEmployee > MAXIMUM_WORKLOAD_WORKING_HOURS) {
                             val workloads = savedWork.map(repo::findByWorkunitsContaining)
-                            val activities = workloads.map(activityWorkloadRepo::findByWorkloadsContaining).map { it.activity }
+                            val activities = workloads.map(activityWorkloadRepo::findByWorkloadsContaining).map { it!!.activity }
 
                             Conflict(requestedWorkUnit,
                                     ConflictedWork(

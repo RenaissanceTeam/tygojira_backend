@@ -5,5 +5,6 @@ import ru.fors.entity.workload.ActivityWorkload
 import ru.fors.entity.workload.Workload
 
 interface ActivityWorkloadRepo : JpaRepository<ActivityWorkload, Long> {
-    fun findByWorkloadsContaining(workload: Workload): ActivityWorkload
+    fun findByWorkloadsContaining(workload: Workload): ActivityWorkload?
+    fun findByActivityId(id: Long): ActivityWorkload?
 }

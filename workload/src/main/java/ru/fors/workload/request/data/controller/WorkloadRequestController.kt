@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*
 import ru.fors.entity.workload.request.WorkloadRequestStatus
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
 import ru.fors.workload.api.request.domain.usecase.*
+import ru.fors.workload.request.data.dto.ActivityWorkloadSmallDto
 import ru.fors.workload.request.data.dto.WorkloadRequestConflictsDto
 import ru.fors.workload.request.domain.mapper.WorkloadRequestDtoToEntityMapper
 
@@ -18,7 +19,8 @@ class WorkloadRequestController(
         private val getWorkloadRequestsAssignedToCallerUseCase: GetWorkloadRequestsAssignedToCallerUseCase,
         private val changeRequestStatusUseCase: ChangeRequestStatusUseCase,
         private val getWorkloadRequestByIdUseCase: GetWorkloadRequestByIdUseCase,
-        private val getWorkloadConflictsForRequestUseCase: GetWorkloadConflictsForRequestUseCase
+        private val getWorkloadConflictsForRequestUseCase: GetWorkloadConflictsForRequestUseCase,
+        private val satisfyWorkloadRequestUseCase: SatisfyWorkloadRequestUseCase
 ) {
 
     @PostMapping("/add")
@@ -62,11 +64,12 @@ class WorkloadRequestController(
     }
 
     @PostMapping("{id}/satisfy")
-    fun executed(@PathVariable id: Long, @RequestBody workloadRequestDto: WorkloadRequestDto? = null): WorkloadRequestDto {
+    fun satisfy(@PathVariable id: Long, @RequestBody workloadRequestDto: WorkloadRequestDto? = null): ActivityWorkloadSmallDto {
         workloadRequestDto?.let { updateWorkloadRequestUseCase.execute(id, workloadRequestDto) }
 
-        return changeRequestStatusUseCase.execute(id, WorkloadRequestStatus.SATISFIED)
-                .let(workloadRequestDtoToEntityMapper::mapEntity)
+        return satisfyWorkloadRequestUseCase.execute(id).let {
+            ActivityWorkloadSmallDto(it.id, it.activity.id, it.workloads.map { it.id })
+        }
     }
 
     @PostMapping("{id}/reject")

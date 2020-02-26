@@ -4,6 +4,7 @@ dependencies {
     implementation library.auth_api
     implementation library.activity_api
     implementation library.util
+    implementation library.workload_api
 
     testImplementation groups.forTest
 }
