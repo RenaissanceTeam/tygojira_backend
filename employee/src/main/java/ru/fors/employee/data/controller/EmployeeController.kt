@@ -73,7 +73,7 @@ class EmployeeController(
         return getFullEmployeesInfoUseCase.execute(PageRequest(page, size, Sort(order, orderBy.toList())))
     }
 
-    @PostMapping("")
+    @PostMapping
     fun filter(
             @RequestParam page: Int,
             @RequestParam size: Int,
