@@ -2,6 +2,7 @@ package ru.fors.auth.data.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.BeanIds
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -18,6 +19,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import ru.fors.auth.data.CustomUserDetailsService
 import ru.fors.auth.data.jwt.JwtAuthenticationEntryPoint
 import ru.fors.auth.data.jwt.JwtAuthenticationFilter
+import java.util.*
 
 
 @Configuration
@@ -57,7 +59,12 @@ open class WebSecurityConfig(
     }
 
     @Bean
-    open fun corsConfigurationSource(): CorsConfigurationSource? = UrlBasedCorsConfigurationSource().apply {
-        registerCorsConfiguration("/**", CorsConfiguration().applyPermitDefaultValues())
+    open fun corsConfigurationSource(): CorsConfigurationSource? {
+        val configuration = CorsConfiguration()
+        configuration.allowedMethods = HttpMethod.values().map { it.name }
+
+        return UrlBasedCorsConfigurationSource().apply {
+            registerCorsConfiguration("/**", configuration.applyPermitDefaultValues())
+        }
     }
 }
