@@ -7,5 +7,6 @@ data class WorkloadRequestPositionDto(
         val position: String,
         val skills: List<String>,
         val workUnits: List<WorkUnit>,
-        val employeeId: Long? = null
+        val employeeId: Long? = null,
+        val active: Boolean = true
 )
