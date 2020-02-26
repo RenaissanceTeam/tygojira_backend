@@ -18,7 +18,8 @@ class WorkloadRequestPositionDtoToEntityMapper(
                 position = entity.position,
                 skills = entity.skills,
                 workUnits = entity.workUnits,
-                employeeId = entity.employee?.id
+                employeeId = entity.employee?.id,
+                active = entity.active
         )
     }
 
@@ -28,7 +29,8 @@ class WorkloadRequestPositionDtoToEntityMapper(
                 skills = dto.skills,
                 position = dto.position,
                 workUnits = dto.workUnits,
-                employee = dto.employeeId?.let(getEmployeeByIdUseCase::execute)
+                employee = dto.employeeId?.let(getEmployeeByIdUseCase::execute),
+                active = dto.active
         )
     }
 }

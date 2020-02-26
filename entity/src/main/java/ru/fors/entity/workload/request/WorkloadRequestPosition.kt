@@ -15,5 +15,6 @@ data class WorkloadRequestPosition(
         @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
         val workUnits: List<WorkUnit>,
         @ManyToOne(cascade = [CascadeType.ALL])
-        val employee: Employee? = null
+        val employee: Employee? = null,
+        val active: Boolean = true
 )
