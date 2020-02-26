@@ -58,11 +58,11 @@ class WorkloadRequestController(
                 .let(workloadRequestDtoToEntityMapper::mapEntity)
     }
 
-    @PostMapping("{id}/executed")
+    @PostMapping("{id}/satisfy")
     fun executed(@PathVariable id: Long, @RequestBody workloadRequestDto: WorkloadRequestDto? = null): WorkloadRequestDto {
         workloadRequestDto?.let { updateWorkloadRequestUseCase.execute(id, workloadRequestDto) }
 
-        return changeRequestStatusUseCase.execute(id, WorkloadRequestStatus.EXECUTED)
+        return changeRequestStatusUseCase.execute(id, WorkloadRequestStatus.SATISFIED)
                 .let(workloadRequestDtoToEntityMapper::mapEntity)
     }
 
