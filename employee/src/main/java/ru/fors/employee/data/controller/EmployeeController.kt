@@ -15,6 +15,9 @@ import ru.fors.pagination.api.domain.entity.Order
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
 import ru.fors.pagination.api.domain.entity.Sort
+import ru.fors.workload.api.domain.dto.AllEmployeeWorkloadsDto
+import ru.fors.workload.api.domain.mapper.AllEmployeeWorkloadsToDtoMapper
+import ru.fors.workload.api.domain.usecase.GetAllEmployeeWorkloadsUseCase
 
 @RestController
 @RequestMapping("/employees")
@@ -26,7 +29,9 @@ class EmployeeController(
         private val getEmployeeRoleByUsernameUseCase: GetEmployeeRoleByUsernameUseCase,
         private val setAvailableForSeparateActivitiesUseCase: SetAvailableForSeparateActivitiesUseCase,
         private val getAvailabilityForSeparateActivitiesUseCase: GetAvailabilityForSeparateActivitiesUseCase,
-        private val availabilityMapper: AvailabilityDtoEntityMapper
+        private val availabilityMapper: AvailabilityDtoEntityMapper,
+        private val getAllEmployeeWorkloadsUseCase: GetAllEmployeeWorkloadsUseCase,
+        private val allEmployeeWorkloadsToDtoMapper: AllEmployeeWorkloadsToDtoMapper
 ) {
 
     @PostMapping("/add")
@@ -83,4 +88,11 @@ class EmployeeController(
     ): Page<FullEmployeeInfoDto> {
         return getFullEmployeesInfoUseCase.execute(PageRequest(page, size, Sort(order, orderBy.toList())), filter)
     }
+
+    @GetMapping("/{id}/workload")
+    fun getWorkload(@PathVariable id: Long): AllEmployeeWorkloadsDto {
+        return getAllEmployeeWorkloadsUseCase.execute(id)
+                .let(allEmployeeWorkloadsToDtoMapper::map)
+    }
+
 }
