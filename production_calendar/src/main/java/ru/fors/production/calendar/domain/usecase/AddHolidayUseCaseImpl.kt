@@ -14,9 +14,9 @@ class AddHolidayUseCaseImpl(
         private val holidaysRepository: HolidaysRepository
 ) : AddHolidayUseCase {
 
-    override fun execute(holiday: Holiday) {
+    override fun execute(holiday: Holiday): Holiday {
         roleChecker.requireOne(Role.PROJECT_OFFICE)
 
-        holidaysRepository.save(holiday)
+        return holidaysRepository.save(holiday)
     }
 }
