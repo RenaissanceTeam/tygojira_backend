@@ -4,8 +4,10 @@ import org.springframework.web.bind.annotation.*
 import ru.fors.activity.api.domain.dto.ActivityDto
 import ru.fors.activity.api.domain.usecase.*
 import ru.fors.entity.activity.Activity
+import ru.fors.pagination.api.domain.entity.Order
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
+import ru.fors.pagination.api.domain.entity.Sort
 import ru.fors.workload.api.domain.dto.ActivityWorkloadDto
 import ru.fors.workload.api.domain.mapper.ActivityWorkloadToDtoMapper
 import ru.fors.workload.api.domain.usecase.GetActivityWorkloadByActivityIdUseCase
@@ -22,8 +24,7 @@ class ActivityController(
         private val activityWorkloadMapper: ActivityWorkloadToDtoMapper
 ) {
 
-
-    @PostMapping("/add")
+    @PutMapping
     fun add(@RequestBody activityDto: ActivityDto): Activity {
         return addActivityUseCase.execute(activityDto)
     }
@@ -33,12 +34,17 @@ class ActivityController(
         return getActivityByIdUseCase.execute(id)
     }
 
-    @PostMapping("")
-    fun getAll(@RequestBody pageRequest: PageRequest): Page<Activity> {
-        return getActivitiesUseCase.execute(pageRequest)
+    @GetMapping
+    fun getAll(
+            @RequestParam page: Int,
+            @RequestParam size: Int,
+            @RequestParam(defaultValue = "ASCENDING") order: Order,
+            @RequestParam(defaultValue = "id") orderBy: Array<String>
+    ): Page<Activity> {
+        return getActivitiesUseCase.execute(PageRequest(page, size, Sort(order, orderBy.toList())))
     }
 
-    @PostMapping("/{id}/update")
+    @PatchMapping("/{id}")
     fun update(@PathVariable id: Long, @RequestBody activity: ActivityDto): Activity {
         return updateActivityUseCase.execute(id, activity)
     }
