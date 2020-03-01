@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import ru.fors.employee.api.domain.entity.EmployeeNotFoundException
+import ru.fors.employee.api.domain.entity.EmployeeValidationException
 import ru.fors.employee.api.domain.entity.NoBusinessRoleException
 import ru.fors.employee.api.domain.entity.NoEmployeeLinkedWithUserException
 import ru.fors.util.extensions.toResponseEntityStatus
@@ -19,4 +20,7 @@ class EmployeeExceptionsMapper {
 
     @ExceptionHandler
     fun noEmployeeLinkedWithUser(e: NoEmployeeLinkedWithUserException) = e.toResponseEntityStatus(HttpStatus.BAD_REQUEST)
+
+    @ExceptionHandler
+    fun notValid(e: EmployeeValidationException) = e.toResponseEntityStatus(HttpStatus.BAD_REQUEST)
 }
