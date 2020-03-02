@@ -1,7 +1,5 @@
 package ru.fors.workload.request.data.controller
 
-import org.springframework.messaging.handler.annotation.MessageMapping
-import org.springframework.messaging.handler.annotation.SendTo
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import ru.fors.entity.workload.request.WorkloadRequestStatus
