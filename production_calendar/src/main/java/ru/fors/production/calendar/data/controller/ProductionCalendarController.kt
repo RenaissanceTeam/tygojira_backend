@@ -2,10 +2,7 @@ package ru.fors.production.calendar.data.controller
 
 import org.springframework.web.bind.annotation.*
 import ru.fors.entity.holiday.Holiday
-import ru.fors.production.calendar.api.domain.usecase.AddHolidayUseCase
-import ru.fors.production.calendar.api.domain.usecase.DeleteHolidayUseCase
-import ru.fors.production.calendar.api.domain.usecase.GetHolidaysUseCase
-import ru.fors.production.calendar.api.domain.usecase.UpdateHolidayUseCase
+import ru.fors.production.calendar.api.domain.usecase.*
 import ru.fors.production.calendar.data.dto.HolidayDto
 import ru.fors.production.calendar.data.mapper.HolidayDtoMapper
 import java.time.Year
@@ -13,6 +10,7 @@ import java.time.Year
 @RestController
 @RequestMapping("/holidays")
 class ProductionCalendarController(
+        private val checkIfHolidaysModificationPermittedUseCase: CheckIfHolidaysModificationPermittedUseCase,
         private val addHolidayUseCase: AddHolidayUseCase,
         private val deleteHolidayUseCase: DeleteHolidayUseCase,
         private val getHolidaysUseCase: GetHolidaysUseCase,
@@ -21,12 +19,15 @@ class ProductionCalendarController(
 ) {
 
     @PostMapping
-    fun add(@RequestBody holiday: HolidayDto): Holiday {
-        return addHolidayUseCase.execute(holidayMapper.map(holiday))
+    fun add(@RequestBody holidayDto: HolidayDto): Holiday {
+        val holiday = holidayMapper.map(holidayDto)
+        checkIfHolidaysModificationPermittedUseCase.execute(holiday)
+        return addHolidayUseCase.execute(holiday)
     }
 
     @DeleteMapping
     fun delete(@RequestBody holiday: Holiday) {
+        checkIfHolidaysModificationPermittedUseCase.execute(holiday)
         deleteHolidayUseCase.execute(holiday)
     }
 
@@ -37,7 +38,9 @@ class ProductionCalendarController(
     }
 
     @PatchMapping("/{id}")
-    fun update(@PathVariable id: Long, @RequestBody holiday: HolidayDto): Holiday {
-        return updateHolidayUseCase.execute(holidayMapper.map(holiday, id))
+    fun update(@PathVariable id: Long, @RequestBody holidayDto: HolidayDto): Holiday {
+        val holiday = holidayMapper.map(holidayDto, id)
+        checkIfHolidaysModificationPermittedUseCase.execute(holiday)
+        return updateHolidayUseCase.execute(holiday)
     }
 }
