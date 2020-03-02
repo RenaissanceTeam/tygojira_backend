@@ -36,25 +36,24 @@ class EmployeeController(
         private val getSubdivisionsUseCase: GetSubdivisionsUseCase
 ) {
 
-    @PostMapping("/add")
+    @PutMapping
     fun add(@RequestBody employeeWithRoleDto: EmployeeWithRoleDto): Employee {
         return addEmployeeUseCase.execute(employeeWithRoleDto)
     }
 
-    @PostMapping("/{id}/update")
+    @PatchMapping("/{id}")
     fun updateEmployee(@PathVariable id: Long, @RequestBody updateDto: UpdateEmployeeInfoDto): Employee {
         return updateEmployeeUseCase.execute(id, updateDto)
     }
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long) {
-        deleteEmployeeUseCase.runCatching { execute(id) }
+        deleteEmployeeUseCase.execute(id)
     }
 
     @GetMapping("/users/{username}")
     fun getEmployeeRoleByUsername(@PathVariable username: String): EmployeeRole {
         return getEmployeeRoleByUsernameUseCase.execute(username)
-
     }
 
     @PostMapping("/{id}/availability-for-separate")
