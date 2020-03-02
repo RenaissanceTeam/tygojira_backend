@@ -51,6 +51,11 @@ class WorkloadRequestController(
         return workloadRequestObservableRepo.observeAssigned()
     }
 
+    @GetMapping("initiated/stream")
+    fun streamInitiated(): SseEmitter {
+        return workloadRequestObservableRepo.observeInitiated()
+    }
+
     @PostMapping("{id}/update")
     fun update(@PathVariable id: Long, @RequestBody workloadRequestDto: WorkloadRequestDto): WorkloadRequestDto {
         return updateWorkloadRequestUseCase.execute(id, workloadRequestDto)

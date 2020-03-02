@@ -6,5 +6,7 @@ import ru.fors.entity.workload.request.WorkloadRequest
 
 interface WorkloadRequestObservableRepo {
     fun observeAssigned(): SseEmitter
+    fun observeInitiated(): SseEmitter
     fun onAssigned(employee: Employee, request: WorkloadRequest)
+    fun onInitiatedChanged(employee: Employee, request: WorkloadRequest)
 }

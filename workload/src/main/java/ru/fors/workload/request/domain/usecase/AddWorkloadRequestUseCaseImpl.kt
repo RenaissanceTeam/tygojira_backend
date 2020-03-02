@@ -13,6 +13,7 @@ import ru.fors.workload.api.request.domain.dto.AddWorkloadNotAllowedException
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
 import ru.fors.workload.api.request.domain.usecase.AddWorkloadRequestUseCase
 import ru.fors.workload.api.request.domain.usecase.NotifyEmployeeOfAssignedRequestUseCase
+import ru.fors.workload.api.request.domain.usecase.NotifyInitiatorEmployeeUseCase
 import ru.fors.workload.api.request.domain.usecase.ValidateWorkloadRequestUseCase
 import ru.fors.workload.request.data.repo.WorkloadRequestRepo
 import ru.fors.workload.request.domain.mapper.WorkloadRequestDtoToEntityMapper
@@ -26,7 +27,8 @@ class AddWorkloadRequestUseCaseImpl(
         private val validateWorkloadRequest: ValidateWorkloadRequestUseCase,
         private val checkIfEmployeeIsFromCallerSubdivisionUseCase: CheckIfEmployeeIsFromCallerSubdivisionUseCase,
         private val getCallingEmployeeBusinessRolesUseCase: GetCallingEmployeeBusinessRolesUseCase,
-        private val notifyEmployeeOfAssignedRequestUseCase: NotifyEmployeeOfAssignedRequestUseCase
+        private val notifyEmployeeOfAssignedRequestUseCase: NotifyEmployeeOfAssignedRequestUseCase,
+        private val notifyInitiatorEmployeeUseCase: NotifyInitiatorEmployeeUseCase
 
 ) : AddWorkloadRequestUseCase {
 
@@ -45,6 +47,7 @@ class AddWorkloadRequestUseCaseImpl(
 
         return repo.save(request).also {
             notifyEmployeeOfAssignedRequestUseCase.execute(it)
+            notifyInitiatorEmployeeUseCase.execute(it)
         }
     }
 

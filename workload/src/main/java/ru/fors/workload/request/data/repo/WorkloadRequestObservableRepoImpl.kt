@@ -6,30 +6,58 @@ import ru.fors.employee.api.domain.usecase.GetCallingEmployeeUseCase
 import ru.fors.entity.employee.Employee
 import ru.fors.entity.workload.request.WorkloadRequest
 import ru.fors.workload.api.request.domain.usecase.GetAssignedWorkloadRequestByEmployeeUseCase
+import ru.fors.workload.api.request.domain.usecase.GetInitiatedWorkloadRequestsByEmployeeUseCase
 import ru.fors.workload.request.data.dto.AssignedWorkloadRequestsDto
+import ru.fors.workload.request.data.dto.InitiatedWorkloadRequestDto
+import ru.fors.workload.request.data.dto.InitiatedWorkloadRequestsDto
 
 @Component
 class WorkloadRequestObservableRepoImpl(
         private val getCallingEmployeeUseCase: GetCallingEmployeeUseCase,
-        private val getAssignedWorkloadRequestByEmployeeUseCase: GetAssignedWorkloadRequestByEmployeeUseCase
+        private val getAssignedWorkloadRequestByEmployeeUseCase: GetAssignedWorkloadRequestByEmployeeUseCase,
+        private val getInitiatedWorkloadRequestsByEmployeeUseCase: GetInitiatedWorkloadRequestsByEmployeeUseCase
 ) : WorkloadRequestObservableRepo {
-    private val emitters = mutableMapOf<Long, SseEmitter>()
+    private val assignEmitters = mutableMapOf<Long, SseEmitter>()
+    private val initiateEmitters = mutableMapOf<Long, SseEmitter>()
 
     override fun observeAssigned(): SseEmitter {
         val employee = getCallingEmployeeUseCase.execute()
 
         return SseEmitter().apply {
-            emitters[employee.id] = this
-            onCompletion { emitters.remove(employee.id) }
-            send(AssignedWorkloadRequestsDto(
-                    getAssignedWorkloadRequestByEmployeeUseCase.execute(employee).map { it.id }
-            ))
+            assignEmitters[employee.id] = this
+            onCompletion { assignEmitters.remove(employee.id) }
+            sendAssignedRequests(employee)
         }
     }
 
-    override fun onAssigned(employee: Employee, request: WorkloadRequest) {
-        emitters[employee.id]?.send(AssignedWorkloadRequestsDto(
+    private fun SseEmitter.sendAssignedRequests(employee: Employee) {
+        send(AssignedWorkloadRequestsDto(
                 getAssignedWorkloadRequestByEmployeeUseCase.execute(employee).map { it.id }
         ))
+    }
+
+    override fun onAssigned(employee: Employee, request: WorkloadRequest) {
+        assignEmitters[employee.id]?.sendAssignedRequests(employee)
+    }
+
+
+    override fun observeInitiated(): SseEmitter {
+        val employee = getCallingEmployeeUseCase.execute()
+
+        return SseEmitter().apply {
+            initiateEmitters[employee.id] = this
+            onCompletion { initiateEmitters.remove(employee.id) }
+            sendInitiatedRequests(employee)
+        }
+    }
+
+    private fun SseEmitter.sendInitiatedRequests(employee: Employee) {
+        send(InitiatedWorkloadRequestsDto(getInitiatedWorkloadRequestsByEmployeeUseCase.execute(employee)
+                .map { InitiatedWorkloadRequestDto(it.id, it.status.name) }
+        ))
+    }
+
+    override fun onInitiatedChanged(employee: Employee, request: WorkloadRequest) {
+        initiateEmitters[employee.id]?.sendInitiatedRequests(employee)
     }
 }

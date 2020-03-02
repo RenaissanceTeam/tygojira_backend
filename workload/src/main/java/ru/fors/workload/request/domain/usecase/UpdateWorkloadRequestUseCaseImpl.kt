@@ -13,6 +13,7 @@ import ru.fors.workload.api.request.domain.dto.UpdateWorkloadNotAllowedException
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
 import ru.fors.workload.api.request.domain.entity.NoWorkloadFoundException
 import ru.fors.workload.api.request.domain.usecase.NotifyEmployeeOfAssignedRequestUseCase
+import ru.fors.workload.api.request.domain.usecase.NotifyInitiatorEmployeeUseCase
 import ru.fors.workload.api.request.domain.usecase.UpdateWorkloadRequestUseCase
 import ru.fors.workload.api.request.domain.usecase.ValidateWorkloadRequestUseCase
 import ru.fors.workload.request.data.repo.WorkloadRequestRepo
@@ -29,7 +30,8 @@ class UpdateWorkloadRequestUseCaseImpl(
         private val validateWorkload: ValidateWorkloadRequestUseCase,
         private val roleChecker: RoleChecker,
         private val checkIfEmployeeIsFromCallerSubdivisionUseCase: CheckIfEmployeeIsFromCallerSubdivisionUseCase,
-        private val notifyEmployeeOfAssignedRequestUseCase: NotifyEmployeeOfAssignedRequestUseCase
+        private val notifyEmployeeOfAssignedRequestUseCase: NotifyEmployeeOfAssignedRequestUseCase,
+        private val notifyInitiatorEmployeeUseCase: NotifyInitiatorEmployeeUseCase
 ) : UpdateWorkloadRequestUseCase {
 
     override fun execute(id: Long, request: WorkloadRequestDto): WorkloadRequest {
@@ -46,6 +48,7 @@ class UpdateWorkloadRequestUseCaseImpl(
 
         return repo.save(updated).also {
             notifyEmployeeOfAssignedRequestUseCase.execute(it)
+            notifyInitiatorEmployeeUseCase.execute(it)
         }
     }
 
