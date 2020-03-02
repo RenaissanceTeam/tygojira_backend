@@ -7,7 +7,6 @@ bootJar {
 
 dependencies {
     implementation library.springSecurity
-    implementation library.springWebsocket
     implementation library.jacksonKotlin
     runtime library.postgres
 
