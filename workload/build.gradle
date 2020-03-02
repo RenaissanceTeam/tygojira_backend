@@ -7,7 +7,6 @@ dependencies {
     implementation library.auth_api
     implementation library.workload_api
     implementation library.util
-    implementation library.springWebsocket
 
 
     testImplementation groups.forTest
