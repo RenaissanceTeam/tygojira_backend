@@ -7,6 +7,7 @@ ext {
             springWeb              : ("org.springframework.boot:spring-boot-starter-web:$spring_version"),
             springSecurity         : ("org.springframework.boot:spring-boot-starter-security:$spring_version"),
             springData             : ("org.springframework.boot:spring-boot-starter-data-jpa:$spring_version"),
+            springWebsocket        : ("org.springframework.boot:spring-boot-starter-websocket:$spring_version"),
             swagger2               : ("io.springfox:springfox-swagger2:$swagger_version"),
             swaggerUi              : ("io.springfox:springfox-swagger-ui:$swagger_version"),
             jacksonKotlin          : ("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"),

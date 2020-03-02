@@ -10,12 +10,14 @@ import ru.fors.util.extensions.requireAny
 import ru.fors.util.extensions.requireOne
 import ru.fors.workload.api.request.domain.entity.NoWorkloadFoundException
 import ru.fors.workload.api.request.domain.usecase.ChangeRequestStatusUseCase
+import ru.fors.workload.api.request.domain.usecase.NotifyEmployeeOfAssignedRequestUseCase
 import ru.fors.workload.request.data.repo.WorkloadRequestRepo
 
 @Component
 class ChangeRequestStatusUseCaseImpl(
         private val roleChecker: RoleChecker,
-        private val repo: WorkloadRequestRepo
+        private val repo: WorkloadRequestRepo,
+        private val notifyEmployeeOfAssignedRequestUseCase: NotifyEmployeeOfAssignedRequestUseCase
 ) : ChangeRequestStatusUseCase {
 
     override fun execute(id: Long, status: WorkloadRequestStatus): WorkloadRequest {
@@ -31,6 +33,8 @@ class ChangeRequestStatusUseCaseImpl(
                     }
                 }
                 .let { it.copy(status = status) }
-        )
+        ).also {
+            notifyEmployeeOfAssignedRequestUseCase.execute(it)
+        }
     }
 }
