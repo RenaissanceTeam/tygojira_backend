@@ -1,11 +1,13 @@
 package ru.fors.workload.request.data.controller
 
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import ru.fors.entity.workload.request.WorkloadRequestStatus
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
 import ru.fors.workload.api.request.domain.usecase.*
 import ru.fors.workload.request.data.dto.ActivityWorkloadSmallDto
 import ru.fors.workload.request.data.dto.WorkloadRequestConflictsDto
+import ru.fors.workload.request.data.repo.WorkloadRequestObservableRepo
 import ru.fors.workload.request.domain.mapper.WorkloadRequestDtoToEntityMapper
 
 @RestController
@@ -20,7 +22,8 @@ class WorkloadRequestController(
         private val changeRequestStatusUseCase: ChangeRequestStatusUseCase,
         private val getWorkloadRequestByIdUseCase: GetWorkloadRequestByIdUseCase,
         private val getWorkloadConflictsForRequestUseCase: GetWorkloadConflictsForRequestUseCase,
-        private val satisfyWorkloadRequestUseCase: SatisfyWorkloadRequestUseCase
+        private val satisfyWorkloadRequestUseCase: SatisfyWorkloadRequestUseCase,
+        private val workloadRequestObservableRepo: WorkloadRequestObservableRepo
 ) {
 
     @PostMapping("/add")
@@ -39,6 +42,16 @@ class WorkloadRequestController(
     fun getAssigned(): List<WorkloadRequestDto> {
         return getWorkloadRequestsAssignedToCallerUseCase.execute()
                 .map(workloadDtoEntityMapper::mapEntity)
+    }
+
+    @GetMapping("assigned/stream")
+    fun streamAssigned(): SseEmitter {
+        return workloadRequestObservableRepo.observeAssigned()
+    }
+
+    @GetMapping("initiated/stream")
+    fun streamInitiated(): SseEmitter {
+        return workloadRequestObservableRepo.observeInitiated()
     }
 
     @PostMapping("{id}/update")
@@ -93,4 +106,7 @@ class WorkloadRequestController(
                     WorkloadRequestConflictsDto(id, conflicts.flatMap { it.with.activities })
                 }
     }
+
+
+
 }

@@ -6,8 +6,7 @@ import ru.fors.employee.api.domain.dto.FullEmployeeInfoDto
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto
 import ru.fors.employee.api.domain.entity.EmployeeFilter
 import ru.fors.employee.api.domain.usecase.*
-import ru.fors.employee.data.dto.AvailableDatesDto
-import ru.fors.employee.data.dto.SeparateActivityAvailabilityDto
+import ru.fors.employee.data.dto.*
 import ru.fors.employee.data.mapper.AvailabilityDtoEntityMapper
 import ru.fors.entity.employee.Employee
 import ru.fors.entity.employee.EmployeeRole
@@ -31,7 +30,10 @@ class EmployeeController(
         private val getAvailabilityForSeparateActivitiesUseCase: GetAvailabilityForSeparateActivitiesUseCase,
         private val availabilityMapper: AvailabilityDtoEntityMapper,
         private val getAllEmployeeWorkloadsUseCase: GetAllEmployeeWorkloadsUseCase,
-        private val allEmployeeWorkloadsToDtoMapper: AllEmployeeWorkloadsToDtoMapper
+        private val allEmployeeWorkloadsToDtoMapper: AllEmployeeWorkloadsToDtoMapper,
+        private val getPositionsUseCase: GetPositionsUseCase,
+        private val getSkillsUseCase: GetSkillsUseCase,
+        private val getSubdivisionsUseCase: GetSubdivisionsUseCase
 ) {
 
     @PostMapping("/add")
@@ -95,4 +97,18 @@ class EmployeeController(
                 .let(allEmployeeWorkloadsToDtoMapper::map)
     }
 
+    @GetMapping("/positions")
+    fun getPositions(): PositionsDto {
+        return PositionsDto(getPositionsUseCase.execute())
+    }
+
+    @GetMapping("/skills")
+    fun getSkills(): SkillsDto {
+        return SkillsDto(getSkillsUseCase.execute())
+    }
+
+    @GetMapping("/subdivisions")
+    fun getSubdivisions(): SubdivisionsDto {
+        return SubdivisionsDto(getSubdivisionsUseCase.execute())
+    }
 }

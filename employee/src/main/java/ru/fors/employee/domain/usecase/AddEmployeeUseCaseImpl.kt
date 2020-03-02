@@ -2,21 +2,22 @@ package ru.fors.employee.domain.usecase
 
 import org.springframework.stereotype.Component
 import ru.fors.auth.api.domain.RoleChecker
-import ru.fors.auth.api.domain.usecase.SignUpUseCase
 import ru.fors.auth.api.domain.dto.Credentials
 import ru.fors.auth.api.domain.usecase.GetUserByUsernameUseCase
+import ru.fors.auth.api.domain.usecase.SignUpUseCase
+import ru.fors.employee.api.domain.dto.EmployeeDto
+import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
+import ru.fors.employee.api.domain.usecase.AddEmployeeUseCase
+import ru.fors.employee.api.domain.usecase.ValidateEmployeeUseCase
+import ru.fors.employee.data.repo.EmployeeRepo
+import ru.fors.employee.data.repo.EmployeeRoleRepo
+import ru.fors.employee.data.repo.EmployeeUserRepo
 import ru.fors.entity.auth.SystemUserRole
 import ru.fors.entity.auth.User
 import ru.fors.entity.employee.Employee
 import ru.fors.entity.employee.EmployeeRole
 import ru.fors.entity.employee.EmployeeUser
 import ru.fors.entity.employee.Role
-import ru.fors.employee.api.domain.usecase.AddEmployeeUseCase
-import ru.fors.employee.api.domain.dto.EmployeeDto
-import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
-import ru.fors.employee.data.repo.EmployeeRepo
-import ru.fors.employee.data.repo.EmployeeRoleRepo
-import ru.fors.employee.data.repo.EmployeeUserRepo
 
 @Component
 class AddEmployeeUseCaseImpl(
@@ -25,7 +26,8 @@ class AddEmployeeUseCaseImpl(
         private val roleChecker: RoleChecker,
         private val signUpUseCase: SignUpUseCase,
         private val employeeUserRepo: EmployeeUserRepo,
-        private val getUserByUsernameUseCase: GetUserByUsernameUseCase
+        private val getUserByUsernameUseCase: GetUserByUsernameUseCase,
+        private val validateEmployeeUseCase: ValidateEmployeeUseCase
 ) : AddEmployeeUseCase {
     override fun execute(dto: EmployeeWithRoleDto): Employee {
         roleChecker.startCheck()
@@ -37,7 +39,7 @@ class AddEmployeeUseCaseImpl(
                 // fixme: password as username is not a good idea
                 .getOrElse { signUpUser(dto.employee.username, dto.employee.username) }
 
-        return saveEmployee(dto.employee).also {
+        return validateAndSaveEmployee(dto.employee).also {
             saveEmployeeRole(it, dto.roles)
             saveUserToEmployeeConnection(it, user)
         }
@@ -66,14 +68,18 @@ class AddEmployeeUseCaseImpl(
         ))
     }
 
-    private fun saveEmployee(employee: EmployeeDto): Employee {
-        return employeeRepo.save(Employee(
+    private fun validateAndSaveEmployee(employee: EmployeeDto): Employee {
+        val entity = Employee(
                 firstName = employee.firstName,
                 middleName = employee.middleName,
                 lastName = employee.lastName,
                 position = employee.position,
                 subdivision = employee.subdivision,
                 skills = employee.skills
-        ))
+        )
+
+        validateEmployeeUseCase.execute(entity)
+
+        return employeeRepo.save(entity)
     }
 }
