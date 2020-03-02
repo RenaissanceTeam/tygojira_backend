@@ -36,8 +36,8 @@ class ProductionCalendarController(
         return getHolidaysUseCase.execute(yearParam)
     }
 
-    @PatchMapping
-    fun update(@RequestBody holiday: HolidayDto): Holiday {
-        return updateHolidayUseCase.execute(holidayMapper.map(holiday))
+    @PatchMapping("/{id}")
+    fun update(@PathVariable id: Long, @RequestBody holiday: HolidayDto): Holiday {
+        return updateHolidayUseCase.execute(holidayMapper.map(holiday, id))
     }
 }
