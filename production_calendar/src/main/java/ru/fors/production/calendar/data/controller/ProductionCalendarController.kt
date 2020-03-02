@@ -8,6 +8,7 @@ import ru.fors.production.calendar.api.domain.usecase.GetHolidaysUseCase
 import ru.fors.production.calendar.api.domain.usecase.UpdateHolidayUseCase
 import ru.fors.production.calendar.data.dto.HolidayDto
 import ru.fors.production.calendar.data.mapper.HolidayDtoMapper
+import java.time.Year
 
 @RestController
 @RequestMapping("/holidays")
@@ -30,8 +31,9 @@ class ProductionCalendarController(
     }
 
     @GetMapping
-    fun getHolidays(): List<Holiday> {
-        return getHolidaysUseCase.execute()
+    fun getHolidays(@RequestParam(required = false) year: Year?): List<Holiday> {
+        val yearParam = year ?: Year.now()
+        return getHolidaysUseCase.execute(yearParam)
     }
 
     @PatchMapping
