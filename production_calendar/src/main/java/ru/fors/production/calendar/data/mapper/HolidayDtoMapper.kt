@@ -7,8 +7,8 @@ import ru.fors.production.calendar.data.dto.HolidayDto
 
 @Component
 class HolidayDtoMapper {
-    fun map(holiday: HolidayDto) = Holiday(
-            id = holiday.id ?: NOT_DEFINED_ID,
+    fun map(holiday: HolidayDto, id: Long = NOT_DEFINED_ID) = Holiday(
+            id = id,
             title = holiday.title,
             description = holiday.description,
             startDate = holiday.startDate,
