@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*
 import ru.fors.entity.holiday.Holiday
 import ru.fors.production.calendar.api.domain.usecase.*
 import ru.fors.production.calendar.data.dto.HolidayDto
+import ru.fors.production.calendar.data.dto.HolidaysResponseDto
 import ru.fors.production.calendar.data.mapper.HolidayDtoMapper
 import java.time.Year
 
@@ -18,23 +19,22 @@ class ProductionCalendarController(
         private val holidayMapper: HolidayDtoMapper
 ) {
 
-    @PostMapping
+    @PutMapping
     fun add(@RequestBody holidayDto: HolidayDto): Holiday {
         val holiday = holidayMapper.map(holidayDto)
         checkIfHolidaysModificationPermittedUseCase.execute(holiday)
         return addHolidayUseCase.execute(holiday)
     }
 
-    @DeleteMapping
-    fun delete(@RequestBody holiday: Holiday) {
-        checkIfHolidaysModificationPermittedUseCase.execute(holiday)
-        deleteHolidayUseCase.execute(holiday)
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: Long) {
+        deleteHolidayUseCase.execute(id)
     }
 
     @GetMapping
-    fun getHolidays(@RequestParam(required = false) year: Year?): List<Holiday> {
+    fun getHolidays(@RequestParam(required = false) year: Year?): HolidaysResponseDto {
         val yearParam = year ?: Year.now()
-        return getHolidaysUseCase.execute(yearParam)
+        return HolidaysResponseDto(getHolidaysUseCase.execute(yearParam))
     }
 
     @PatchMapping("/{id}")
