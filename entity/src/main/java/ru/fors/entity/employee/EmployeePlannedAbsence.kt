@@ -7,12 +7,12 @@ import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
-data class SeparateActivityAvailability(
+data class EmployeePlannedAbsence(
         @Id @GeneratedValue
         val id: Long = NOT_DEFINED_ID,
         @OneToOne
         @OnDelete(action = OnDeleteAction.CASCADE)
         val employee: Employee,
-        @ElementCollection(targetClass = LocalDate::class, fetch = FetchType.EAGER)
-        val dates: List<LocalDate> = listOf()
+        @ElementCollection
+        val dates: List<LocalDate> = emptyList()
 )

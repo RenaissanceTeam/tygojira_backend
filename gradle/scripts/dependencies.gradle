@@ -31,6 +31,8 @@ ext {
             workload_api           : project(":workload_api"),
             entity                 : project(":entity"),
             pagination_api         : project(":pagination_api"),
+            planned_absence        : project(":planned_absence"),
+            planned_absence_api    : project(":planned_absence_api"),
             production_calendar    : project(":production_calendar"),
             production_calendar_api: project(":production_calendar_api"),
             swagger                : project(":swagger"),

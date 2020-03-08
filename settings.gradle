@@ -15,4 +15,6 @@ include 'workload'
 include 'workload_api'
 include 'production_calendar'
 include 'production_calendar_api'
+include 'planned_absence_api'
+include 'planned_absence'
 
