@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.fors.monitoring.api.domain.dto.EmployeeActivitiesWorkloadsDto
 import ru.fors.monitoring.api.domain.mapper.ActivitiesWorkloadsToEmployeeActivitiesWorkloadsDtoMapper
+import ru.fors.monitoring.api.domain.mapper.ActivityWorkloadToDtoMapper
 import ru.fors.monitoring.api.domain.mapper.ActivityWorkloadToEmployeeLessDtoMapper
+import ru.fors.monitoring.api.domain.usecase.GetActivityWorkloadUseCase
 import ru.fors.monitoring.api.domain.usecase.GetEmployeeActivitiesWorkloadsUseCase
 import ru.fors.workload.api.domain.dto.ActivityWorkloadDto
-import ru.fors.monitoring.api.domain.mapper.ActivityWorkloadToDtoMapper
-import ru.fors.workload.api.domain.usecase.GetActivityWorkloadByActivityIdUseCase
 
 @RestController
 @RequestMapping("/monitoring")
 class MonitoringController(
         private val getEmployeeActivitiesWorkloadsUseCase: GetEmployeeActivitiesWorkloadsUseCase,
-        private val getActivityWorkloadUseCase: GetActivityWorkloadByActivityIdUseCase,
+        private val getActivityWorkloadUseCase: GetActivityWorkloadUseCase,
         private val activityWorkloadMapper: ActivityWorkloadToDtoMapper,
         private val activityWorkloadToEmployeeLessDtoMapper: ActivityWorkloadToEmployeeLessDtoMapper,
         private val activitiesWorkloadsToEmployeeActivitiesWorkloadsDtoMapper: ActivitiesWorkloadsToEmployeeActivitiesWorkloadsDtoMapper
