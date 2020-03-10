@@ -7,6 +7,8 @@ dependencies {
     implementation library.auth_api
     implementation library.entity
     implementation library.util
+    implementation library.activity_api
+    implementation library.workload_api
 
     testImplementation groups.forTest
 }

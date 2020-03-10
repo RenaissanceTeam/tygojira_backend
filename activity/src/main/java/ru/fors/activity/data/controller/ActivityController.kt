@@ -8,9 +8,6 @@ import ru.fors.pagination.api.domain.entity.Order
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
 import ru.fors.pagination.api.domain.entity.Sort
-import ru.fors.workload.api.domain.dto.ActivityWorkloadDto
-import ru.fors.workload.api.domain.mapper.ActivityWorkloadToDtoMapper
-import ru.fors.workload.api.domain.usecase.GetActivityWorkloadByActivityIdUseCase
 
 @RestController
 @RequestMapping("/activities")
@@ -19,9 +16,7 @@ class ActivityController(
         private val getActivitiesUseCase: GetActivitiesUseCase,
         private val updateActivityUseCase: UpdateActivityUseCase,
         private val getActivityByIdUseCase: GetActivityByIdUseCase,
-        private val deleteActivityUseCase: DeleteActivityUseCase,
-        private val getActivityWorkloadUseCase: GetActivityWorkloadByActivityIdUseCase,
-        private val activityWorkloadMapper: ActivityWorkloadToDtoMapper
+        private val deleteActivityUseCase: DeleteActivityUseCase
 ) {
 
     @PutMapping
@@ -52,10 +47,5 @@ class ActivityController(
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long) {
         deleteActivityUseCase.execute(id)
-    }
-
-    @GetMapping("/{id}/workload")
-    fun getWorkload(@PathVariable id: Long): ActivityWorkloadDto {
-        return getActivityWorkloadUseCase.execute(id).let(activityWorkloadMapper::map)
     }
 }
