@@ -1,13 +1,15 @@
 package ru.fors.workload.request.data.controller
 
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
+import ru.fors.entity.workload.request.WorkloadNotificationType
 import ru.fors.entity.workload.request.WorkloadRequestStatus
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
 import ru.fors.workload.api.request.domain.usecase.*
 import ru.fors.workload.request.data.dto.ActivityWorkloadSmallDto
+import ru.fors.workload.request.data.dto.NotificationsDto
 import ru.fors.workload.request.data.dto.WorkloadRequestConflictsDto
-import ru.fors.workload.request.data.repo.WorkloadRequestObservableRepo
+import ru.fors.workload.request.data.dto.WorkloadRequestsDto
 import ru.fors.workload.request.domain.mapper.WorkloadRequestDtoToEntityMapper
 
 @RestController
@@ -23,7 +25,8 @@ class WorkloadRequestController(
         private val getWorkloadRequestByIdUseCase: GetWorkloadRequestByIdUseCase,
         private val getWorkloadConflictsForRequestUseCase: GetWorkloadConflictsForRequestUseCase,
         private val satisfyWorkloadRequestUseCase: SatisfyWorkloadRequestUseCase,
-        private val workloadRequestObservableRepo: WorkloadRequestObservableRepo
+        private val getWorkloadNotificationsForCallerUseCase: GetWorkloadNotificationsForCallerUseCase,
+        private val removeWorkloadNotificationsForCallerUseCase: RemoveWorkloadNotificationsForCallerUseCase
 ) {
 
     @PostMapping("/add")
@@ -32,27 +35,44 @@ class WorkloadRequestController(
                 .let(workloadRequestDtoToEntityMapper::mapEntity)
     }
 
-    @GetMapping("")
-    fun getAll(): List<WorkloadRequestDto> {
+    @GetMapping("/initiated")
+    fun getAll(): WorkloadRequestsDto {
         return getWorkloadRequestsInitiatedByCallerUseCase.execute()
                 .map(workloadDtoEntityMapper::mapEntity)
+                .let(::WorkloadRequestsDto)
+    }
+
+    @GetMapping("/initiated/notifications")
+    fun getInitiatedNotifications(): NotificationsDto {
+        return getWorkloadNotificationsForCallerUseCase.execute(WorkloadNotificationType.INITIATOR)
+                .map { it.id }
+                .let(::NotificationsDto)
+    }
+
+    @DeleteMapping("/initiated/notifications")
+    fun removeInitiatedNotifications() {
+        removeWorkloadNotificationsForCallerUseCase.execute(WorkloadNotificationType.INITIATOR)
     }
 
     @GetMapping("/assigned")
-    fun getAssigned(): List<WorkloadRequestDto> {
+    fun getAssigned(): WorkloadRequestsDto {
         return getWorkloadRequestsAssignedToCallerUseCase.execute()
                 .map(workloadDtoEntityMapper::mapEntity)
+                .let(::WorkloadRequestsDto)
     }
 
-    @GetMapping("assigned/stream")
-    fun streamAssigned(): SseEmitter {
-        return workloadRequestObservableRepo.observeAssigned()
+    @GetMapping("/assigned/notifications")
+    fun getAssignedNotifications(): NotificationsDto {
+        return getWorkloadNotificationsForCallerUseCase.execute(WorkloadNotificationType.ASSIGNEE)
+                .map { it.id }
+                .let(::NotificationsDto)
     }
 
-    @GetMapping("initiated/stream")
-    fun streamInitiated(): SseEmitter {
-        return workloadRequestObservableRepo.observeInitiated()
+    @DeleteMapping("/assigned/notifications")
+    fun removeAssignedNotifications() {
+        removeWorkloadNotificationsForCallerUseCase.execute(WorkloadNotificationType.ASSIGNEE)
     }
+
 
     @PostMapping("{id}/update")
     fun update(@PathVariable id: Long, @RequestBody workloadRequestDto: WorkloadRequestDto): WorkloadRequestDto {
@@ -106,7 +126,5 @@ class WorkloadRequestController(
                     WorkloadRequestConflictsDto(id, conflicts.flatMap { it.with.activities })
                 }
     }
-
-
 
 }
