@@ -41,6 +41,7 @@ class UpdateWorkloadRequestUseCaseImpl(
 
         checkIsAllowedToUpdate(requestMapper.mapDto(request), saved)
 
+
         val updated = saved.copy(positions = request.positions.map(positionMapper::mapDto))
                 .let { updated -> copyDeletedPositionsWithActiveFalse(saved, updated) }
                 .let { updated -> addSavedDeletedPositions(saved, updated) }
@@ -51,7 +52,6 @@ class UpdateWorkloadRequestUseCaseImpl(
             notifyInitiatorEmployeeUseCase.execute(it)
         }
     }
-
 
     private fun copyDeletedPositionsWithActiveFalse(saved: WorkloadRequest, updated: WorkloadRequest): WorkloadRequest {
         val updatedPositions = updated.positions.filter { it.employee != null }.map { it.id }
