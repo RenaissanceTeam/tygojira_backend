@@ -1,6 +1,7 @@
 package ru.fors.employee.api.domain.entity
 
 import ru.fors.entity.DateInterval
+import ru.fors.entity.activity.Activity
 
 data class EmployeeFilter(
         val firstName: String? = null,
@@ -9,5 +10,6 @@ data class EmployeeFilter(
         val position: String? = null,
         val subdivision: String? = null,
         val skills: List<String> = listOf(),
-        val availableOn: List<DateInterval> = listOf()
+        val availableOn: List<DateInterval> = listOf(),
+        val activities: List<Activity>? = null
 )
