@@ -40,19 +40,19 @@ class EmployeeController(
         private val employeeToFullEmployeeInfoDtoMapper: EmployeeToFullEmployeeInfoDtoMapper
 ) {
 
-    @PostMapping("/add")
+    @PutMapping
     fun add(@RequestBody employeeWithRoleDto: EmployeeWithRoleDto): Employee {
         return addEmployeeUseCase.execute(employeeWithRoleDto)
     }
 
-    @PostMapping("/{id}/update")
+    @PatchMapping("/{id}")
     fun updateEmployee(@PathVariable id: Long, @RequestBody updateDto: UpdateEmployeeInfoDto): Employee {
         return updateEmployeeUseCase.execute(id, updateDto)
     }
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long) {
-        deleteEmployeeUseCase.runCatching { execute(id) }
+        deleteEmployeeUseCase.execute(id)
     }
 
     @GetMapping("/users/{username}")
