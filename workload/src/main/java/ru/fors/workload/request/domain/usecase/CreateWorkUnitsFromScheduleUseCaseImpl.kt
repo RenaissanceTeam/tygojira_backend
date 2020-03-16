@@ -10,6 +10,7 @@ import ru.fors.workload.api.request.domain.entity.IllegalScheduleException
 import ru.fors.workload.api.request.domain.usecase.CreateWorkUnitsFromScheduleUseCase
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.Year
 
 @Component
 class CreateWorkUnitsFromScheduleUseCaseImpl(
@@ -17,8 +18,8 @@ class CreateWorkUnitsFromScheduleUseCaseImpl(
 ) : CreateWorkUnitsFromScheduleUseCase {
     override fun execute(schedule: WorkloadScheduleDto, employee: Employee?): List<WorkUnit> {
         if (schedule.start > schedule.end) throw IllegalScheduleException("Start is later than end")
-        val holidays = getHolidaysUseCase.execute()
-
+        val holidays = (schedule.start.year..schedule.end.year).flatMap { getHolidaysUseCase.execute(Year.of(it)) }
+        
         var day = schedule.start
         var units = mutableListOf<WorkUnit>()
         do {
