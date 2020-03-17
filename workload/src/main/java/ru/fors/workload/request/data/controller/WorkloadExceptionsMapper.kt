@@ -7,10 +7,7 @@ import ru.fors.util.extensions.toResponseEntityStatus
 import ru.fors.workload.api.domain.entity.NoWorkloadForActivityException
 import ru.fors.workload.api.request.domain.dto.AddWorkloadNotAllowedException
 import ru.fors.workload.api.request.domain.dto.UpdateWorkloadNotAllowedException
-import ru.fors.workload.api.request.domain.entity.NoActiveWorkloadPositionsException
-import ru.fors.workload.api.request.domain.entity.NoEmployeeForPositionException
-import ru.fors.workload.api.request.domain.entity.NoWorkloadFoundException
-import ru.fors.workload.api.request.domain.entity.WorkloadLessThanMinimumException
+import ru.fors.workload.api.request.domain.entity.*
 
 @ControllerAdvice
 class WorkloadExceptionsMapper {
@@ -35,4 +32,7 @@ class WorkloadExceptionsMapper {
 
     @ExceptionHandler
     fun noWorkloadForActivity(e: NoWorkloadForActivityException) = e.toResponseEntityStatus(HttpStatus.BAD_REQUEST)
+
+    @ExceptionHandler
+    fun illegalScheduleException(e: IllegalScheduleException) = e.toResponseEntityStatus(HttpStatus.BAD_REQUEST)
 }

@@ -2,6 +2,7 @@ package ru.fors.workload.request.domain.usecase
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
+import ru.fors.activity.api.domain.usecase.SetActivityLeadUseCase
 import ru.fors.auth.api.domain.RoleChecker
 import ru.fors.entity.employee.Role
 import ru.fors.entity.workload.request.WorkloadRequest
