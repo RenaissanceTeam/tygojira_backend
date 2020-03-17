@@ -10,6 +10,7 @@ import ru.fors.production.calendar.api.domain.usecase.GetHolidaysUseCase
 import ru.fors.workload.api.request.domain.dto.WorkloadScheduleDto
 import ru.fors.workload.api.request.domain.usecase.CreateWorkUnitsFromScheduleUseCase
 import java.time.LocalDate
+import java.time.Year
 import kotlin.test.assertFails
 import kotlin.test.assertTrue
 
@@ -71,7 +72,7 @@ class CreateWorkUnitsFromScheduleUseCaseImplTest {
     @Test
     fun `should not contain holidays`() {
         val holiday = Holiday(1L, "", "", startDate = LocalDate.parse("2020-03-20"))
-        whenever(getHolidaysUseCase.execute()).then { listOf(holiday) }
+        whenever(getHolidaysUseCase.execute(Year.parse("2020"))).then { listOf(holiday) }
         val start = LocalDate.parse("2020-03-16")
         val end = LocalDate.parse("2020-03-23")
         val schedule = WorkloadScheduleDto(start, end, monday = 8, tuesday = 8, wednesday = 8, thursday = 8, friday = 8)
