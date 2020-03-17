@@ -1,10 +1,12 @@
 package ru.fors.employee.data.controller
 
 import org.springframework.web.bind.annotation.*
+import ru.fors.employee.api.domain.dto.EmployeeDto
 import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
 import ru.fors.employee.api.domain.dto.FullEmployeeInfoDto
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto
 import ru.fors.employee.api.domain.entity.EmployeeFilter
+import ru.fors.employee.api.domain.mapper.EmployeeToFullEmployeeInfoDtoMapper
 import ru.fors.employee.api.domain.usecase.*
 import ru.fors.employee.data.dto.*
 import ru.fors.employee.data.mapper.AvailabilityDtoEntityMapper
@@ -33,7 +35,9 @@ class EmployeeController(
         private val allEmployeeWorkloadsToDtoMapper: AllEmployeeWorkloadsToDtoMapper,
         private val getPositionsUseCase: GetPositionsUseCase,
         private val getSkillsUseCase: GetSkillsUseCase,
-        private val getSubdivisionsUseCase: GetSubdivisionsUseCase
+        private val getSubdivisionsUseCase: GetSubdivisionsUseCase,
+        private val getCallingEmployeeUseCase: GetCallingEmployeeUseCase,
+        private val employeeToFullEmployeeInfoDtoMapper: EmployeeToFullEmployeeInfoDtoMapper
 ) {
 
     @PutMapping
@@ -67,6 +71,12 @@ class EmployeeController(
     fun getSeparateActivityAvailability(@PathVariable id: Long): SeparateActivityAvailabilityDto {
         return getAvailabilityForSeparateActivitiesUseCase.execute(id)
                 .let(availabilityMapper::mapEntity)
+    }
+
+    @GetMapping("/profile")
+    fun getProfile(): FullEmployeeInfoDto {
+        return getCallingEmployeeUseCase.execute()
+                .let(employeeToFullEmployeeInfoDtoMapper::map)
     }
 
     @GetMapping
