@@ -1,7 +1,7 @@
 package ru.fors.employee.data.controller
 
 import org.springframework.web.bind.annotation.*
-import ru.fors.employee.api.domain.dto.EmployeeDto
+import ru.fors.auth.api.domain.RoleChecker
 import ru.fors.employee.api.domain.dto.EmployeeWithRoleDto
 import ru.fors.employee.api.domain.dto.FullEmployeeInfoDto
 import ru.fors.employee.api.domain.dto.UpdateEmployeeInfoDto
@@ -12,10 +12,12 @@ import ru.fors.employee.data.dto.*
 import ru.fors.employee.data.mapper.AvailabilityDtoEntityMapper
 import ru.fors.entity.employee.Employee
 import ru.fors.entity.employee.EmployeeRole
+import ru.fors.entity.employee.Role
 import ru.fors.pagination.api.domain.entity.Order
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
 import ru.fors.pagination.api.domain.entity.Sort
+import ru.fors.util.extensions.requireOne
 import ru.fors.workload.api.domain.dto.AllEmployeeWorkloadsDto
 import ru.fors.workload.api.domain.mapper.AllEmployeeWorkloadsToDtoMapper
 import ru.fors.workload.api.domain.usecase.GetAllEmployeeWorkloadsUseCase
@@ -37,7 +39,9 @@ class EmployeeController(
         private val getSkillsUseCase: GetSkillsUseCase,
         private val getSubdivisionsUseCase: GetSubdivisionsUseCase,
         private val getCallingEmployeeUseCase: GetCallingEmployeeUseCase,
-        private val employeeToFullEmployeeInfoDtoMapper: EmployeeToFullEmployeeInfoDtoMapper
+        private val employeeToFullEmployeeInfoDtoMapper: EmployeeToFullEmployeeInfoDtoMapper,
+        private val getEmployeesWithRoleInSubdivisionUseCase: GetEmployeesWithRoleInSubdivisionUseCase,
+        private val roleChecker: RoleChecker
 ) {
 
     @PutMapping
@@ -119,5 +123,15 @@ class EmployeeController(
     @GetMapping("/subdivisions")
     fun getSubdivisions(): SubdivisionsDto {
         return SubdivisionsDto(getSubdivisionsUseCase.execute())
+    }
+
+    @GetMapping("/leads")
+    fun getProjectLeads(): ProjectLeadsDto {
+        roleChecker.requireOne(Role.LINEAR_LEAD)
+        
+        return getEmployeesWithRoleInSubdivisionUseCase.execute(
+                Role.PROJECT_LEAD,
+                getCallingEmployeeUseCase.execute().subdivision
+        ).let(::ProjectLeadsDto)
     }
 }
