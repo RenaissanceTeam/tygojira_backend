@@ -18,8 +18,6 @@ class ActivityController(
         private val updateActivityUseCase: UpdateActivityUseCase,
         private val getActivityByIdUseCase: GetActivityByIdUseCase,
         private val deleteActivityUseCase: DeleteActivityUseCase,
-        private val getActivityWorkloadUseCase: GetActivityWorkloadByActivityIdUseCase,
-        private val activityWorkloadMapper: ActivityWorkloadToDtoMapper,
         private val setActivityLeadUseCase: SetActivityLeadUseCase
 ) {
 
@@ -52,6 +50,7 @@ class ActivityController(
     fun delete(@PathVariable id: Long) {
         deleteActivityUseCase.execute(id)
     }
+
     @PostMapping("/{id}/lead")
     fun setLead(@PathVariable id: Long, @RequestBody lead: ActivityLeadDto): Activity {
         return setActivityLeadUseCase.execute(id, lead.id)
