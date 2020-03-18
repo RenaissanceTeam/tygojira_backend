@@ -3,6 +3,7 @@ apply from: "$rootDir/gradle/scripts/spring-module.gradle"
 dependencies {
     implementation library.auth_api
     implementation library.activity_api
+    implementation library.employee_api
     implementation library.util
     implementation library.workload_api
 

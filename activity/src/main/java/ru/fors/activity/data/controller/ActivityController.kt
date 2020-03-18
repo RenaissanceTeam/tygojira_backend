@@ -3,6 +3,7 @@ package ru.fors.activity.data.controller
 import org.springframework.web.bind.annotation.*
 import ru.fors.activity.api.domain.dto.ActivityDto
 import ru.fors.activity.api.domain.usecase.*
+import ru.fors.activity.data.dto.ActivityLeadDto
 import ru.fors.entity.activity.Activity
 import ru.fors.pagination.api.domain.entity.Order
 import ru.fors.pagination.api.domain.entity.Page
@@ -16,7 +17,10 @@ class ActivityController(
         private val getActivitiesUseCase: GetActivitiesUseCase,
         private val updateActivityUseCase: UpdateActivityUseCase,
         private val getActivityByIdUseCase: GetActivityByIdUseCase,
-        private val deleteActivityUseCase: DeleteActivityUseCase
+        private val deleteActivityUseCase: DeleteActivityUseCase,
+        private val getActivityWorkloadUseCase: GetActivityWorkloadByActivityIdUseCase,
+        private val activityWorkloadMapper: ActivityWorkloadToDtoMapper,
+        private val setActivityLeadUseCase: SetActivityLeadUseCase
 ) {
 
     @PutMapping
@@ -47,5 +51,9 @@ class ActivityController(
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long) {
         deleteActivityUseCase.execute(id)
+    }
+    @PostMapping("/{id}/lead")
+    fun setLead(@PathVariable id: Long, @RequestBody lead: ActivityLeadDto): Activity {
+        return setActivityLeadUseCase.execute(id, lead.id)
     }
 }

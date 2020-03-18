@@ -3,10 +3,12 @@ package ru.fors.employee.data.specifications
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.domain.Specification.where
 import ru.fors.employee.api.domain.entity.EmployeeFilter
+import ru.fors.entity.activity.Activity
 import ru.fors.entity.employee.Employee
 
 fun EmployeeFilter.toSpecification(): Specification<Employee> {
     return where(firstName?.let(::firstNameSpecification))
+//            .and(activities?.let(::activitiesSpecification))
             .and(middleName?.let(::middleNameSpecification))
             .and(lastName?.let(::lastNameSpecification))
             .and(position?.let(::positionSpecification))
@@ -42,4 +44,31 @@ fun skillsSpecification(skills: List<String>) = Specification<Employee> { root, 
     }.toTypedArray()
 
     query.where(*predicates).restriction
+}
+
+fun activitiesSpecification(activities: List<Activity>) = Specification<Employee> { root, query, criteriaBuilder ->
+    //    select * from employee e
+//    join workload w on e.id=w.employee_id
+//    join activity_workload_workloads aws on w.id=aws.workloads_id
+//    join activity_workload aw on aws.activity_workload_id = aw.id
+//    where aw.activity_id in (121)
+
+
+    TODO(" I DON'T FUCKING KNOW HOW TO MAKE THIS WORK!!, the above sql is right though")
+//    val employeeActivities = query.subquery(ActivityWorkload::class.java)
+//    val subRoot = employeeActivities.from(ActivityWorkload::class.java)
+//
+//
+//    val list = subRoot.joinList<ActivityWorkload, Workload>("workloads")
+//            .join<Workload, Employee>("employee")
+//
+//    employeeActivities.correlate(list)
+//
+//    val predicates = activities.map {
+//        criteriaBuilder.equal(subRoot.get<Activity>("activity"), it)
+//    }.toTypedArray()
+//
+//    query.where(*predicates).restriction
+//
+//    criteriaBuilder.all(employeeActivities).`in`(activities)
 }
