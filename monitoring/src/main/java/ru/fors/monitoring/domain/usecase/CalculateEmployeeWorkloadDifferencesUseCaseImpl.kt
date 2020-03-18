@@ -1,5 +1,6 @@
 package ru.fors.monitoring.domain.usecase
 
+import org.springframework.stereotype.Component
 import ru.fors.entity.MAXIMUM_WORKLOAD_WORKING_HOURS
 import ru.fors.entity.workload.WorkUnit
 import ru.fors.entity.workload.monitoring.WorkloadDifference
@@ -7,6 +8,7 @@ import ru.fors.entity.workload.monitoring.WorkloadDifferenceType
 import ru.fors.monitoring.api.domain.usecase.CalculateEmployeeWorkloadDifferencesUseCase
 import kotlin.math.abs
 
+@Component
 class CalculateEmployeeWorkloadDifferencesUseCaseImpl : CalculateEmployeeWorkloadDifferencesUseCase {
 
     override fun execute(employeeWorkUnits: List<WorkUnit>): List<WorkloadDifference> {
