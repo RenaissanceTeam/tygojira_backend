@@ -1,6 +1,5 @@
 package ru.fors.workload.request.data.controller
 
-import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import ru.fors.entity.workload.request.WorkloadNotificationType
 import ru.fors.entity.workload.request.WorkloadRequestStatus
