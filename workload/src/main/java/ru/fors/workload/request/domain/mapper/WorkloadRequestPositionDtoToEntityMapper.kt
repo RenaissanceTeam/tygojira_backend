@@ -22,6 +22,7 @@ class WorkloadRequestPositionDtoToEntityMapper(
                 skills = entity.skills,
                 workUnits = entity.workUnits,
                 employeeId = entity.employee?.id,
+                employee = entity.employee,
                 active = entity.active
         )
     }

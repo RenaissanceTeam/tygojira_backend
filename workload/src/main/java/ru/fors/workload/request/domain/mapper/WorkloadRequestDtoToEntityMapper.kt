@@ -20,6 +20,7 @@ class WorkloadRequestDtoToEntityMapper(
         return WorkloadRequestDto(
                 id = entity.id,
                 activityId = entity.activity.id,
+                activity = entity.activity,
                 positions = entity.positions.map(workloadRequestPositionMapper::mapEntity),
                 initiatorId = entity.initiator?.id,
                 status = entity.status,
