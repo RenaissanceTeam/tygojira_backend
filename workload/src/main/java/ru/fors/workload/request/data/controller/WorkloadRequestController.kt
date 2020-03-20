@@ -1,12 +1,10 @@
 package ru.fors.workload.request.data.controller
 
-import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import ru.fors.entity.workload.request.WorkloadNotificationType
 import ru.fors.entity.workload.request.WorkloadRequestStatus
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
 import ru.fors.workload.api.request.domain.usecase.*
-import ru.fors.workload.request.data.dto.ActivityWorkloadSmallDto
 import ru.fors.workload.request.data.dto.NotificationsDto
 import ru.fors.workload.request.data.dto.WorkloadRequestConflictsDto
 import ru.fors.workload.request.data.dto.WorkloadRequestsDto
@@ -97,12 +95,12 @@ class WorkloadRequestController(
     }
 
     @PostMapping("{id}/satisfy")
-    fun satisfy(@PathVariable id: Long, @RequestBody workloadRequestDto: WorkloadRequestDto? = null): ActivityWorkloadSmallDto {
+    fun satisfy(@PathVariable id: Long, @RequestBody workloadRequestDto: WorkloadRequestDto? = null): WorkloadRequestDto {
         workloadRequestDto?.let { updateWorkloadRequestUseCase.execute(id, workloadRequestDto) }
 
-        return satisfyWorkloadRequestUseCase.execute(id).let {
-            ActivityWorkloadSmallDto(it.id, it.activity.id, it.workloads.map { it.id })
-        }
+        return satisfyWorkloadRequestUseCase.execute(id).let(
+                workloadRequestDtoToEntityMapper::mapEntity
+        )
     }
 
     @PostMapping("{id}/reject")

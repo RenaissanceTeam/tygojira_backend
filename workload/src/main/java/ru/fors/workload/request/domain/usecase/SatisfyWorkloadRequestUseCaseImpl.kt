@@ -24,14 +24,14 @@ class SatisfyWorkloadRequestUseCaseImpl(
         private val activityWorkloadRepo: ActivityWorkloadRepo,
         private val changeRequestStatusUseCase: ChangeRequestStatusUseCase
 ) : SatisfyWorkloadRequestUseCase {
-    override fun execute(id: Long): ActivityWorkload {
+    override fun execute(id: Long): WorkloadRequest {
         roleChecker.requireAny(Role.LINEAR_LEAD, Role.PROJECT_OFFICE)
         val request = getWorkloadRequestByIdUseCase.execute(id)
 
         throwIfContainsPositionWithoutEmployee(request)
         throwIfNoActivePositions(request)
 
-        return activityWorkloadRepo.save(ActivityWorkload(
+        activityWorkloadRepo.save(ActivityWorkload(
                 activity = request.activity,
                 workloads = request.positions.filter { it.active }.map { workloadPosition ->
                     Workload(
@@ -39,9 +39,10 @@ class SatisfyWorkloadRequestUseCaseImpl(
                             workunits = workloadPosition.workUnits.map { it.copy(id = NOT_DEFINED_ID) }
                     )
                 }
-        )).also {
-            changeRequestStatusUseCase.execute(id, WorkloadRequestStatus.SATISFIED)
-        }
+        ))
+
+        return changeRequestStatusUseCase.execute(id, WorkloadRequestStatus.SATISFIED)
+
     }
 
     private fun throwIfNoActivePositions(request: WorkloadRequest) {
