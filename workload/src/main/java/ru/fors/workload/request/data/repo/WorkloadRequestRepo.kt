@@ -5,7 +5,7 @@ import ru.fors.entity.employee.Employee
 import ru.fors.entity.workload.request.WorkloadRequest
 
 interface WorkloadRequestRepo : JpaRepository<WorkloadRequest, Long> {
-    fun findByInitiator(initiator: Employee): List<WorkloadRequest>
-    fun findByTargetRole(targetRole: String): List<WorkloadRequest>
-    fun findByTargetRoleAndInitiatorSubdivision(targetRole: String, subdivision: String): List<WorkloadRequest>
+    fun findByInitiatorOrderByStatus(initiator: Employee): List<WorkloadRequest>
+    fun findByTargetRoleOrderByStatus(targetRole: String): List<WorkloadRequest>
+    fun findByTargetRoleAndInitiatorSubdivisionOrderByStatus(targetRole: String, subdivision: String): List<WorkloadRequest>
 }

@@ -17,9 +17,8 @@ class GetWorkloadConflictsForRequestUseCaseImpl(
         private val getWorkloadRequestByIdUseCase: GetWorkloadRequestByIdUseCase
 ) : GetWorkloadConflictsForRequestUseCase {
     override fun execute(id: Long): List<Conflict> {
-        return getWorkloadRequestByIdUseCase.execute(id).positions
-                .filter { it.employee != null }
-                .flatMap { requestedWorkLoad ->
+        return getWorkloadRequestByIdUseCase.execute(id)
+                .let { requestedWorkLoad ->
                     val savedWorkUnits = repo.findByEmployeeId(requestedWorkLoad.employee!!.id)
                             .flatMap { it.workunits }
                             .groupBy { it.date }

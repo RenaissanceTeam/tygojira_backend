@@ -9,7 +9,6 @@ import ru.fors.entity.workload.ActivityWorkload
 import ru.fors.entity.workload.WorkUnit
 import ru.fors.entity.workload.Workload
 import ru.fors.entity.workload.request.WorkloadRequest
-import ru.fors.entity.workload.request.WorkloadRequestPosition
 import ru.fors.workload.api.request.domain.usecase.GetWorkloadConflictsForRequestUseCase
 import ru.fors.workload.api.request.domain.usecase.GetWorkloadRequestByIdUseCase
 import ru.fors.workload.request.data.repo.ActivityWorkloadRepo
@@ -45,14 +44,14 @@ class GetWorkloadConflictsForRequestUseCaseImplTest {
         val date = LocalDate.parse("2007-12-03")
         whenever(getWorkloadRequestByIdUseCase.execute(requestId)).then {
             mock<WorkloadRequest> {
-                on { positions }.then {
-                    listOf(WorkloadRequestPosition(
-                            position = "sas",
-                            skills = emptyList(),
-                            employee = employeeA,
-                            workUnits = listOf(
-                                    WorkUnit(workUnitId_1, date, 8)
-                            )))
+
+                on { position }.then { "sas" }
+                on { skills }.then { listOf<String>() }
+                on { employee }.then { employeeA }
+                on { workUnits }.then {
+                    listOf(
+                            WorkUnit(workUnitId_1, date, 8)
+                    )
                 }
             }
         }
@@ -64,6 +63,7 @@ class GetWorkloadConflictsForRequestUseCaseImplTest {
                     ), employeeB)
             )
         }
+
         val result = useCase.execute(requestId)
 
         assertTrue(result.isEmpty())
@@ -74,14 +74,14 @@ class GetWorkloadConflictsForRequestUseCaseImplTest {
         val date = LocalDate.parse("2007-12-03")
         whenever(getWorkloadRequestByIdUseCase.execute(requestId)).then {
             mock<WorkloadRequest> {
-                on { positions }.then {
-                    listOf(WorkloadRequestPosition(
-                            position = "sas",
-                            skills = listOf(),
-                            employee = employeeA,
-                            workUnits = listOf(
-                                    WorkUnit(workUnitId_1, date, 8)
-                            )))
+
+                on { position }.then { "sas" }
+                on { skills }.then { listOf<String>() }
+                on { employee }.then { employeeA }
+                on { workUnits }.then {
+                    listOf(
+                            WorkUnit(workUnitId_1, date, 8)
+                    )
                 }
             }
         }
@@ -109,14 +109,14 @@ class GetWorkloadConflictsForRequestUseCaseImplTest {
         val date = LocalDate.parse("2007-12-03")
         whenever(getWorkloadRequestByIdUseCase.execute(requestId)).then {
             mock<WorkloadRequest> {
-                on { positions }.then {
-                    listOf(WorkloadRequestPosition(
-                            position = "sas",
-                            skills = listOf(),
-                            employee = employeeA,
-                            workUnits = listOf(
-                                    WorkUnit(workUnitId_1, date, 8)
-                            )))
+
+                on { position }.then { "sas" }
+                on { skills }.then { listOf<String>() }
+                on { employee }.then { employeeA }
+                on { workUnits }.then {
+                    listOf(
+                            WorkUnit(workUnitId_1, date, 8)
+                    )
                 }
             }
         }
@@ -149,14 +149,14 @@ class GetWorkloadConflictsForRequestUseCaseImplTest {
         val date = LocalDate.parse("2007-12-03")
         whenever(getWorkloadRequestByIdUseCase.execute(requestId)).then {
             mock<WorkloadRequest> {
-                on { positions }.then {
-                    listOf(WorkloadRequestPosition(
-                            position = "sas",
-                            skills = listOf(),
-                            employee = employeeA,
-                            workUnits = listOf(
-                                    WorkUnit(workUnitId_1, date, 2)
-                            )))
+
+                on { position }.then { "sas" }
+                on { skills }.then { listOf<String>() }
+                on { employee }.then { employeeA }
+                on { workUnits }.then {
+                    listOf(
+                            WorkUnit(workUnitId_1, date, 2)
+                    )
                 }
             }
         }
@@ -187,17 +187,18 @@ class GetWorkloadConflictsForRequestUseCaseImplTest {
     fun `when have at least one date with more than 8 hours should return conflict`() {
         val date_1 = LocalDate.parse("2007-12-03")
         val date_2 = LocalDate.parse("2007-12-04")
+
         whenever(getWorkloadRequestByIdUseCase.execute(requestId)).then {
             mock<WorkloadRequest> {
-                on { positions }.then {
-                    listOf(WorkloadRequestPosition(
-                            position = "sas",
-                            skills = listOf(),
-                            employee = employeeA,
-                            workUnits = listOf(
-                                    WorkUnit(workUnitId_1, date_1, 2),
-                                    WorkUnit(workUnitId_4, date_2, 2)
-                            )))
+
+                on { position }.then { "sas" }
+                on { skills }.then { listOf<String>() }
+                on { employee }.then { employeeA }
+                on { workUnits }.then {
+                    listOf(
+                            WorkUnit(workUnitId_1, date_1, 2),
+                            WorkUnit(workUnitId_4, date_2, 2)
+                    )
                 }
             }
         }

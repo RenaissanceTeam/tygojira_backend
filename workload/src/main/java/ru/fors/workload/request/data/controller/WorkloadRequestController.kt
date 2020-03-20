@@ -3,8 +3,10 @@ package ru.fors.workload.request.data.controller
 import org.springframework.web.bind.annotation.*
 import ru.fors.entity.workload.request.WorkloadNotificationType
 import ru.fors.entity.workload.request.WorkloadRequestStatus
-import ru.fors.workload.api.request.domain.dto.WorkloadRequestDto
+import ru.fors.workload.api.request.domain.dto.WorkloadRequestInDto
+import ru.fors.workload.api.request.domain.dto.WorkloadRequestOutDto
 import ru.fors.workload.api.request.domain.usecase.*
+import ru.fors.workload.request.data.dto.EmployeeIdDto
 import ru.fors.workload.request.data.dto.NotificationsDto
 import ru.fors.workload.request.data.dto.WorkloadRequestConflictsDto
 import ru.fors.workload.request.data.dto.WorkloadRequestsDto
@@ -17,7 +19,6 @@ class WorkloadRequestController(
         private val workloadRequestDtoToEntityMapper: WorkloadRequestDtoToEntityMapper,
         private val workloadDtoEntityMapper: WorkloadRequestDtoToEntityMapper,
         private val getWorkloadRequestsInitiatedByCallerUseCase: GetWorkloadRequestsInitiatedByCallerUseCase,
-        private val updateWorkloadRequestUseCase: UpdateWorkloadRequestUseCase,
         private val getWorkloadRequestsAssignedToCallerUseCase: GetWorkloadRequestsAssignedToCallerUseCase,
         private val changeRequestStatusUseCase: ChangeRequestStatusUseCase,
         private val getWorkloadRequestByIdUseCase: GetWorkloadRequestByIdUseCase,
@@ -28,7 +29,7 @@ class WorkloadRequestController(
 ) {
 
     @PostMapping("/add")
-    fun save(@RequestBody workloadRequestDto: WorkloadRequestDto): WorkloadRequestDto {
+    fun save(@RequestBody workloadRequestDto: WorkloadRequestInDto): WorkloadRequestOutDto {
         return addWorkloadRequestUseCase.execute(workloadRequestDto)
                 .let(workloadRequestDtoToEntityMapper::mapEntity)
     }
@@ -72,47 +73,34 @@ class WorkloadRequestController(
     }
 
 
-    @PostMapping("{id}/update")
-    fun update(@PathVariable id: Long, @RequestBody workloadRequestDto: WorkloadRequestDto): WorkloadRequestDto {
-        return updateWorkloadRequestUseCase.execute(id, workloadRequestDto)
-                .let(workloadRequestDtoToEntityMapper::mapEntity)
-    }
-
     @PostMapping("{id}/redirect")
-    fun redirect(@PathVariable id: Long, @RequestBody workloadRequestDto: WorkloadRequestDto? = null): WorkloadRequestDto {
-        workloadRequestDto?.let { updateWorkloadRequestUseCase.execute(id, workloadRequestDto) }
+    fun redirect(@PathVariable id: Long): WorkloadRequestOutDto {
 
         return changeRequestStatusUseCase.execute(id, WorkloadRequestStatus.REDIRECTED)
                 .let(workloadRequestDtoToEntityMapper::mapEntity)
     }
 
     @PostMapping("{id}/pending")
-    fun pending(@PathVariable id: Long, @RequestBody workloadRequestDto: WorkloadRequestDto? = null): WorkloadRequestDto {
-        workloadRequestDto?.let { updateWorkloadRequestUseCase.execute(id, workloadRequestDto) }
-
+    fun pending(@PathVariable id: Long): WorkloadRequestOutDto {
         return changeRequestStatusUseCase.execute(id, WorkloadRequestStatus.PENDING)
                 .let(workloadRequestDtoToEntityMapper::mapEntity)
     }
 
     @PostMapping("{id}/satisfy")
-    fun satisfy(@PathVariable id: Long, @RequestBody workloadRequestDto: WorkloadRequestDto? = null): WorkloadRequestDto {
-        workloadRequestDto?.let { updateWorkloadRequestUseCase.execute(id, workloadRequestDto) }
-
-        return satisfyWorkloadRequestUseCase.execute(id).let(
+    fun satisfy(@PathVariable id: Long, @RequestBody employee: EmployeeIdDto? = null): WorkloadRequestOutDto {
+        return satisfyWorkloadRequestUseCase.execute(id, employee?.employeeId).let(
                 workloadRequestDtoToEntityMapper::mapEntity
         )
     }
 
     @PostMapping("{id}/reject")
-    fun reject(@PathVariable id: Long, @RequestBody workloadRequestDto: WorkloadRequestDto? = null): WorkloadRequestDto {
-        workloadRequestDto?.let { updateWorkloadRequestUseCase.execute(id, workloadRequestDto) }
-
+    fun reject(@PathVariable id: Long): WorkloadRequestOutDto {
         return changeRequestStatusUseCase.execute(id, WorkloadRequestStatus.REJECTED)
                 .let(workloadRequestDtoToEntityMapper::mapEntity)
     }
 
     @GetMapping("{id}")
-    fun getOne(@PathVariable id: Long): WorkloadRequestDto {
+    fun getOne(@PathVariable id: Long): WorkloadRequestOutDto {
         return getWorkloadRequestByIdUseCase.execute(id)
                 .let(workloadRequestDtoToEntityMapper::mapEntity)
     }
