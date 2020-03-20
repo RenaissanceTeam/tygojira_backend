@@ -37,7 +37,7 @@ class CalculateEmployeeWorkloadDifferencesUseCaseTest {
         assertThat(workloadDiffList).hasSize(1)
         val workloadDiff = workloadDiffList.first()
         assertThat(workloadDiff.date).isEqualTo(LocalDate.now())
-        assertThat(workloadDiff.type).isEqualTo(WorkloadDifferenceType.NONE)
+        assertThat(workloadDiff.type).isEqualTo(WorkloadDifferenceType.FIT)
         assertThat(workloadDiff.difference).isEqualTo(0)
     }
 

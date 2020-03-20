@@ -27,7 +27,7 @@ class CalculateEmployeeWorkloadDifferencesUseCaseImpl : CalculateEmployeeWorkloa
         return when {
             this < 0 -> WorkloadDifferenceType.OVERLOAD
             this > 0 -> WorkloadDifferenceType.IDLE
-            this == 0 -> WorkloadDifferenceType.NONE
+            this == 0 -> WorkloadDifferenceType.FIT
             else -> throw IllegalStateException()
         }
     }

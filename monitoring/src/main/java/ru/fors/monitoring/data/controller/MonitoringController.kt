@@ -34,7 +34,6 @@ class MonitoringController(
                             employeeId = id,
                             activitiesWorkloads = activityWorkloadList,
                             workloadDifferences = calculateEmployeeWorkloadDifferencesUseCase.execute(activityWorkloadList.flatMap { it.workUnits })
-                                    .filterNot { it.type == WorkloadDifferenceType.NONE }
                 ) }
     }
 
