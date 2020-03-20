@@ -11,6 +11,6 @@ class GetInitiatedWorkloadRequestsByEmployeeUseCaseImpl(
         private val repo: WorkloadRequestRepo
 ) : GetInitiatedWorkloadRequestsByEmployeeUseCase {
     override fun execute(employee: Employee): List<WorkloadRequest> {
-        return repo.findByInitiator(employee)
+        return repo.findByInitiatorOrderByStatus(employee)
     }
 }

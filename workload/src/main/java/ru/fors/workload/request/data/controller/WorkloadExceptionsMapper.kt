@@ -28,7 +28,7 @@ class WorkloadExceptionsMapper {
     fun noEmployeeAssigned(e: NoEmployeeForPositionException) = e.toResponseEntityStatus(HttpStatus.BAD_REQUEST)
 
     @ExceptionHandler
-    fun noActivePositions(e: NoActiveWorkloadPositionsException) = e.toResponseEntityStatus(HttpStatus.BAD_REQUEST)
+    fun noActivePositions(e: NoEmployeeForWorkloadException) = e.toResponseEntityStatus(HttpStatus.BAD_REQUEST)
 
     @ExceptionHandler
     fun noWorkloadForActivity(e: NoWorkloadForActivityException) = e.toResponseEntityStatus(HttpStatus.BAD_REQUEST)

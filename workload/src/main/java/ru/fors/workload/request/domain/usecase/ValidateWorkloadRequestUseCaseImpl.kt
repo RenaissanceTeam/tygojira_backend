@@ -10,10 +10,8 @@ import ru.fors.workload.api.request.domain.usecase.ValidateWorkloadRequestUseCas
 class ValidateWorkloadRequestUseCaseImpl : ValidateWorkloadRequestUseCase {
 
     override fun execute(request: WorkloadRequest) {
-        request.positions.forEach { position ->
-            position.workUnits
-                    .find { it.hours < MINIMUM_WORKLOAD_WORKING_HOURS }
-                    ?.let { throw WorkloadLessThanMinimumException(it) }
-        }
+        request.workUnits
+                .find { it.hours < MINIMUM_WORKLOAD_WORKING_HOURS }
+                ?.let { throw WorkloadLessThanMinimumException(it) }
     }
 }

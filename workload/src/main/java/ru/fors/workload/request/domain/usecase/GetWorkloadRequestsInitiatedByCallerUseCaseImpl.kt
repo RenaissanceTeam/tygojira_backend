@@ -19,6 +19,6 @@ class GetWorkloadRequestsInitiatedByCallerUseCaseImpl(
         roleChecker.requireAny(Role.PROJECT_LEAD, Role.LINEAR_LEAD)
 
         val employee = getCallingEmployeeUseCase.execute()
-        return repo.findByInitiator(employee)
+        return repo.findByInitiatorOrderByStatus(employee)
     }
 }

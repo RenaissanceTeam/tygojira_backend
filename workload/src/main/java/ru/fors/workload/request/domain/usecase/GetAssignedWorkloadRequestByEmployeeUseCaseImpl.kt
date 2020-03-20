@@ -17,9 +17,9 @@ class GetAssignedWorkloadRequestByEmployeeUseCaseImpl(
         val roles = getBusinessRoleByEmployeeUseCase.execute(employee)
 
         return if (roles.contains(Role.PROJECT_OFFICE)) {
-            repo.findByTargetRole(Role.PROJECT_OFFICE.toString())
+            repo.findByTargetRoleOrderByStatus(Role.PROJECT_OFFICE.toString())
         } else {
-            repo.findByTargetRoleAndInitiatorSubdivision(Role.LINEAR_LEAD.toString(), employee.subdivision)
+            repo.findByTargetRoleAndInitiatorSubdivisionOrderByStatus(Role.LINEAR_LEAD.toString(), employee.subdivision)
         }
     }
 }
