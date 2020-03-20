@@ -6,6 +6,7 @@ import ru.fors.entity.workload.request.WorkloadRequestStatus
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestInDto
 import ru.fors.workload.api.request.domain.dto.WorkloadRequestOutDto
 import ru.fors.workload.api.request.domain.usecase.*
+import ru.fors.workload.request.data.dto.EmployeeIdDto
 import ru.fors.workload.request.data.dto.NotificationsDto
 import ru.fors.workload.request.data.dto.WorkloadRequestConflictsDto
 import ru.fors.workload.request.data.dto.WorkloadRequestsDto
@@ -18,7 +19,6 @@ class WorkloadRequestController(
         private val workloadRequestDtoToEntityMapper: WorkloadRequestDtoToEntityMapper,
         private val workloadDtoEntityMapper: WorkloadRequestDtoToEntityMapper,
         private val getWorkloadRequestsInitiatedByCallerUseCase: GetWorkloadRequestsInitiatedByCallerUseCase,
-        private val updateWorkloadRequestUseCase: UpdateWorkloadRequestUseCase,
         private val getWorkloadRequestsAssignedToCallerUseCase: GetWorkloadRequestsAssignedToCallerUseCase,
         private val changeRequestStatusUseCase: ChangeRequestStatusUseCase,
         private val getWorkloadRequestByIdUseCase: GetWorkloadRequestByIdUseCase,
@@ -87,8 +87,8 @@ class WorkloadRequestController(
     }
 
     @PostMapping("{id}/satisfy")
-    fun satisfy(@PathVariable id: Long, @RequestBody employeeId: Long? = null): WorkloadRequestOutDto {
-        return satisfyWorkloadRequestUseCase.execute(id, employeeId).let(
+    fun satisfy(@PathVariable id: Long, @RequestBody employee: EmployeeIdDto? = null): WorkloadRequestOutDto {
+        return satisfyWorkloadRequestUseCase.execute(id, employee?.employeeId).let(
                 workloadRequestDtoToEntityMapper::mapEntity
         )
     }
