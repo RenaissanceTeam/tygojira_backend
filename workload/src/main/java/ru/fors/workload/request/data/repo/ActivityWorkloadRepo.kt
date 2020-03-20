@@ -8,6 +8,6 @@ import ru.fors.entity.workload.Workload
 interface ActivityWorkloadRepo : JpaRepository<ActivityWorkload, Long> {
     fun findByWorkloadsContaining(workload: Workload): ActivityWorkload?
     fun findByActivityId(id: Long): ActivityWorkload?
-    @Query("select aw from ActivityWorkload aw join aw.workloads w join w.employee e where e.id = ?1")
+    @Query("select distinct aw from ActivityWorkload aw join aw.workloads w join w.employee e where e.id = ?1")
     fun findByEmployeeId(id: Long): List<ActivityWorkload>
 }
