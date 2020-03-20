@@ -15,7 +15,7 @@ class SatisfyWorkloadRequestUseCaseImplTest {
     private val employee = Employee(1L, "", "", "", "", "")
     @Before
     fun setUp() {
-        uc = SatisfyWorkloadRequestUseCaseImpl(mock(), mock(), mock(), mock(), mock(), mock())
+        uc = SatisfyWorkloadRequestUseCaseImpl(mock(), mock(), mock(), mock(), mock(), mock(), mock(), mock())
     }
 
 
