@@ -10,17 +10,10 @@ import ru.fors.workload.api.domain.usecase.GetActivitiesAndWorkloadsForEmployeeU
 
 @Component
 class GetEmployeeActivitiesWorkloadsUseCaseImpl(
-        private val roleChecker: RoleChecker,
         private val getActivitiesAndWorkloadsForEmployeeUseCase: GetActivitiesAndWorkloadsForEmployeeUseCase
 ) : GetEmployeeActivitiesWorkloadsUseCase {
 
     override fun execute(employeeId: Long): List<ActivityWorkload> {
-        roleChecker.requireAny(
-                Role.LINEAR_LEAD,
-                Role.PROJECT_LEAD,
-                Role.PROJECT_OFFICE
-        )
-
         return getActivitiesAndWorkloadsForEmployeeUseCase.execute(employeeId).map {
             it.copy(
                     id = it.id,
