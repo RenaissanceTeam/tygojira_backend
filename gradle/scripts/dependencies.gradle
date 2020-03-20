@@ -30,6 +30,8 @@ ext {
             workload               : project(":workload"),
             workload_api           : project(":workload_api"),
             entity                 : project(":entity"),
+            monitoring             : project(":monitoring"),
+            monitoring_api         : project(":monitoring_api"),
             pagination_api         : project(":pagination_api"),
             production_calendar    : project(":production_calendar"),
             production_calendar_api: project(":production_calendar_api"),

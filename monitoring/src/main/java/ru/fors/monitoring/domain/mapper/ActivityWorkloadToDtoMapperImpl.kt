@@ -1,10 +1,10 @@
-package ru.fors.workload.domain.mapper
+package ru.fors.monitoring.domain.mapper
 
 import org.springframework.stereotype.Component
 import ru.fors.entity.workload.ActivityWorkload
 import ru.fors.workload.api.domain.dto.ActivityWorkloadDto
 import ru.fors.workload.api.domain.dto.EmployeeWorkloadDto
-import ru.fors.workload.api.domain.mapper.ActivityWorkloadToDtoMapper
+import ru.fors.monitoring.api.domain.mapper.ActivityWorkloadToDtoMapper
 
 @Component
 class ActivityWorkloadToDtoMapperImpl : ActivityWorkloadToDtoMapper {
@@ -14,7 +14,7 @@ class ActivityWorkloadToDtoMapperImpl : ActivityWorkloadToDtoMapper {
                 employeeWorkload = workload.workloads.map {
                     EmployeeWorkloadDto(
                             workloadId = it.id,
-                            employeeId = it.employee.id,
+                            employee = it.employee,
                             workUnits = it.workunits
                     )
                 }

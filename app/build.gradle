@@ -28,6 +28,9 @@ dependencies {
     implementation library.production_calendar
     implementation library.production_calendar_api
 
+    implementation library.monitoring
+    implementation library.monitoring_api
+
     implementation library.swagger
 }
 
