@@ -10,6 +10,7 @@ import ru.fors.monitoring.api.domain.mapper.ActivitiesWorkloadsToEmployeeActivit
 import ru.fors.monitoring.api.domain.mapper.ActivityWorkloadToDtoMapper
 import ru.fors.monitoring.api.domain.mapper.ActivityWorkloadToEmployeeLessDtoMapper
 import ru.fors.monitoring.api.domain.usecase.CalculateEmployeeWorkloadDifferencesUseCase
+import ru.fors.monitoring.api.domain.usecase.CalculateEmployeesWorkloadPercentageOnActivityUseCase
 import ru.fors.monitoring.api.domain.usecase.GetActivityWorkloadUseCase
 import ru.fors.monitoring.api.domain.usecase.GetEmployeeActivitiesWorkloadsUseCase
 import ru.fors.workload.api.domain.dto.ActivityWorkloadDto
@@ -20,6 +21,7 @@ class MonitoringController(
         private val getEmployeeActivitiesWorkloadsUseCase: GetEmployeeActivitiesWorkloadsUseCase,
         private val getActivityWorkloadUseCase: GetActivityWorkloadUseCase,
         private val calculateEmployeeWorkloadDifferencesUseCase: CalculateEmployeeWorkloadDifferencesUseCase,
+        private val calculateEmployeesWorkloadPercentageOnActivityUseCase: CalculateEmployeesWorkloadPercentageOnActivityUseCase,
         private val activityWorkloadMapper: ActivityWorkloadToDtoMapper,
         private val activityWorkloadToEmployeeLessDtoMapper: ActivityWorkloadToEmployeeLessDtoMapper,
         private val activitiesWorkloadsToEmployeeActivitiesWorkloadsDtoMapper: ActivitiesWorkloadsToEmployeeActivitiesWorkloadsDtoMapper
@@ -39,6 +41,11 @@ class MonitoringController(
 
     @GetMapping("/activity/{id}/workload")
     fun getActivityWorkload(@PathVariable id: Long): ActivityWorkloadDto {
-        return getActivityWorkloadUseCase.execute(id).let(activityWorkloadMapper::map)
+        return getActivityWorkloadUseCase.execute(id).let {
+            activityWorkloadMapper.map(
+                    workload = it,
+                    workloadPercentages = calculateEmployeesWorkloadPercentageOnActivityUseCase.execute(it)
+            )
+        }
     }
 }

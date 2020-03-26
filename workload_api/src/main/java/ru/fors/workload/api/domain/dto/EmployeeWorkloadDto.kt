@@ -7,5 +7,6 @@ import ru.fors.entity.workload.WorkUnit
 data class EmployeeWorkloadDto(
         val workloadId: Long,
         val employee: Employee,
-        val workUnits: List<WorkUnit>
+        val workUnits: List<WorkUnit>,
+        val workloadPercentage: Float
 )
