@@ -17,7 +17,7 @@ class ActivityWorkloadToDtoMapperImpl : ActivityWorkloadToDtoMapper {
                             workloadId = it.id,
                             employee = it.employee,
                             workUnits = it.workunits,
-                            workloadPercentage = workloadPercentages[it.employee] ?: TODO()
+                            workloadPercentage = checkNotNull(workloadPercentages[it.employee])
                     )
                 }
         )
