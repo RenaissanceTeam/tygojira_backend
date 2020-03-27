@@ -19,4 +19,7 @@ class ApplicationExceptionsMapper(
             status = HttpStatus.BAD_REQUEST,
             message = "Date format should be $dateFormat or $dateTimeFormat"
     )
+
+    @ExceptionHandler
+    fun illegalArgument(e: IllegalArgumentException) = e.toResponseEntityStatus(HttpStatus.BAD_REQUEST)
 }
