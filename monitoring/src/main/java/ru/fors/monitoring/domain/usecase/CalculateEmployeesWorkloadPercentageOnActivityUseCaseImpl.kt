@@ -10,11 +10,11 @@ import kotlin.math.min
 class CalculateEmployeesWorkloadPercentageOnActivityUseCaseImpl : CalculateEmployeesWorkloadPercentageOnActivityUseCase {
 
     override fun execute(activityWorkload: ActivityWorkload): Map<Employee, Float> {
-        var maxHours = 0
+        var totalHours = 0
         return activityWorkload.workloads.associate { Pair(it.employee, it.workunits) }
                 .mapValues {
                     it.value.fold(0) { acc, workUnit -> acc + workUnit.hours }
-                            .also { hours -> if (hours > maxHours) maxHours = hours }
-                }.mapValues { min((it.value.toFloat() / maxHours) * 100, 100f) }
+                            .also { hours -> totalHours += hours }
+                }.mapValues { min((it.value.toFloat() / totalHours) * 100, 100f) }
     }
 }
