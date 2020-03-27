@@ -9,6 +9,7 @@ import ru.fors.pagination.api.domain.entity.Order
 import ru.fors.pagination.api.domain.entity.Page
 import ru.fors.pagination.api.domain.entity.PageRequest
 import ru.fors.pagination.api.domain.entity.Sort
+import java.time.LocalDate
 
 @RestController
 @RequestMapping("/activities")
@@ -17,7 +18,8 @@ class ActivityController(
         private val getActivitiesUseCase: GetActivitiesUseCase,
         private val updateActivityUseCase: UpdateActivityUseCase,
         private val getActivityByIdUseCase: GetActivityByIdUseCase,
-        private val deleteActivityUseCase: DeleteActivityUseCase
+        private val deleteActivityUseCase: DeleteActivityUseCase,
+        private val closeActivityUseCase: CloseActivityUseCase
 ) {
 
     @PutMapping
@@ -48,5 +50,10 @@ class ActivityController(
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long) {
         deleteActivityUseCase.execute(id)
+    }
+
+    @PatchMapping("/{id}")
+    fun close(@PathVariable id: Long, @RequestBody date: LocalDate) {
+        closeActivityUseCase.execute(id, date)
     }
 }
