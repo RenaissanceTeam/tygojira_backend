@@ -52,7 +52,7 @@ class ActivityController(
         deleteActivityUseCase.execute(id)
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/close/{id}")
     fun close(@PathVariable id: Long, @RequestBody date: LocalDate) {
         closeActivityUseCase.execute(id, date)
     }

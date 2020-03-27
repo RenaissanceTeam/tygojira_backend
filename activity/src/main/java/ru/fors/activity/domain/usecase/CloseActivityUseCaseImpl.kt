@@ -24,8 +24,9 @@ class CloseActivityUseCaseImpl(
     override fun execute(activityId: Long, closureDate: LocalDate) {
         roleChecker.requireOne(Role.LINEAR_LEAD)
         val activity = getActivityByIdUseCase.execute(activityId)
-        if(!(closureDate >= activity.startDate && closureDate < activity.endDate && closureDate <= LocalDate.now()))
-            throw IllegalActivityClosureDateException()
+        if (closureDate < activity.startDate) throw IllegalActivityClosureDateException("Closure date is less than the start date")
+        if (closureDate > activity.endDate) throw IllegalActivityClosureDateException("Closure date is greater than the start date")
+        if (closureDate > LocalDate.now()) throw IllegalActivityClosureDateException("Closure date is greater than current date")
         deleteWorkloadOnActivityAfterDateUseCase.execute(activityId, closureDate)
         updateActivityUseCase.execute(activityId, activity.toDto().copy(endDate = closureDate))
     }

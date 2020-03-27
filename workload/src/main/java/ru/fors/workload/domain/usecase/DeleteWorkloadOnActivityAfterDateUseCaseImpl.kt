@@ -15,7 +15,7 @@ class DeleteWorkloadOnActivityAfterDateUseCaseImpl(
 
     override fun execute(activityId: Long, closureDate: LocalDate) {
         val activityWorkload = getActivityWorkloadByActivityIdUseCase.execute(activityId)
-        require(activityWorkload.activity.startDate < closureDate && closureDate < activityWorkload.activity.endDate)
+        require(activityWorkload.activity.startDate <= closureDate && closureDate <= activityWorkload.activity.endDate)
         val updatedActivityWorkload = ActivityWorkload(
                 id = activityWorkload.id,
                 activity = activityWorkload.activity,
