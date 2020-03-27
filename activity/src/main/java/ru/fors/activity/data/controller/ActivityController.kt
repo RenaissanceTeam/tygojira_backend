@@ -3,7 +3,7 @@ package ru.fors.activity.data.controller
 import org.springframework.web.bind.annotation.*
 import ru.fors.activity.api.domain.dto.ActivityDto
 import ru.fors.activity.api.domain.usecase.*
-import ru.fors.activity.data.dto.ActivityLeadDto
+import ru.fors.activity.data.dto.CloseActivityDto
 import ru.fors.entity.activity.Activity
 import ru.fors.pagination.api.domain.entity.Order
 import ru.fors.pagination.api.domain.entity.Page
@@ -53,7 +53,7 @@ class ActivityController(
     }
 
     @PostMapping("/{id}/close")
-    fun close(@PathVariable id: Long, @RequestBody date: LocalDate) {
-        closeActivityUseCase.execute(id, date)
+    fun close(@PathVariable id: Long, @RequestBody closeActivityDto: CloseActivityDto) {
+        closeActivityUseCase.execute(id, closeActivityDto.closureDate)
     }
 }
